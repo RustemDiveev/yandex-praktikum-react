@@ -6,7 +6,7 @@ const ulStyle = {
   listStyle: "none",
   flexDirection: "row",
   alignItems: "center",
-  justifyContent: "center"
+  justifyContent: "center",
 }
 
 const liStyle = {

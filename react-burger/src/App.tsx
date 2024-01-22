@@ -3,10 +3,13 @@ import BurgerIngredients from "./components/burger-ingredients/burger-ingredient
 import Sbx from "./components/sbx/sbx";
 
 
+const headerStyle = {
+}
+
 const mainStyle = {
   display: "flex",
-  justifyContent: "space-evenly",
-  alignContent: "center"
+  justifyContent: "center",
+  alignContent: "center",
 }
 
 // Если убрать React.CSSProperties - то ругается на неправильное значение flexDirection
@@ -14,12 +17,13 @@ const sectionStyle = {
   display: "flex",
   justifyContent: "space-evenly",
   flexDirection: "column",
+  scrollY: "auto"
 } as React.CSSProperties
 
 function App() {
   return (
     <>
-      <header>
+      <header style={headerStyle}>
         <AppHeader/>
       </header>
       <main style={mainStyle} className="mr-20 ml-20">

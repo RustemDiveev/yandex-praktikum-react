@@ -4,22 +4,24 @@ import data from "../../utils/data"
 
 
 const ulStyle = {
-  display: "flex",
+  display: "grid",
   listStyle: "none",
   flexWrap: "wrap",
   justifyContent: "space-evenly",
+  gridTemplateColumns: "50% 50%",
 }
 
 const divStyle = {
   display: "flex", 
-  flexDirection: "column"
+  flexDirection: "column",
 }
 
 const liStyle = {
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
-  alignContent: "center"
+  justifyContent: "center",
+  textAlign: "center"
 }
 
 const pricePStyle = {
