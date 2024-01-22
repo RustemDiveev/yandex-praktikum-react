@@ -1,7 +1,7 @@
 import AppHeader from "./components/app-header/app-header";
 import BurgerIngredients from "./components/burger-ingredients/burger-ingredients";
 import BurgerConstructor from "./components/burger-constructor/burger-constructor";
-import Sbx from "./components/sbx/sbx";
+//import Sbx from "./components/sbx/sbx";
 
 
 const headerStyle = {
@@ -34,7 +34,7 @@ function App() {
           </h1>
           <BurgerIngredients/>
         </section>
-        <section style={sectionStyle} className="mr-5 ml-5 mt-25">
+        <section style={sectionStyle} className="mr-5 ml-5 mt-30">
           <BurgerConstructor/>
         </section>
       </main>

@@ -61,10 +61,10 @@ const BurgerIngredients = () => {
       <div style={divStyle}>
         <h2 className="text text_type_main-medium mt-10 mb-6">Булки</h2>
         <ul style={ulStyle}>
-          {data.filter(item => item.type === "bun").map(item => {
+          {data.filter(item => item.type === "bun").map((item, key) => {
               return (
-                <li style={liStyle}>
-                  <img src={item.image}/>
+                <li style={liStyle} key={key}>
+                  <img src={item.image} alt={item.name}/>
                   <p style={pricePStyle}>
                     <span className="text text_type_main-default">20</span>
                     <CurrencyIcon/>
@@ -76,10 +76,10 @@ const BurgerIngredients = () => {
         </ul>
         <h2 className="text text_type_main-medium mt-10 mb-6">Соусы</h2>
         <ul style={ulStyle}>
-          {data.filter(item => item.type === "sauce").map(item => {
+          {data.filter(item => item.type === "sauce").map((item, key) => {
               return (
-                <li style={liStyle}>
-                  <img src={item.image}/>
+                <li style={liStyle} key={key}>
+                  <img src={item.image} alt={item.name}/>
                   <p style={pricePStyle}>
                     <span className="text text_type_main-default">30</span>
                     <CurrencyIcon/>
@@ -91,10 +91,10 @@ const BurgerIngredients = () => {
         </ul>
         <h2 className="text text_type_main-medium mt-10 mb-6">Начинки</h2>
         <ul style={ulStyle}>
-          {data.filter(item => item.type === "main").map(item => {
+          {data.filter(item => item.type === "main").map((item, key) => {
               return (
-                <li style={liStyle}>
-                  <img src={item.image}/>
+                <li style={liStyle} key={key}>
+                  <img src={item.image} alt={item.name}/>
                   <p style={pricePStyle}>
                     <span className="text text_type_main-default">40</span>
                     <CurrencyIcon/>
