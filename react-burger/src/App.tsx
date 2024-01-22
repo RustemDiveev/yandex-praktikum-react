@@ -1,9 +1,11 @@
 import AppHeader from "./components/app-header/app-header";
 import BurgerIngredients from "./components/burger-ingredients/burger-ingredients";
+import BurgerConstructor from "./components/burger-constructor/burger-constructor";
 import Sbx from "./components/sbx/sbx";
 
 
 const headerStyle = {
+  height: 60
 }
 
 const mainStyle = {
@@ -15,9 +17,8 @@ const mainStyle = {
 // Если убрать React.CSSProperties - то ругается на неправильное значение flexDirection
 const sectionStyle = {
   display: "flex",
-  justifyContent: "space-evenly",
+  justifyContent: "flex-start",
   flexDirection: "column",
-  scrollY: "auto"
 } as React.CSSProperties
 
 function App() {
@@ -33,8 +34,8 @@ function App() {
           </h1>
           <BurgerIngredients/>
         </section>
-        <section style={sectionStyle} className="mr-5 ml-5">
-          <BurgerIngredients/>
+        <section style={sectionStyle} className="mr-5 ml-5 mt-25">
+          <BurgerConstructor/>
         </section>
       </main>
     </>

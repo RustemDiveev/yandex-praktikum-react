@@ -14,6 +14,8 @@ const ulStyle = {
 const divStyle = {
   display: "flex", 
   flexDirection: "column",
+  overflowY: "auto",
+  height: "80vh",  
 }
 
 const liStyle = {
