@@ -2,26 +2,13 @@ import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-comp
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components"
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components"
 import data from "../../utils/data"
+import styles from "./burger-constructor.module.css"
 
-const ulStyle = {
-    display: "flex",
-    listStyle: "none",
-    flexDirection: "column",
-    gap: "10px",
-    overflowY: "auto",
-    height: "80vh",
-}
-
-const footerLiStyle = {
-    display: "grid",
-    gridTemplateColumns: "33% 33% 33%",
-    alignItems: "center",
-}
 
 const BurgerConstructor = () => {
     return (
         <>
-            <ul style={ulStyle}>
+            <ul className={styles.ul}>
                 {data.map((elem, key) => (
                     <li key={key}>
                         <ConstructorElement
@@ -31,7 +18,7 @@ const BurgerConstructor = () => {
                         />
                     </li>
                 ))}
-                <li style={footerLiStyle} key={-1}>
+                <li className={styles.footer} key={-1}>
                     <p></p>
                     <p className="text text_type_main-large">610 <CurrencyIcon/></p>
                     <Button 

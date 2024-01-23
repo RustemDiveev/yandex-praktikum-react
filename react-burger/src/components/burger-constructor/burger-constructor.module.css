@@ -1,0 +1,14 @@
+.ul {
+    display: flex;
+    list-style: none;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+    height: 80vh;
+}
+
+.footer {
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+    align-items: center;
+}
