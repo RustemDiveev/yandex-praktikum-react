@@ -3,20 +3,6 @@ import { Logo } from "@ya.praktikum/react-developer-burger-ui-components"
 import styles from "./app-header.module.css"
 
 
-const ulStyle = {
-  display: "flex",
-  listStyle: "none",
-  flexDirection: "row",
-  alignItems: "center",
-  justifyContent: "center",
-}
-
-const liStyle = {
-  display: "flex",
-  alignItems: "center",
-  lineHeight: 1,
-}
-
 const AppHeader = () => {
   return (
     <nav>
