@@ -1,15 +1,14 @@
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components"
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components"
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components"
-import data from "../../utils/data"
 import styles from "./burger-constructor.module.css"
 
 
-const BurgerConstructor = () => {
+const BurgerConstructor = ({ingredients}) => {
     return (
         <>
             <ul className={styles.ul}>
-                {data.map((elem, key) => (
+                {ingredients.map((elem, key) => (
                     <li key={key}>
                         <ConstructorElement
                             text={elem.name}

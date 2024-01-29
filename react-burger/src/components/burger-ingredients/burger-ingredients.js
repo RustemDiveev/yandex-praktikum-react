@@ -1,14 +1,13 @@
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components"
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components"
-import data from "../../utils/data"
 import styles from "./burger-ingredients.module.css"
 
 
-const BurgerIngredients = () => {
+const BurgerIngredients = ({buns, sauces, toppings}) => {
   return (
     <>
       <div className={styles.tab_container}>
-        <Tab value="puns" active={true} key={1} className={styles.tab}>
+        <Tab value="buns" active={true} key={1} className={styles.tab}>
           Булки
         </Tab>
         <Tab value="sauces" key={2} className={styles.tab}>
@@ -21,7 +20,7 @@ const BurgerIngredients = () => {
       <div className={styles.div}>
         <h2 className="text text_type_main-medium mt-10 mb-6">Булки</h2>
         <ul className={styles.ul}>
-          {data.filter(item => item.type === "bun").map(item => {
+          {buns.map(item => {
               return (
                 <li className={styles.li} key={item._id}>
                   <img src={item.image} alt={item.name}/>
@@ -36,7 +35,7 @@ const BurgerIngredients = () => {
         </ul>
         <h2 className="text text_type_main-medium mt-10 mb-6">Соусы</h2>
         <ul className={styles.ul}>
-          {data.filter(item => item.type === "sauce").map(item => {
+          {sauces.map(item => {
               return (
                 <li className={styles.li} key={item._id}>
                   <img src={item.image} alt={item.name}/>
@@ -51,7 +50,7 @@ const BurgerIngredients = () => {
         </ul>
         <h2 className="text text_type_main-medium mt-10 mb-6">Начинки</h2>
         <ul className={styles.ul}>
-          {data.filter(item => item.type === "main").map(item => {
+          {toppings.map(item => {
               return (
                 <li className={styles.li} key={item._id}>
                   <img src={item.image} alt={item.name}/>
