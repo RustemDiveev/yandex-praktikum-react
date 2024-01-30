@@ -1,5 +1,6 @@
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components"
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components"
+
 import styles from "./burger-ingredients.module.css"
 
 
