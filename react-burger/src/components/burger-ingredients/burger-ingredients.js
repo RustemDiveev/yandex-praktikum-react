@@ -4,7 +4,7 @@ import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components
 import styles from "./burger-ingredients.module.css"
 
 
-const BurgerIngredients = ({buns, sauces, toppings}) => {
+const BurgerIngredients = ({buns, sauces, toppings, setModalOpen}) => {
   return (
     <>
       <div className={styles.tab_container}>
@@ -23,7 +23,7 @@ const BurgerIngredients = ({buns, sauces, toppings}) => {
         <ul className={styles.ul}>
           {buns.map(item => {
               return (
-                <li className={styles.li} key={item._id}>
+                <li className={styles.li} key={item._id} onClick={() => setModalOpen(true)}>
                   <img src={item.image} alt={item.name}/>
                   <p className={styles.price_p}>
                     <span className="text text_type_main-default">20</span>
@@ -38,7 +38,7 @@ const BurgerIngredients = ({buns, sauces, toppings}) => {
         <ul className={styles.ul}>
           {sauces.map(item => {
               return (
-                <li className={styles.li} key={item._id}>
+                <li className={styles.li} key={item._id} onClick={() => setModalOpen(true)}>
                   <img src={item.image} alt={item.name}/>
                   <p className={styles.price_p}>
                     <span className="text text_type_main-default">30</span>
@@ -53,7 +53,7 @@ const BurgerIngredients = ({buns, sauces, toppings}) => {
         <ul className={styles.ul}>
           {toppings.map(item => {
               return (
-                <li className={styles.li} key={item._id}>
+                <li className={styles.li} key={item._id} onClick={() => setModalOpen(true)}>
                   <img src={item.image} alt={item.name}/>
                   <p className={styles.price_p}>
                     <span className="text text_type_main-default">40</span>

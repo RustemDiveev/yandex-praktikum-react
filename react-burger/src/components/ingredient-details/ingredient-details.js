@@ -1,8 +1,8 @@
 import Modal from "../modal/modal";
 
-const IngredientDetails = ({open}) => {
+const IngredientDetails = ({open, setOpen}) => {
     return (
-        <Modal open={open}>
+        <Modal open={open} setOpen={setOpen}>
             <span>IngredientDetails</span>
         </Modal>
     )

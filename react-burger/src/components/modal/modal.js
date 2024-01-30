@@ -1,16 +1,12 @@
-import { createPortal } from "react-dom"
+import styles from "./modal.module.css"
 
 
-const modalRoot = document.getElementById("react-modals")
-
-const Modal = ({open, children}) => {
-    if (!open) return null
-
-    const modalLayout = <div style={{width: 200, height: 300}}>
-        {children}
-    </div>
-
-    return createPortal(modalLayout, modalRoot)
+const Modal = ({open, setOpen, children}) => {
+    return (
+        <div className={styles.modal}>
+            {children}
+        </div>
+    )
 }
 
 export default Modal
