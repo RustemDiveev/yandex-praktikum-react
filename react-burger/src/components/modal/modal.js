@@ -5,7 +5,7 @@ import styles from "./modal.module.css"
 const Modal = ({setOpen, children, header}) => {
     return (
         <div className={styles.modal}>
-            <div className={`${styles.header_container} pl-10 pr-10 pt-10`}>
+            <div className={`pl-10 pr-10 pt-10`}>
                 <div className={styles.header_caption}>
                     {header}
                 </div>
