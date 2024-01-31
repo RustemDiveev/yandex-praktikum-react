@@ -6,13 +6,8 @@
     background: var(--interface-modal-bg, #1C1C21);
 }
 
-.header_caption {
-    width: 50%;
-    float: left;
+.header_container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
-
-.header_close_button {
-    width: 50%;
-    float: right;
-}
-

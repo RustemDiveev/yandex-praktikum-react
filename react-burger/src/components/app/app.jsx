@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 
 import AppHeader from "../app-header/app-header";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
@@ -16,6 +16,15 @@ const App = () => {
   const [toppingsData, setToppingsData] = useState()
   const [ingredientDetailsOpen, setIngredientDetailsOpen] = useState(false)
   const [orderDetailsOpen, setOrderDetailsOpen] = useState(false)
+  const [selectedIngredientId, setSelectedIngredientId] = useState()
+
+  const selectedIngredientData = useMemo(() => {
+    if (allData) {
+      const {image, name, calories, 
+        proteins, fat, carbohydrates} = allData.find(item => item._id === selectedIngredientId)
+      return {image, name, calories, proteins, fat, carbohydrates}
+    }
+  }, [selectedIngredientId])
 
   const fetchData = async () => {
     try {
@@ -53,10 +62,12 @@ const App = () => {
             sauces={saucesData} 
             toppings={toppingsData}
             setModalOpen={setIngredientDetailsOpen}
+            setSelectedIngredientId={setSelectedIngredientId}
           />
           <IngredientDetails 
             open={ingredientDetailsOpen} 
             setOpen={setIngredientDetailsOpen}
+            selectedIngredientData={selectedIngredientData}
           />
         </section>
         <section className={`mr-5 ml-5 mt-30 ${styles.section}`}>
