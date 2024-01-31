@@ -1,3 +1,5 @@
+import PropTypes from "prop-types"
+
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components"
 import styles from "./modal.module.css"
 
@@ -12,6 +14,12 @@ const Modal = ({setOpen, children, header}) => {
             {children}
         </div>
     )
+}
+
+Modal.propTypes = {
+    setOpen: PropTypes.func,
+    children: PropTypes.element,
+    header: PropTypes.string
 }
 
 export default Modal

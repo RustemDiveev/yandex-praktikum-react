@@ -1,3 +1,5 @@
+import PropTypes from "prop-types"
+
 import ModalOverlay from "../modal-overlay/modal-overlay";
 import styles from "./ingredient-details.module.css"
 
@@ -60,6 +62,19 @@ const IngredientDetails = ({open, setOpen, selectedIngredientData}) => {
       </div>
     </ModalOverlay>
   )
+}
+
+IngredientDetails.propTypes = {
+  open: PropTypes.bool, 
+  setOpen: PropTypes.func, 
+  selectedIngredientData: PropTypes.exact({
+    image: PropTypes.string,
+    name: PropTypes.string,
+    calories: PropTypes.number,
+    proteins: PropTypes.number,
+    fat: PropTypes.number,
+    carbohydrates: PropTypes.number
+  })
 }
 
 export default IngredientDetails;

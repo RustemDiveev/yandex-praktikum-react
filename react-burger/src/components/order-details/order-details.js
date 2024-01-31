@@ -1,3 +1,5 @@
+import PropTypes from "prop-types"
+
 import ModalOverlay from "../modal-overlay/modal-overlay"
 import styles from "./order-details.module.css"
 import imageDone from "../../images/done.png"
@@ -21,6 +23,11 @@ const OrderDetails = ({open, setOpen}) => {
             </p>
         </div>
     </ModalOverlay>
+}
+
+OrderDetails.propTypes = {
+    open: PropTypes.bool, 
+    setOpen: PropTypes.func
 }
 
 export default OrderDetails

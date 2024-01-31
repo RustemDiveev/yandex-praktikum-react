@@ -1,3 +1,5 @@
+import PropTypes from "prop-types"
+
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components"
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components"
 
@@ -73,6 +75,14 @@ const BurgerIngredients = ({buns, sauces, toppings, setModalOpen, setSelectedIng
       </div>
     </>
   )
+}
+
+BurgerIngredients.propTypes = {
+  buns: PropTypes.array, 
+  sauces: PropTypes.array, 
+  toppings: PropTypes.array, 
+  setModalOpen: PropTypes.func, 
+  setSelectedIngredientId: PropTypes.func
 }
 
 export default BurgerIngredients

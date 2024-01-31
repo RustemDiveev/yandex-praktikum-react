@@ -1,8 +1,9 @@
+import PropTypes from "prop-types"
+
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components"
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components"
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components"
 import styles from "./burger-constructor.module.css"
-
 
 const BurgerConstructor = ({ingredients, setModalOpen}) => {
     return (
@@ -31,6 +32,11 @@ const BurgerConstructor = ({ingredients, setModalOpen}) => {
             </ul>            
         </>
     )
+}
+
+BurgerConstructor.propTypes = {
+    ingredients: PropTypes.array.isRequired,
+    setModalOpen: PropTypes.func.isRequired
 }
 
 export default BurgerConstructor
