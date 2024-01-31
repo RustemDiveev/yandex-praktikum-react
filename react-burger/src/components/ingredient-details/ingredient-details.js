@@ -1,10 +1,14 @@
-import Modal from "../modal/modal";
+import ModalOverlay from "../modal-overlay/modal-overlay";
+
 
 const IngredientDetails = ({open, setOpen}) => {
     return (
-        <Modal open={open} setOpen={setOpen}>
-            <span>IngredientDetails</span>
-        </Modal>
+        <ModalOverlay 
+            open={open} 
+            setOpen={setOpen}
+        >
+            <h1>Diveev Test</h1>
+        </ModalOverlay>
     )
 }
 
