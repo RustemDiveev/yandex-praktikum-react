@@ -1,6 +1,6 @@
 .modal {
     position: relative;
-    margin: 15% auto;
+    margin: 5% auto;
     max-width: 70%;
     max-height: 70%;
     background: var(--interface-modal-bg, #1C1C21);

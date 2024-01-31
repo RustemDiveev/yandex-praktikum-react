@@ -4,6 +4,7 @@ import AppHeader from "../app-header/app-header";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import IngredientDetails from "../ingredient-details/ingredient-details";
+import OrderDetails from "../order-details/order-details";
 
 import styles from "./app.module.css"
 
@@ -71,7 +72,8 @@ const App = () => {
           />
         </section>
         <section className={`mr-5 ml-5 mt-30 ${styles.section}`}>
-          <BurgerConstructor ingredients={allData}/>
+          <BurgerConstructor ingredients={allData} setModalOpen={setOrderDetailsOpen}/>
+          <OrderDetails open={orderDetailsOpen} setOpen={setOrderDetailsOpen}/>
         </section>
       </main>}
     </>

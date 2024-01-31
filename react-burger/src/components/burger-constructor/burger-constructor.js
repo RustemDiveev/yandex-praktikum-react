@@ -4,7 +4,7 @@ import { Button } from "@ya.praktikum/react-developer-burger-ui-components"
 import styles from "./burger-constructor.module.css"
 
 
-const BurgerConstructor = ({ingredients}) => {
+const BurgerConstructor = ({ingredients, setModalOpen}) => {
     return (
         <>
             <ul className={styles.ul}>
@@ -25,6 +25,7 @@ const BurgerConstructor = ({ingredients}) => {
                         type="primary" 
                         size="medium" 
                         children="Оформить заказ"
+                        onClick={() => setModalOpen(true)}
                     />
                 </li>
             </ul>            
