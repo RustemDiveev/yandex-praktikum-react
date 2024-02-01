@@ -1,12 +1,12 @@
 import PropTypes from "prop-types"
 
-import ModalOverlay from "../modal-overlay/modal-overlay";
+import Modal from "../modal/modal";
 import styles from "./ingredient-details.module.css"
 
 
 const IngredientDetails = ({open, setOpen, selectedIngredientData}) => {
   return (
-    <ModalOverlay 
+    <Modal 
       open={open} 
       setOpen={setOpen}
       header="Детали ингредиента"
@@ -60,7 +60,7 @@ const IngredientDetails = ({open, setOpen, selectedIngredientData}) => {
         </>
         }
       </div>
-    </ModalOverlay>
+    </Modal>
   )
 }
 

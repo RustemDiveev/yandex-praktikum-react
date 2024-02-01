@@ -1,12 +1,13 @@
 import PropTypes from "prop-types"
 
-import ModalOverlay from "../modal-overlay/modal-overlay"
+import Modal from "../modal/modal"
+
 import styles from "./order-details.module.css"
 import imageDone from "../../images/done.png"
 
 
 const OrderDetails = ({open, setOpen}) => {
-    return <ModalOverlay open={open} setOpen={setOpen}>
+    return <Modal open={open} setOpen={setOpen}>
         <div className={`${styles.container} mt-30`}>
             <p className="text text_type_digits-large">
                 034536  
@@ -22,12 +23,12 @@ const OrderDetails = ({open, setOpen}) => {
                 Дождитесь готовности на орбитальной станции
             </p>
         </div>
-    </ModalOverlay>
+    </Modal>
 }
 
 OrderDetails.propTypes = {
-    open: PropTypes.bool, 
-    setOpen: PropTypes.func
+    open: PropTypes.bool.isRequired, 
+    setOpen: PropTypes.func.isRequired
 }
 
 export default OrderDetails
