@@ -5,12 +5,12 @@ import BurgerConstructor from "../burger-constructor/burger-constructor";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import OrderDetails from "../order-details/order-details";
+import Modal from "../modal/modal";
 
 import styles from "./app.module.css"
 
 
 const App = () => {
-  const [loading, setLoading] = useState(false)
   const [allData, setAllData] = useState()
   const [initialized, setInitialized] = useState(false)
   const [bunsData, setBunsData] = useState()
@@ -30,7 +30,6 @@ const App = () => {
 
   const fetchData = async () => {
     try {
-      setLoading(true)
       const url = "https://norma.nomoreparties.space/api/ingredients"
       const response = await fetch(url)
       const responseJson = await response.json()
@@ -46,8 +45,6 @@ const App = () => {
       setInitialized(true)
     } catch (err) {
       console.error(err)
-    } finally {
-      setLoading(false)
     }
   }
 
@@ -71,15 +68,15 @@ const App = () => {
             setModalOpen={setIngredientDetailsOpen}
             setSelectedIngredientId={setSelectedIngredientId}
           />
-          <IngredientDetails 
-            open={ingredientDetailsOpen} 
-            setOpen={setIngredientDetailsOpen}
-            selectedIngredientData={selectedIngredientData}
-          />
+          <Modal open={ingredientDetailsOpen} setOpen={setIngredientDetailsOpen} header="Детали ингредиента">
+            <IngredientDetails selectedIngredientData={selectedIngredientData}/>
+          </Modal>
         </section>
         <section className={`mr-5 ml-5 mt-30 ${styles.section}`}>
           <BurgerConstructor ingredients={allData} setModalOpen={setOrderDetailsOpen}/>
-          <OrderDetails open={orderDetailsOpen} setOpen={setOrderDetailsOpen}/>
+          <Modal open={orderDetailsOpen} setOpen={setOrderDetailsOpen}>
+            <OrderDetails/>
+          </Modal>
         </section>
       </main>}
     </>
