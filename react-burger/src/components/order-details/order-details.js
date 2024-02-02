@@ -4,11 +4,11 @@ import imageDone from "../../images/done.png"
 
 const OrderDetails = () => {
   return (
-    <div className={`${styles.container} mt-30`}>
+    <div className={`${styles.container} mt-20`}>
         <p className="text text_type_digits-large">
             034536  
         </p>
-        <p className="text text_type_main-default mt-8">
+        <p className="text text_type_main-medium mt-8">
             идентификатор заказа
         </p>
         <img src={imageDone} alt={"done"} className={`mt-15 ${styles.image}`}/>

@@ -10,7 +10,7 @@ const IngredientDetails = ({selectedIngredientData}) => {
       selectedIngredientData && 
       <>
         <img 
-          src={selectedIngredientData.image} 
+          src={selectedIngredientData.image_large} 
           alt={selectedIngredientData.name}
           className={"mb-2"}
         />

@@ -22,9 +22,9 @@ const App = () => {
 
   const selectedIngredientData = useMemo(() => {
     if (initialized && selectedIngredientId) {
-      const {image, name, calories, 
+      const {image_large, name, calories, 
         proteins, fat, carbohydrates} = allData.find(item => item._id === selectedIngredientId)
-      return {image, name, calories, proteins, fat, carbohydrates}
+      return {image_large, name, calories, proteins, fat, carbohydrates}
     }
   }, [selectedIngredientId, allData ,initialized])
 
