@@ -1,5 +1,3 @@
-import PropTypes from "prop-types"
-
 import styles from "./order-details.module.css"
 import imageDone from "../../images/done.png"
 
@@ -22,11 +20,6 @@ const OrderDetails = () => {
         </p>
     </div>
   )
-}
-
-OrderDetails.propTypes = {
-    open: PropTypes.bool.isRequired, 
-    setOpen: PropTypes.func.isRequired
 }
 
 export default OrderDetails

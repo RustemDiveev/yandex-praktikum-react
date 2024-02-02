@@ -68,15 +68,19 @@ const App = () => {
             setModalOpen={setIngredientDetailsOpen}
             setSelectedIngredientId={setSelectedIngredientId}
           />
-          <Modal open={ingredientDetailsOpen} setOpen={setIngredientDetailsOpen} header="Детали ингредиента">
-            <IngredientDetails selectedIngredientData={selectedIngredientData}/>
-          </Modal>
+          {
+            ingredientDetailsOpen && <Modal setOpen={setIngredientDetailsOpen} header="Детали ингредиента">
+              <IngredientDetails selectedIngredientData={selectedIngredientData}/>
+            </Modal>
+          }
         </section>
         <section className={`mr-5 ml-5 mt-30 ${styles.section}`}>
           <BurgerConstructor ingredients={allData} setModalOpen={setOrderDetailsOpen}/>
-          <Modal open={orderDetailsOpen} setOpen={setOrderDetailsOpen}>
-            <OrderDetails/>
-          </Modal>
+          {
+            orderDetailsOpen && <Modal setOpen={setOrderDetailsOpen}>
+              <OrderDetails/>
+            </Modal>
+          }
         </section>
       </main>}
     </>

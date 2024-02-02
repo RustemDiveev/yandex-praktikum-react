@@ -1,15 +1,23 @@
 import PropTypes from "prop-types"
 
+import { useEffect } from "react"
+import { createPortal } from "react-dom"
+
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components"
 import ModalOverlay from "../modal-overlay/modal-overlay"
 
 import styles from "./modal.module.css"
 
 
-const Modal = ({open, setOpen, header, children}) => {
-    if (!open) return null
+const modalRoot = document.getElementById("react-modals")
 
-    return (
+const Modal = ({setOpen, header, children}) => {
+
+    const handleOnPressEscape = (e) => {
+        if (e.key === "Escape") setOpen(false)
+    }
+
+    const jsx = 
         <ModalOverlay setOpen={setOpen}>
             <div className={styles.modal}>
                 <div className={`pl-10 pr-10 pt-10 ${styles.header_container}`}>
@@ -19,7 +27,13 @@ const Modal = ({open, setOpen, header, children}) => {
                 {children}
             </div>
         </ModalOverlay>
-    )
+
+    useEffect(() => {
+        document.addEventListener("keydown", handleOnPressEscape)
+        return () => document.removeEventListener("keydown", handleOnPressEscape)
+    }, [])
+    
+    return createPortal(jsx, modalRoot)
 }
 
 Modal.propTypes = {
@@ -28,4 +42,4 @@ Modal.propTypes = {
     header: PropTypes.string
 }
 
-export default Modal
+export default Modal 
