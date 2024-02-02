@@ -1,6 +1,6 @@
 import PropTypes from "prop-types"
 
-import { useEffect } from "react"
+import { useEffect, useCallback } from "react"
 import { createPortal } from "react-dom"
 
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components"
@@ -13,9 +13,9 @@ const modalRoot = document.getElementById("react-modals")
 
 const Modal = ({setOpen, header, children}) => {
 
-    const handleOnPressEscape = (e) => {
+    const handleOnPressEscape = useCallback((e) => {
         if (e.key === "Escape") setOpen(false)
-    }
+    }, [setOpen])
 
     const jsx = 
         <ModalOverlay setOpen={setOpen}>
@@ -31,7 +31,7 @@ const Modal = ({setOpen, header, children}) => {
     useEffect(() => {
         document.addEventListener("keydown", handleOnPressEscape)
         return () => document.removeEventListener("keydown", handleOnPressEscape)
-    }, [])
+    }, [handleOnPressEscape])
     
     return createPortal(jsx, modalRoot)
 }

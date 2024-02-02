@@ -58,15 +58,13 @@ const IngredientDetails = ({selectedIngredientData}) => {
 }
 
 IngredientDetails.propTypes = {
-  open: PropTypes.bool, 
-  setOpen: PropTypes.func, 
   selectedIngredientData: PropTypes.exact({
-    image: PropTypes.string,
-    name: PropTypes.string,
-    calories: PropTypes.number,
-    proteins: PropTypes.number,
-    fat: PropTypes.number,
-    carbohydrates: PropTypes.number
+    image_large: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    calories: PropTypes.number.isRequired,
+    proteins: PropTypes.number.isRequired,
+    fat: PropTypes.number.isRequired,
+    carbohydrates: PropTypes.number.isRequired
   })
 }
 
