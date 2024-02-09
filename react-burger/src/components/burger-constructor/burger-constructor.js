@@ -10,7 +10,7 @@ const BurgerConstructor = ({bun, ingredients, setModalOpen}) => {
         <>
             <ul className={styles.ul}>
                 <ConstructorElement
-                    key={bun._id}
+                    key={`${bun._id}top`}
                     type="top"
                     text={`${bun.name} (верх)`}
                     thumbnail={bun.image_mobile}
@@ -27,7 +27,7 @@ const BurgerConstructor = ({bun, ingredients, setModalOpen}) => {
                     </li>
                 ))}
                 <ConstructorElement
-                    key={bun._id}
+                    key={`${bun._id}bottom`}
                     type="bottom"
                     text={`${bun.name} (низ)`}
                     thumbnail={bun.image_mobile}
