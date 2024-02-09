@@ -11,14 +11,19 @@ import styles from "./app.module.css"
 
 
 const App = () => {
-  const [allData, setAllData] = useState()
   const [initialized, setInitialized] = useState(false)
+
   const [bunsData, setBunsData] = useState()
   const [saucesData, setSaucesData] = useState()
   const [toppingsData, setToppingsData] = useState()
+
   const [ingredientDetailsOpen, setIngredientDetailsOpen] = useState(false)
+
   const [orderDetailsOpen, setOrderDetailsOpen] = useState(false)
   const [selectedIngredientId, setSelectedIngredientId] = useState()
+   
+  const [allData, setAllData] = useState()
+  const [bun, setBun] = useState();
 
   const selectedIngredientData = useMemo(() => {
     if (initialized && selectedIngredientId) {
@@ -38,10 +43,13 @@ const App = () => {
       if (!responseStatus) throw ("Запрос к данным вернул ошибку")
 
       const result = await responseJson.data
-      setAllData(result)
+      setAllData(result.filter(item => ["sauce", "main"].includes(item.type)))
+      setBun(result.find(item => item.name === "Краторная булка N-200i"))
+      
       setBunsData(result.filter(item => item.type === "bun"))
       setSaucesData(result.filter(item => item.type === "sauce"))
       setToppingsData(result.filter(item => item.type === "main"))
+
       setInitialized(true)
     } catch (err) {
       console.error(err)
@@ -75,7 +83,11 @@ const App = () => {
           }
         </section>
         <section className={`mr-5 ml-5 mt-30 ${styles.section}`}>
-          <BurgerConstructor ingredients={allData} setModalOpen={setOrderDetailsOpen}/>
+          <BurgerConstructor 
+            bun={bun}
+            ingredients={allData} 
+            setModalOpen={setOrderDetailsOpen}
+          />
           {
             orderDetailsOpen && <Modal setOpen={setOrderDetailsOpen}>
               <OrderDetails/>
