@@ -7,6 +7,9 @@ import IngredientDetails from "../ingredient-details/ingredient-details";
 import OrderDetails from "../order-details/order-details";
 import Modal from "../modal/modal";
 
+import IngredientsContext from "../../services/ingredientsContext";
+import OrderContext from "../../services/orderContext";
+
 import styles from "./app.module.css"
 
 
@@ -24,6 +27,10 @@ const App = () => {
    
   const [allData, setAllData] = useState()
   const [bun, setBun] = useState();
+
+  const [totalPrice, setTotalPrice] = useState()
+
+  const [orderNumber, setOrderNumber] = useState()
 
   const selectedIngredientData = useMemo(() => {
     if (initialized && selectedIngredientId) {
@@ -83,16 +90,19 @@ const App = () => {
           }
         </section>
         <section className={`mr-5 ml-5 mt-30 ${styles.section}`}>
-          <BurgerConstructor 
-            bun={bun}
-            ingredients={allData} 
-            setModalOpen={setOrderDetailsOpen}
-          />
-          {
-            orderDetailsOpen && <Modal setOpen={setOrderDetailsOpen}>
-              <OrderDetails/>
-            </Modal>
-          }
+          <IngredientsContext.Provider value={{ingredients: allData, bun, totalPrice, setTotalPrice}}>
+            <OrderContext.Provider value={{orderNumber, setOrderNumber}}>
+              <BurgerConstructor 
+                setModalOpen={setOrderDetailsOpen}
+              />
+              {
+                orderDetailsOpen && 
+                <Modal setOpen={setOrderDetailsOpen}>
+                  <OrderDetails/>
+                </Modal>
+              }
+            </OrderContext.Provider>
+          </IngredientsContext.Provider>
         </section>
       </main>}
     </>
