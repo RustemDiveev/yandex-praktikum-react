@@ -10,6 +10,8 @@ import Modal from "../modal/modal";
 import IngredientsContext from "../../services/ingredientsContext";
 import OrderContext from "../../services/orderContext";
 
+import { INGREDIENTS_URL } from "../../settings/urls";
+
 import styles from "./app.module.css"
 
 
@@ -42,8 +44,7 @@ const App = () => {
 
   const fetchData = async () => {
     try {
-      const url = "https://norma.nomoreparties.space/api/ingredients"
-      const response = await fetch(url)
+      const response = await fetch(INGREDIENTS_URL)
       const responseJson = await response.json()
       const responseStatus = await responseJson.success
 

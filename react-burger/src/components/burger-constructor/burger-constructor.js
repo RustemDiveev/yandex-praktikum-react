@@ -6,9 +6,12 @@ import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-comp
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components"
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components"
 
-import styles from "./burger-constructor.module.css"
 import IngredientsContext from "../../services/ingredientsContext"
 import OrderContext from "../../services/orderContext"
+
+import { ORDERS_URL } from "../../settings/urls"
+
+import styles from "./burger-constructor.module.css"
 
 
 const BurgerConstructor = ({setModalOpen}) => { 
@@ -28,7 +31,7 @@ const BurgerConstructor = ({setModalOpen}) => {
         
         try {
             const response = await fetch(
-                "https://norma.nomoreparties.space/api/orders", 
+                ORDERS_URL, 
                 {
                     method: "POST",
                     body: ingredientsIds
