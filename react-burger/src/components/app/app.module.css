@@ -12,4 +12,9 @@
     display: flex;
     justify-content: flex-start;
     flex-direction: column;
-}
+    
+    scrollbar-color: #8585AD #2F2F37;
+    scrollbar-width: thin;
+    --scrollbar-width: thin;
+    --scrollbar-width-legacy: 10px;
+}   
