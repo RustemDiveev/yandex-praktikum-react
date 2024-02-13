@@ -1,7 +1,7 @@
 import { createContext } from "react";
 
 const OrderContext = createContext({
-    orderNumber: undefined,
+    orderNumber: null,
     setOrderNumber: () => {}
 })
 

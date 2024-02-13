@@ -2,8 +2,8 @@ import { createContext } from "react"
 
 const IngredientsContext = createContext({
     ingredients: [],
-    bun: undefined, 
-    totalPrice: undefined,
+    bun: null, 
+    totalPrice: 0,
     setTotalPrice: () => {}
 })
 
