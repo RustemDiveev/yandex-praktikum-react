@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 import { useContext, useMemo, useEffect } from "react"
 
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components"
-import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components"
+import { CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components"
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components"
 
 import IngredientsContext from "../../services/ingredientsContext"
@@ -25,7 +25,7 @@ const BurgerConstructor = ({setModalOpen}) => {
   }, [ingredients, bun])
 
   const onOrderClick = async () => {
-    const ingredientsIds = [bun._id, ...ingredients.map(elem => elem._id), bun._id]        
+    const ingredientsIds = {ingredients: [bun._id, ...ingredients.map(elem => elem._id), bun._id]}
     
     try {
       const response = await fetch(
@@ -52,17 +52,19 @@ const BurgerConstructor = ({setModalOpen}) => {
 
   return (
     <>
-      <ul className={styles.ul}>
+      <div className={"ml-10"}>
         <ConstructorElement
-          key={`${bun._id}top`}
           type="top"
           text={`${bun.name} (верх)`}
           thumbnail={bun.image_mobile}
           price={bun.price}
           isLocked
         />
+      </div>
+      <ul className={`${styles.ul} pl-4`}>
         {ingredients.map((elem) => (
           <li key={elem._id}>
+            <DragIcon/>
             <ConstructorElement
               text={elem.name}
               thumbnail={elem.image_mobile}
@@ -70,26 +72,28 @@ const BurgerConstructor = ({setModalOpen}) => {
             />
           </li>
         ))}
+      </ul>
+      <div className={"ml-10"}>
         <ConstructorElement
-          key={`${bun._id}bottom`}
+          className={"ml-10"}
           type="bottom"
           text={`${bun.name} (низ)`}
           thumbnail={bun.image_mobile}
           price={bun.price}
           isLocked
         />
-        <li className={styles.footer} key={-1}>
-          <p></p>
-          <p className="text text_type_main-large">{totalPrice}<CurrencyIcon/></p>
-          <Button 
-            htmlType="button" 
-            type="primary" 
-            size="medium" 
-            children="Оформить заказ"
-            onClick={onOrderClick}
-          />
-        </li>
-      </ul>            
+      </div>
+      <div className={styles.footer}>
+        <p></p>
+        <p className="text text_type_main-large">{totalPrice}<CurrencyIcon/></p>
+        <Button 
+          htmlType="button" 
+          type="primary" 
+          size="medium" 
+          children="Оформить заказ"
+          onClick={onOrderClick}
+        />
+      </div>    
     </>
   )
 }
