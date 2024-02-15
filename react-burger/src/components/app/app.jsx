@@ -21,6 +21,7 @@ const App = () => {
   const [bunsData, setBunsData] = useState()
   const [saucesData, setSaucesData] = useState()
   const [toppingsData, setToppingsData] = useState()
+  const [saucesToppingsData, setSaucesToppingsData] = useState()
 
   const [ingredientDetailsOpen, setIngredientDetailsOpen] = useState(false)
 
@@ -40,7 +41,7 @@ const App = () => {
         proteins, fat, carbohydrates} = allData.find(item => item._id === selectedIngredientId)
       return {image_large, name, calories, proteins, fat, carbohydrates}
     }
-  }, [selectedIngredientId, allData ,initialized])
+  }, [selectedIngredientId, allData, initialized])
 
   const fetchData = async () => {
     try {
@@ -48,10 +49,11 @@ const App = () => {
       const responseJson = await response.json()
       const responseStatus = await responseJson.success
 
-      if (!responseStatus) throw ("Запрос к данным вернул ошибку")
+      if (!responseStatus) throw new Error ("Запрос к данным вернул ошибку")
 
       const result = await responseJson.data
-      setAllData(result.filter(item => ["sauce", "main"].includes(item.type)))
+      setAllData(result)
+      setSaucesToppingsData(result.filter(item => ["sauce", "main"].includes(item.type)))
       setBun(result.find(item => item.name === "Краторная булка N-200i"))
       
       setBunsData(result.filter(item => item.type === "bun"))
@@ -91,7 +93,7 @@ const App = () => {
           }
         </section>
         <section className={`mr-5 ml-5 mt-30 ${styles.section}`}>
-          <IngredientsContext.Provider value={{ingredients: allData, bun, totalPrice, setTotalPrice}}>
+          <IngredientsContext.Provider value={{ingredients: saucesToppingsData, bun, totalPrice, setTotalPrice}}>
             <OrderContext.Provider value={{orderNumber, setOrderNumber}}>
               <BurgerConstructor 
                 setModalOpen={setOrderDetailsOpen}

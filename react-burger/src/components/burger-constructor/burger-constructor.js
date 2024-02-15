@@ -38,7 +38,9 @@ const BurgerConstructor = ({setModalOpen}) => {
       )
       const responseJson = await response.json()
       const responseStatus = await responseJson.success
-      if (!responseStatus) throw ("Запрос при оформлении заказа вернул ошибку")
+      if (!responseStatus) {
+        throw new Error ("Запрос при оформлении заказа вернул ошибку")
+      } 
       setOrderNumber(responseJson.order.number)
       setModalOpen(true)
     } catch (err) {
@@ -48,7 +50,7 @@ const BurgerConstructor = ({setModalOpen}) => {
 
   useEffect(() => {
       setTotalPrice(calculatedTotalPrice)
-  }, [ingredients, bun])
+  }, [ingredients, bun, calculatedTotalPrice, setTotalPrice])
 
   return (
     <>
