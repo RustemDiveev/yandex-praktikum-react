@@ -1,9 +1,15 @@
 import PropTypes from "prop-types"
 
+import { useSelector } from "react-redux"
+
+import { selectSelectedIngredient } from "../../services/slices/ingredientsSlice"
 import styles from "./ingredient-details.module.css"
 
 
-const IngredientDetails = ({selectedIngredientData}) => {
+const IngredientDetails = () => {
+
+  const selectedIngredientData = useSelector(selectSelectedIngredient)
+
   return (
     <div className={`ml-10 mr-10 mb-10 ${styles.container}`}>
       {

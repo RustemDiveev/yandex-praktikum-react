@@ -7,11 +7,13 @@ import App from "./components/app/app";
 import reportWebVitals from './reportWebVitals';
 
 import store from './services/store';
+import { fetchIngredients } from './services/slices/ingredientsSlice';
 
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
+store.dispatch(fetchIngredients())
+
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+
 root.render(
   <React.StrictMode>
     <Provider store={store}>

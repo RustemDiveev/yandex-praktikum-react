@@ -1,19 +1,31 @@
 import PropTypes from "prop-types"
 
-import { useRef, useState } from "react"
+import { useRef, useState, useMemo } from "react"
+
+import { useSelector, useDispatch } from "react-redux"
 
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components"
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components"
 
+import { selectIngredients, ingredientSelected } from "../../services/slices/ingredientsSlice"
+
 import styles from "./burger-ingredients.module.css"
 
 
-const BurgerIngredients = ({buns, sauces, toppings, setModalOpen, setSelectedIngredientId}) => {
+const BurgerIngredients = ({setModalOpen}) => {
 
   const [currentTab, setCurrentTab] = useState("buns")
   const bunsRef = useRef(null)
   const saucesRef = useRef(null)
   const toppingsRef = useRef(null)
+
+  const ingredients = useSelector(selectIngredients)
+
+  const buns = useMemo(() => ingredients.filter(ingredient => ingredient.type === "bun"), [ingredients])
+  const sauces = useMemo(() => ingredients.filter(ingredient => ingredient.type === "sauce"), [ingredients])
+  const toppings = useMemo(() => ingredients.filter(ingredient => ingredient.type === "main"), [ingredients])
+
+  const dispatch = useDispatch()
 
   const handleTabClick = (e) => {
     setCurrentTab(e)
@@ -33,7 +45,7 @@ const BurgerIngredients = ({buns, sauces, toppings, setModalOpen, setSelectedIng
 
   const handleIngredientClick = (e) => {
     setModalOpen(true)
-    setSelectedIngredientId(e.currentTarget.id)
+    dispatch(ingredientSelected(e.currentTarget.id))
   }
 
   return (
@@ -119,11 +131,7 @@ const BurgerIngredients = ({buns, sauces, toppings, setModalOpen, setSelectedIng
 }
 
 BurgerIngredients.propTypes = {
-  buns: PropTypes.array, 
-  sauces: PropTypes.array, 
-  toppings: PropTypes.array, 
   setModalOpen: PropTypes.func, 
-  setSelectedIngredientId: PropTypes.func
 }
 
 export default BurgerIngredients

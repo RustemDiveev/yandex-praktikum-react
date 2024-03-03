@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react"
+import { useState, useEffect } from "react"
 
 import AppHeader from "../app-header/app-header";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
@@ -18,30 +18,16 @@ import styles from "./app.module.css"
 const App = () => {
   const [initialized, setInitialized] = useState(false)
 
-  const [bunsData, setBunsData] = useState()
-  const [saucesData, setSaucesData] = useState()
-  const [toppingsData, setToppingsData] = useState()
   const [saucesToppingsData, setSaucesToppingsData] = useState()
 
   const [ingredientDetailsOpen, setIngredientDetailsOpen] = useState(false)
-
   const [orderDetailsOpen, setOrderDetailsOpen] = useState(false)
-  const [selectedIngredientId, setSelectedIngredientId] = useState()
    
-  const [allData, setAllData] = useState()
   const [bun, setBun] = useState();
 
   const [totalPrice, setTotalPrice] = useState()
 
   const [orderNumber, setOrderNumber] = useState()
-
-  const selectedIngredientData = useMemo(() => {
-    if (initialized && selectedIngredientId) {
-      const {image_large, name, calories, 
-        proteins, fat, carbohydrates} = allData.find(item => item._id === selectedIngredientId)
-      return {image_large, name, calories, proteins, fat, carbohydrates}
-    }
-  }, [selectedIngredientId, allData, initialized])
 
   const fetchData = async () => {
     try {
@@ -52,14 +38,8 @@ const App = () => {
       if (!responseStatus) throw new Error ("Запрос к данным вернул ошибку")
 
       const result = await responseJson.data
-      setAllData(result)
       setSaucesToppingsData(result.filter(item => ["sauce", "main"].includes(item.type)))
       setBun(result.find(item => item.name === "Краторная булка N-200i"))
-      
-      setBunsData(result.filter(item => item.type === "bun"))
-      setSaucesData(result.filter(item => item.type === "sauce"))
-      setToppingsData(result.filter(item => item.type === "main"))
-
       setInitialized(true)
     } catch (err) {
       console.error(err)
@@ -79,16 +59,10 @@ const App = () => {
           <h1 className="text text_type_main-large mt-10 mb-5">
             Соберите бургер
           </h1>
-          <BurgerIngredients 
-            buns={bunsData} 
-            sauces={saucesData} 
-            toppings={toppingsData}
-            setModalOpen={setIngredientDetailsOpen}
-            setSelectedIngredientId={setSelectedIngredientId}
-          />
+          <BurgerIngredients setModalOpen={setIngredientDetailsOpen}/>
           {
             ingredientDetailsOpen && <Modal setOpen={setIngredientDetailsOpen} header="Детали ингредиента">
-              <IngredientDetails selectedIngredientData={selectedIngredientData}/>
+              <IngredientDetails/>
             </Modal>
           }
         </section>
