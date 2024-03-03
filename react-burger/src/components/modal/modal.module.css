@@ -1,0 +1,15 @@
+.modal {
+    position: relative;
+    margin: 5% auto;
+    max-width: 720px;
+    width: 720px;
+    max-height: 70%;
+    background: var(--interface-modal-bg, #1C1C21);
+    border-radius: 20px;
+}
+
+.header_container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
