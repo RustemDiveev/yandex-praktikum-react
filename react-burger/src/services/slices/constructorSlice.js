@@ -2,8 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 
 const initialState = {
-    bun: {},
-    ingredients: []
+    ingredients: [],
+    bun: null,
 }
 
 const constructorSlice = createSlice({
@@ -31,4 +31,5 @@ export const { ingredientAdded } = constructorSlice.actions
 
 export default constructorSlice.reducer 
 
-export const selectIngredients = state => state.constructor.ingredients
+export const selectIngredients = state => state.burgerConstructor.ingredients
+export const selectBun = state => state.burgerConstructor.bun

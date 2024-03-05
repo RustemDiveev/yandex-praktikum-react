@@ -107,17 +107,35 @@ const BurgerIngredients = ({setModalOpen}) => {
         </Tab>
       </div>
       <div className={styles.div}>
-        <h2 className="text text_type_main-medium mt-10 mb-6" ref={bunsRef}>Булки</h2>
+        <h2 className="text text_type_main-medium mt-10 mb-6" ref={bunsRef}>
+          Булки
+        </h2>
         <ul className={styles.ul}>
-          {buns.map(item => <BurgerIngredient ingredient={item} handleIngredientClick={handleIngredientClick}/>)}
+          {buns.map(item => <BurgerIngredient 
+            key={item._id}
+            ingredient={item} 
+            handleIngredientClick={handleIngredientClick}
+          />)}
         </ul>
-        <h2 className="text text_type_main-medium mt-10 mb-6" ref={saucesRef}>Соусы</h2>
+        <h2 className="text text_type_main-medium mt-10 mb-6" ref={saucesRef}>
+          Соусы
+        </h2>
         <ul className={styles.ul}>
-          {sauces.map(item => <BurgerIngredient ingredient={item} handleIngredientClick={handleIngredientClick}/>)}
+          {sauces.map(item => <BurgerIngredient 
+            key={item._id}
+            ingredient={item} 
+            handleIngredientClick={handleIngredientClick}
+          />)}
         </ul>
-        <h2 className="text text_type_main-medium mt-10 mb-6" ref={toppingsRef}>Начинки</h2>
+        <h2 className="text text_type_main-medium mt-10 mb-6" ref={toppingsRef} key={6}>
+          Начинки
+        </h2>
         <ul className={styles.ul}>
-          {toppings.map(item => <BurgerIngredient ingredient={item} handleIngredientClick={handleIngredientClick}/>)}
+          {toppings.map(item => <BurgerIngredient 
+            key={item._id} 
+            ingredient={item} 
+            handleIngredientClick={handleIngredientClick}
+          />)}
         </ul>
       </div>
     </>

@@ -2,6 +2,10 @@ import PropTypes from "prop-types"
 
 import { useContext, useMemo, useEffect } from "react"
 
+import { useSelector, useDispatch } from "react-redux"
+
+import { useDrop } from "react-dnd"
+
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components"
 import { CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components"
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components"
@@ -11,14 +15,31 @@ import OrderContext from "../../services/orderContext"
 
 import { ORDERS_URL } from "../../settings/urls"
 
+import { selectIngredients, selectBun, ingredientAdded } from "../../services/slices/constructorSlice"
+
 import styles from "./burger-constructor.module.css"
 
 
 const BurgerConstructor = ({setModalOpen}) => { 
-  const {bun, ingredients, totalPrice, setTotalPrice} = useContext(IngredientsContext)
+  const {totalPrice, setTotalPrice} = useContext(IngredientsContext)
   const { setOrderNumber } = useContext(OrderContext)
 
+  const ingredients = useSelector(selectIngredients)
+  const bun = useSelector(selectBun)
+  const dispatch = useDispatch()
+
+  console.log("ingredients: ", ingredients)
+  console.log("bun: ", bun)
+
+  const [, dropTarget] = useDrop({
+    accept: "burgerIngredient",
+    drop(ingredient) {
+      dispatch(ingredientAdded(ingredient))
+    }
+  })
+
   const calculatedTotalPrice = useMemo(() => {
+    if (!bun) return 0
     let result = bun.price * 2
     result = ingredients.reduce((prev, current) => prev + current.price, result)
     return result
@@ -53,18 +74,18 @@ const BurgerConstructor = ({setModalOpen}) => {
   }, [ingredients, bun, calculatedTotalPrice, setTotalPrice])
 
   return (
-    <>
+    <div ref={dropTarget}>
       <div className={"ml-10"}>
-        <ConstructorElement
+        {bun && <ConstructorElement
           type="top"
           text={`${bun.name} (верх)`}
           thumbnail={bun.image_mobile}
           price={bun.price}
           isLocked
-        />
+        />}
       </div>
       <ul className={`${styles.ul} pl-4`}>
-        {ingredients.map((elem) => (
+        {ingredients && ingredients.map((elem) => (
           <li key={elem._id}>
             <DragIcon/>
             <ConstructorElement
@@ -76,14 +97,14 @@ const BurgerConstructor = ({setModalOpen}) => {
         ))}
       </ul>
       <div className={"ml-10"}>
-        <ConstructorElement
+        {bun && <ConstructorElement
           className={"ml-10"}
           type="bottom"
           text={`${bun.name} (низ)`}
           thumbnail={bun.image_mobile}
           price={bun.price}
           isLocked
-        />
+        />}
       </div>
       <div className={styles.footer}>
         <p></p>
@@ -96,7 +117,7 @@ const BurgerConstructor = ({setModalOpen}) => {
           onClick={onOrderClick}
         />
       </div>    
-    </>
+    </div>
   )
 }
 
