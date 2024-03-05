@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 import { useRef, useState, useMemo } from "react"
 
 import { useSelector, useDispatch } from "react-redux"
+import { useDrag } from "react-dnd"
 
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components"
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components"
@@ -10,6 +11,32 @@ import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components
 import { selectIngredients, ingredientSelected } from "../../services/slices/ingredientsSlice"
 
 import styles from "./burger-ingredients.module.css"
+
+
+const BurgerIngredient = ({ingredient, handleIngredientClick}) => {
+  const [ , drag] = useDrag({
+    type: "burgerIngredient",
+    item: {ingredient}
+  })
+
+  return (
+    <li 
+      ref={drag}
+      id={ingredient._id}
+      className={styles.li}
+      key={ingredient._id}
+      onClick={handleIngredientClick}
+      draggable
+    >
+      <img src={ingredient.image} alt={ingredient.name} draggable={false}/>
+      <p className={styles.price_p}>
+        <span className="text text_type_main-default">{ingredient.price}</span>
+        <CurrencyIcon/>
+      </p>
+      <h3 className="text text_type_main-default">{ingredient.name}</h3>
+    </li>
+  )
+}
 
 
 const BurgerIngredients = ({setModalOpen}) => {
@@ -82,48 +109,15 @@ const BurgerIngredients = ({setModalOpen}) => {
       <div className={styles.div}>
         <h2 className="text text_type_main-medium mt-10 mb-6" ref={bunsRef}>Булки</h2>
         <ul className={styles.ul}>
-          {buns.map(item => {
-              return (
-                <li id={item._id} className={styles.li} key={item._id} onClick={handleIngredientClick}>
-                  <img src={item.image} alt={item.name}/>
-                  <p className={styles.price_p}>
-                    <span className="text text_type_main-default">20</span>
-                    <CurrencyIcon/>
-                  </p>
-                  <h3 className="text text_type_main-default">{item.name}</h3>
-                </li>
-              )
-          })}
+          {buns.map(item => <BurgerIngredient ingredient={item} handleIngredientClick={handleIngredientClick}/>)}
         </ul>
         <h2 className="text text_type_main-medium mt-10 mb-6" ref={saucesRef}>Соусы</h2>
         <ul className={styles.ul}>
-          {sauces.map(item => {
-              return (
-                <li id={item._id} className={styles.li} key={item._id} onClick={handleIngredientClick}>
-                  <img src={item.image} alt={item.name}/>
-                  <p className={styles.price_p}>
-                    <span className="text text_type_main-default">30</span>
-                    <CurrencyIcon/>
-                  </p>
-                  <h3 className="text text_type_main-default">{item.name}</h3>
-                </li>
-              )
-          })}
+          {sauces.map(item => <BurgerIngredient ingredient={item} handleIngredientClick={handleIngredientClick}/>)}
         </ul>
         <h2 className="text text_type_main-medium mt-10 mb-6" ref={toppingsRef}>Начинки</h2>
         <ul className={styles.ul}>
-          {toppings.map(item => {
-              return (
-                <li id={item._id} className={styles.li} key={item._id} onClick={handleIngredientClick}>
-                  <img src={item.image} alt={item.name}/>
-                  <p className={styles.price_p}>
-                    <span className="text text_type_main-default">40</span>
-                    <CurrencyIcon/>
-                  </p>
-                  <h3 className="text text_type_main-default">{item.name}</h3>
-                </li>
-              )
-          })}
+          {toppings.map(item => <BurgerIngredient ingredient={item} handleIngredientClick={handleIngredientClick}/>)}
         </ul>
       </div>
     </>

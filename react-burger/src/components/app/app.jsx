@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react"
 
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+
 import AppHeader from "../app-header/app-header";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
@@ -55,32 +58,34 @@ const App = () => {
       </header>
       {initialized && 
       <main className={`mr-20 ml-20 ${styles.main}`}>
-        <section className={`mr-5 ml-5 ${styles.section}`}>
-          <h1 className="text text_type_main-large mt-10 mb-5">
-            Соберите бургер
-          </h1>
-          <BurgerIngredients setModalOpen={setIngredientDetailsOpen}/>
-          {
-            ingredientDetailsOpen && <Modal setOpen={setIngredientDetailsOpen} header="Детали ингредиента">
-              <IngredientDetails/>
-            </Modal>
-          }
-        </section>
-        <section className={`mr-5 ml-5 mt-30 ${styles.section}`}>
-          <IngredientsContext.Provider value={{ingredients: saucesToppingsData, bun, totalPrice, setTotalPrice}}>
-            <OrderContext.Provider value={{orderNumber, setOrderNumber}}>
-              <BurgerConstructor 
-                setModalOpen={setOrderDetailsOpen}
-              />
-              {
-                orderDetailsOpen && 
-                <Modal setOpen={setOrderDetailsOpen}>
-                  <OrderDetails/>
-                </Modal>
-              }
-            </OrderContext.Provider>
-          </IngredientsContext.Provider>
-        </section>
+        <DndProvider backend={HTML5Backend}>
+          <section className={`mr-5 ml-5 ${styles.section}`}>
+            <h1 className="text text_type_main-large mt-10 mb-5">
+              Соберите бургер
+            </h1>
+            <BurgerIngredients setModalOpen={setIngredientDetailsOpen}/>
+            {
+              ingredientDetailsOpen && <Modal setOpen={setIngredientDetailsOpen} header="Детали ингредиента">
+                <IngredientDetails/>
+              </Modal>
+            }
+          </section>
+          <section className={`mr-5 ml-5 mt-30 ${styles.section}`}>
+            <IngredientsContext.Provider value={{ingredients: saucesToppingsData, bun, totalPrice, setTotalPrice}}>
+              <OrderContext.Provider value={{orderNumber, setOrderNumber}}>
+                <BurgerConstructor 
+                  setModalOpen={setOrderDetailsOpen}
+                />
+                {
+                  orderDetailsOpen && 
+                  <Modal setOpen={setOrderDetailsOpen}>
+                    <OrderDetails/>
+                  </Modal>
+                }
+              </OrderContext.Provider>
+            </IngredientsContext.Provider>
+          </section>
+        </DndProvider>
       </main>}
     </>
   );
