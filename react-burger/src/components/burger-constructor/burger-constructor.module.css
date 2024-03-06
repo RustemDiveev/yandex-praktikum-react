@@ -4,7 +4,7 @@
     flex-direction: column;
     gap: 10px;
     overflow-y: auto;
-    height: 60vh;
+    max-height: 60vh;
     scrollbar-color: #8585AD #2F2F37;
     scrollbar-width: thin;
     --scrollbar-width: thin;

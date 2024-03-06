@@ -11,25 +11,17 @@ import { CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components"
 
 import IngredientsContext from "../../services/ingredientsContext"
-import OrderContext from "../../services/orderContext"
-
-import { ORDERS_URL } from "../../settings/urls"
-
 import { selectIngredients, selectBun, ingredientAdded } from "../../services/slices/constructorSlice"
+import { postOrder } from "../../services/slices/orderSlice"
 
 import styles from "./burger-constructor.module.css"
 
 
 const BurgerConstructor = ({setModalOpen}) => { 
   const {totalPrice, setTotalPrice} = useContext(IngredientsContext)
-  const { setOrderNumber } = useContext(OrderContext)
-
   const ingredients = useSelector(selectIngredients)
   const bun = useSelector(selectBun)
   const dispatch = useDispatch()
-
-  console.log("ingredients: ", ingredients)
-  console.log("bun: ", bun)
 
   const [, dropTarget] = useDrop({
     accept: "burgerIngredient",
@@ -47,26 +39,8 @@ const BurgerConstructor = ({setModalOpen}) => {
 
   const onOrderClick = async () => {
     const ingredientsIds = {ingredients: [bun._id, ...ingredients.map(elem => elem._id), bun._id]}
-    
-    try {
-      const response = await fetch(
-        ORDERS_URL, 
-        {
-          method: "POST",
-          headers: {"Content-Type": "application/json"},
-          body: JSON.stringify(ingredientsIds)
-        }
-      )
-      const responseJson = await response.json()
-      const responseStatus = await responseJson.success
-      if (!responseStatus) {
-        throw new Error ("Запрос при оформлении заказа вернул ошибку")
-      } 
-      setOrderNumber(responseJson.order.number)
-      setModalOpen(true)
-    } catch (err) {
-      console.error(err)
-    }
+    dispatch(postOrder(ingredientsIds))
+    setModalOpen(true)
   }
 
   useEffect(() => {
@@ -106,7 +80,7 @@ const BurgerConstructor = ({setModalOpen}) => {
           isLocked
         />}
       </div>
-      <div className={styles.footer}>
+      <div className={`${styles.footer} mt-4`}>
         <p></p>
         <p className="text text_type_main-large">{totalPrice}<CurrencyIcon/></p>
         <Button 

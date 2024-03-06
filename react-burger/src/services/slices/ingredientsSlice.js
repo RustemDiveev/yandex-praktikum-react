@@ -61,7 +61,5 @@ export const { ingredientSelected } = ingredientsSlice.actions
 export default ingredientsSlice.reducer 
 
 export const selectIngredients = state => state.ingredients.ingredients
-
 export const selectStatus = state => state.ingredients.status
-
 export const selectSelectedIngredient = state => state.ingredients.selectedIngredient

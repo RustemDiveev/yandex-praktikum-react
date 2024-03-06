@@ -7,15 +7,15 @@ const initialState = {
 }
 
 const constructorSlice = createSlice({
-    name: "constructor",
+    name: "burgerConstructor",
     initialState,
     reducers: {
         ingredientAdded: {
             reducer(state, action) {
-                if (action.payload.ingredient.type === "bun") {
-                    state.bun = action.payload.ingredient
+                if (action.payload.ingredient.ingredient.type === "bun") {
+                    state.bun = action.payload.ingredient.ingredient
                 } else {
-                    state.ingredients.push(action.payload.ingredient)
+                    state.ingredients.push(action.payload.ingredient.ingredient)
                 }
             },
             prepare(ingredient) {

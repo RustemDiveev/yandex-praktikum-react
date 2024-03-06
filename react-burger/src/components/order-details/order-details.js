@@ -1,13 +1,14 @@
-import { useContext } from "react"
+import { useSelector } from "react-redux"
 
 import styles from "./order-details.module.css"
 import imageDone from "../../images/done.png"
-import OrderContext from "../../services/orderContext"
+
+import { selectOrderNumber } from "../../services/slices/orderSlice"
 
 
 const OrderDetails = () => {
 
-  const { orderNumber } = useContext(OrderContext)
+  const orderNumber = useSelector(selectOrderNumber)
 
   return (
     <div className={`${styles.container} mt-20`}>
