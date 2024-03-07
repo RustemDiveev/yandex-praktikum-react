@@ -6,15 +6,7 @@ import { INGREDIENTS_URL } from "../../settings/urls";
 const initialState = {
     ingredients: [],
     success: null,
-    selectedIngredient: {
-        id: null,
-        image_large: "",
-        name: "",
-        calories: 0,
-        proteins: 0,
-        fat: 0,
-        carbohydrates: 0
-    }
+    selectedIngredient: null
 }
 
 export const fetchIngredients = createAsyncThunk(
@@ -43,6 +35,11 @@ const ingredientsSlice = createSlice({
                     }
                 }
             }
+        },
+        ingredientUnselected: {
+            reducer(state, action) {
+                state.selectedIngredient = null
+            }
         }
     },
     extraReducers(builder) {
@@ -56,7 +53,7 @@ const ingredientsSlice = createSlice({
     }
 })
 
-export const { ingredientSelected } = ingredientsSlice.actions
+export const { ingredientSelected, ingredientUnselected } = ingredientsSlice.actions
 
 export default ingredientsSlice.reducer 
 

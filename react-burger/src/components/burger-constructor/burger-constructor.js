@@ -1,6 +1,6 @@
 import PropTypes from "prop-types"
 
-import { useContext, useMemo, useEffect } from "react"
+import { useMemo, useEffect, useState } from "react"
 
 import { useSelector, useDispatch } from "react-redux"
 
@@ -10,7 +10,6 @@ import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-comp
 import { CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components"
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components"
 
-import IngredientsContext from "../../services/ingredientsContext"
 import { selectIngredients, selectBun, ingredientAdded } from "../../services/slices/constructorSlice"
 import { postOrder } from "../../services/slices/orderSlice"
 
@@ -18,7 +17,7 @@ import styles from "./burger-constructor.module.css"
 
 
 const BurgerConstructor = ({setModalOpen}) => { 
-  const {totalPrice, setTotalPrice} = useContext(IngredientsContext)
+  const [totalPrice, setTotalPrice] = useState(0)
   const ingredients = useSelector(selectIngredients)
   const bun = useSelector(selectBun)
   const dispatch = useDispatch()
