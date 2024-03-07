@@ -1,6 +1,6 @@
 import PropTypes from "prop-types"
 
-import { useRef, useState, useMemo } from "react"
+import { useRef, useState, useMemo, useEffect } from "react"
 
 import { useSelector, useDispatch } from "react-redux"
 import { useDrag } from "react-dnd"
@@ -45,6 +45,7 @@ const BurgerIngredients = ({setModalOpen}) => {
   const bunsRef = useRef(null)
   const saucesRef = useRef(null)
   const toppingsRef = useRef(null)
+  const ingredientRef = useRef(null)
 
   const ingredients = useSelector(selectIngredients)
 
@@ -74,6 +75,20 @@ const BurgerIngredients = ({setModalOpen}) => {
     setModalOpen(true)
     dispatch(ingredientSelected(e.currentTarget.id))
   }
+
+  const handleScroll = (e) => {
+    const currentScrollTop = e.target.scrollTop 
+    const headerOffsets = Array.from(e.target.children).filter(element => element.localName === "h2").map(element => {return element.offsetTop})
+    if (currentScrollTop < headerOffsets[0]) setCurrentTab("buns")
+    if (currentScrollTop > headerOffsets[0] && currentScrollTop < headerOffsets[1]) setCurrentTab("sauces")
+    if (currentScrollTop > headerOffsets[1]) setCurrentTab("toppings")
+  }
+
+  useEffect(() => {
+    const ingredientDomNode = ingredientRef.current
+    ingredientDomNode.addEventListener("scroll", handleScroll)
+    return () => ingredientDomNode.removeEventListener("scroll", handleScroll)
+  }, [])
 
   return (
     <>
@@ -106,7 +121,7 @@ const BurgerIngredients = ({setModalOpen}) => {
           Начинки
         </Tab>
       </div>
-      <div className={styles.div}>
+      <div className={styles.div} onScroll={handleScroll} ref={ingredientRef}>
         <h2 className="text text_type_main-medium mt-10 mb-6" ref={bunsRef}>
           Булки
         </h2>
