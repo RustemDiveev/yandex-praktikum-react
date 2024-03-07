@@ -58,13 +58,16 @@ const BurgerConstructor = ({setModalOpen}) => {
         />}
       </div>
       <ul className={`${styles.ul} pl-4`}>
-        {ingredients && ingredients.map((elem) => (
-          <li key={elem._id}>
+        {ingredients && ingredients.map((elem, index) => (
+          <li key={index}>
             <DragIcon/>
             <ConstructorElement
               text={elem.name}
               thumbnail={elem.image_mobile}
               price={elem.price}
+              handleClose={() => {
+                console.log("index is: ", index)
+              }}
             />
           </li>
         ))}
