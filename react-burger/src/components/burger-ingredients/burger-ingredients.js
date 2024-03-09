@@ -5,15 +5,15 @@ import { useRef, useState, useMemo, useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { useDrag } from "react-dnd"
 
-import { Tab } from "@ya.praktikum/react-developer-burger-ui-components"
+import { Tab, Counter } from "@ya.praktikum/react-developer-burger-ui-components"
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components"
 
-import { selectIngredients, ingredientSelected } from "../../services/slices/ingredientsSlice"
+import { selectIngredients, ingredientSelected, selectCounter } from "../../services/slices/ingredientsSlice"
 
 import styles from "./burger-ingredients.module.css"
 
 
-const BurgerIngredient = ({ingredient, handleIngredientClick}) => {
+const BurgerIngredient = ({ingredient, handleIngredientClick, count}) => {
   const [ , drag] = useDrag({
     type: "burgerIngredient",
     item: {ingredient}
@@ -28,6 +28,7 @@ const BurgerIngredient = ({ingredient, handleIngredientClick}) => {
       onClick={handleIngredientClick}
       draggable
     >
+      {Boolean(count) && <Counter count={count} size="default"/>}
       <img src={ingredient.image} alt={ingredient.name} draggable={false}/>
       <p className={styles.price_p}>
         <span className="text text_type_main-default">{ingredient.price}</span>
@@ -48,6 +49,7 @@ const BurgerIngredients = ({setModalOpen}) => {
   const ingredientRef = useRef(null)
 
   const ingredients = useSelector(selectIngredients)
+  const counter = useSelector(selectCounter)
 
   const buns = useMemo(() => ingredients.filter(ingredient => ingredient.type === "bun"), [ingredients])
   const sauces = useMemo(() => ingredients.filter(ingredient => ingredient.type === "sauce"), [ingredients])
@@ -130,6 +132,7 @@ const BurgerIngredients = ({setModalOpen}) => {
             key={item._id}
             ingredient={item} 
             handleIngredientClick={handleIngredientClick}
+            count={counter[item._id]}
           />)}
         </ul>
         <h2 className="text text_type_main-medium mt-10 mb-6" ref={saucesRef}>
@@ -140,6 +143,7 @@ const BurgerIngredients = ({setModalOpen}) => {
             key={item._id}
             ingredient={item} 
             handleIngredientClick={handleIngredientClick}
+            count={counter[item._id]}
           />)}
         </ul>
         <h2 className="text text_type_main-medium mt-10 mb-6" ref={toppingsRef} key={6}>
@@ -150,6 +154,7 @@ const BurgerIngredients = ({setModalOpen}) => {
             key={item._id} 
             ingredient={item} 
             handleIngredientClick={handleIngredientClick}
+            count={counter[item._id]}
           />)}
         </ul>
       </div>

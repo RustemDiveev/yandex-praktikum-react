@@ -12,6 +12,7 @@ import { Button } from "@ya.praktikum/react-developer-burger-ui-components"
 
 import { selectIngredients, selectBun, ingredientAdded } from "../../services/slices/constructorSlice"
 import { postOrder } from "../../services/slices/orderSlice"
+import { counterIncreased } from "../../services/slices/ingredientsSlice"
 
 import styles from "./burger-constructor.module.css"
 
@@ -26,6 +27,7 @@ const BurgerConstructor = ({setModalOpen}) => {
     accept: "burgerIngredient",
     drop(ingredient) {
       dispatch(ingredientAdded(ingredient))
+      dispatch(counterIncreased(ingredient.ingredient._id))
     }
   })
 

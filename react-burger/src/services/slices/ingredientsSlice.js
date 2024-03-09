@@ -3,10 +3,18 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { INGREDIENTS_URL } from "../../settings/urls";
 
 
+// helpers 
+// Возвращает массив идентификаторов всех типов булок
+const getBuns = (state) => state.ingredients
+    .filter(ingredient => ingredient.type === "bun")
+    .map(ingredient => ingredient._id)
+
+
 const initialState = {
     ingredients: [],
     success: null,
-    selectedIngredient: null
+    selectedIngredient: null,
+    counter: {}
 }
 
 export const fetchIngredients = createAsyncThunk(
@@ -29,16 +37,36 @@ const ingredientsSlice = createSlice({
                 )
             },
             prepare(ingredientId) {
-                return {
-                    payload: {
-                        ingredientId
-                    }
-                }
+                return {payload: {ingredientId}}
             }
         },
         ingredientUnselected: {
             reducer(state, action) {
                 state.selectedIngredient = null
+            }
+        },
+        counterIncreased: {
+            reducer(state, action) {
+                const buns = getBuns(state)
+                const ingredientId = action.payload.ingredientId
+                console.log("buns", buns)
+                if (buns.length > 0 && buns.includes(ingredientId)) {
+                    // Если уже существует другой идентификатор булки равный единице, то удаляем его
+                    // и сеттим текущий в 1 
+                    const anotherBuns = buns.filter(id => id !== ingredientId)
+                    const anotherBunId = anotherBuns.find(bun => state.counter[bun] === 1)
+                    if (anotherBunId) state.counter[anotherBunId] = 0
+                    state.counter[action.payload.ingredientId] = 1
+                } else {
+                    if (state.counter[action.payload.ingredientId]) {
+                        state.counter[action.payload.ingredientId] += 1
+                    } else {
+                        state.counter[action.payload.ingredientId] = 1
+                    }
+                }
+            },
+            prepare(ingredientId) {
+                return {payload: {ingredientId}}                   
             }
         }
     },
@@ -53,10 +81,11 @@ const ingredientsSlice = createSlice({
     }
 })
 
-export const { ingredientSelected, ingredientUnselected } = ingredientsSlice.actions
+export const { ingredientSelected, ingredientUnselected, counterIncreased } = ingredientsSlice.actions
 
 export default ingredientsSlice.reducer 
 
 export const selectIngredients = state => state.ingredients.ingredients
 export const selectStatus = state => state.ingredients.status
 export const selectSelectedIngredient = state => state.ingredients.selectedIngredient
+export const selectCounter = state => state.ingredients.counter
