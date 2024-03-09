@@ -1,10 +1,10 @@
 import PropTypes from "prop-types"
 
-import { useMemo, useEffect, useState } from "react"
+import { useMemo, useEffect, useState, useRef } from "react"
 
 import { useSelector, useDispatch } from "react-redux"
 
-import { useDrop } from "react-dnd"
+import { useDrop, useDrag } from "react-dnd"
 
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components"
 import { CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components"
@@ -14,12 +14,52 @@ import {
   selectIngredients, 
   selectBun, 
   ingredientAdded, 
-  ingredientDeleted 
+  ingredientDeleted,
+  reorderIngredients
 } from "../../services/slices/constructorSlice"
 import { postOrder } from "../../services/slices/orderSlice"
 import { counterIncreased, counterDecreased } from "../../services/slices/ingredientsSlice"
 
 import styles from "./burger-constructor.module.css"
+
+
+const Ingredient = ({ingredient, index}) => {
+  const ref = useRef(null)
+  const dispatch = useDispatch()
+
+  const [, drop] = useDrop({
+    accept: "constructorIngredient",
+    drop(draggableIndex) {
+      dispatch(reorderIngredients(draggableIndex, index))
+    }
+  })
+
+  const [, drag] = useDrag({
+    type: "constructorIngredient",
+    item: { index }
+  })
+
+  const handleClose = (elem, index) => {
+    return () => {
+      dispatch(ingredientDeleted(index))
+      dispatch(counterDecreased(elem._id))
+    }
+  }
+
+  drag(drop(ref))
+
+  return (
+    <li key={index} ref={ref}>
+      <DragIcon/>
+      <ConstructorElement
+        text={ingredient.name}
+        thumbnail={ingredient.image_mobile}
+        price={ingredient.price}
+        handleClose={handleClose(ingredient, index)}
+      />
+    </li>
+  )
+}
 
 
 const BurgerConstructor = ({setModalOpen}) => { 
@@ -49,13 +89,6 @@ const BurgerConstructor = ({setModalOpen}) => {
     setModalOpen(true)
   }
 
-  const handleClose = (elem, index) => {
-    return () => {
-      dispatch(ingredientDeleted(index))
-      dispatch(counterDecreased(elem._id))
-    }
-  }
-
   useEffect(() => {
       setTotalPrice(calculatedTotalPrice)
   }, [ingredients, bun, calculatedTotalPrice, setTotalPrice])
@@ -73,15 +106,7 @@ const BurgerConstructor = ({setModalOpen}) => {
       </div>
       <ul className={`${styles.ul} pl-4`}>
         {ingredients && ingredients.map((elem, index) => (
-          <li key={index}>
-            <DragIcon/>
-            <ConstructorElement
-              text={elem.name}
-              thumbnail={elem.image_mobile}
-              price={elem.price}
-              handleClose={handleClose(elem, index)}
-            />
-          </li>
+          <Ingredient ingredient={elem} index={index}/>
         ))}
       </ul>
       <div className={"ml-10"}>

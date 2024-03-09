@@ -28,11 +28,23 @@ const constructorSlice = createSlice({
             reducer(state, action) {
                 state.ingredients.splice(action.payload, 1)
             },
+        },
+        reorderIngredients: {
+            reducer(state, action) {
+                const draggedIndex = action.payload.draggedIndex
+                const dropIndex = action.payload.dropIndex
+                const temp = state.ingredients[draggedIndex]
+                state.ingredients[draggedIndex] = state.ingredients[dropIndex]
+                state.ingredients[dropIndex] = temp
+            },
+            prepare(draggedIndex, dropIndex) {
+                return {payload: {draggedIndex: draggedIndex.index, dropIndex}}
+            }
         }
     }
 })
 
-export const { ingredientAdded, ingredientDeleted } = constructorSlice.actions
+export const { ingredientAdded, ingredientDeleted, reorderIngredients } = constructorSlice.actions
 
 export default constructorSlice.reducer 
 
