@@ -24,10 +24,15 @@ const constructorSlice = createSlice({
                 }
             }
         },
+        ingredientDeleted: {
+            reducer(state, action) {
+                state.ingredients.splice(action.payload, 1)
+            },
+        }
     }
 })
 
-export const { ingredientAdded } = constructorSlice.actions
+export const { ingredientAdded, ingredientDeleted } = constructorSlice.actions
 
 export default constructorSlice.reducer 
 

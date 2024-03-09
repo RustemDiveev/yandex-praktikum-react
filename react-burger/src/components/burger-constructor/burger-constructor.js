@@ -10,9 +10,14 @@ import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-comp
 import { CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components"
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components"
 
-import { selectIngredients, selectBun, ingredientAdded } from "../../services/slices/constructorSlice"
+import { 
+  selectIngredients, 
+  selectBun, 
+  ingredientAdded, 
+  ingredientDeleted 
+} from "../../services/slices/constructorSlice"
 import { postOrder } from "../../services/slices/orderSlice"
-import { counterIncreased } from "../../services/slices/ingredientsSlice"
+import { counterIncreased, counterDecreased } from "../../services/slices/ingredientsSlice"
 
 import styles from "./burger-constructor.module.css"
 
@@ -44,6 +49,13 @@ const BurgerConstructor = ({setModalOpen}) => {
     setModalOpen(true)
   }
 
+  const handleClose = (elem, index) => {
+    return () => {
+      dispatch(ingredientDeleted(index))
+      dispatch(counterDecreased(elem._id))
+    }
+  }
+
   useEffect(() => {
       setTotalPrice(calculatedTotalPrice)
   }, [ingredients, bun, calculatedTotalPrice, setTotalPrice])
@@ -67,9 +79,7 @@ const BurgerConstructor = ({setModalOpen}) => {
               text={elem.name}
               thumbnail={elem.image_mobile}
               price={elem.price}
-              handleClose={() => {
-                console.log("index is: ", index)
-              }}
+              handleClose={handleClose(elem, index)}
             />
           </li>
         ))}

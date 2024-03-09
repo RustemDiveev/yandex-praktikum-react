@@ -49,7 +49,6 @@ const ingredientsSlice = createSlice({
             reducer(state, action) {
                 const buns = getBuns(state)
                 const ingredientId = action.payload.ingredientId
-                console.log("buns", buns)
                 if (buns.length > 0 && buns.includes(ingredientId)) {
                     // Если уже существует другой идентификатор булки равный единице, то удаляем его
                     // и сеттим текущий в 1 
@@ -68,6 +67,11 @@ const ingredientsSlice = createSlice({
             prepare(ingredientId) {
                 return {payload: {ingredientId}}                   
             }
+        },
+        counterDecreased: {
+            reducer(state, action) {
+                state.counter[action.payload] -= 1
+            }
         }
     },
     extraReducers(builder) {
@@ -81,7 +85,12 @@ const ingredientsSlice = createSlice({
     }
 })
 
-export const { ingredientSelected, ingredientUnselected, counterIncreased } = ingredientsSlice.actions
+export const { 
+    ingredientSelected, 
+    ingredientUnselected, 
+    counterIncreased,
+    counterDecreased,
+} = ingredientsSlice.actions
 
 export default ingredientsSlice.reducer 
 
