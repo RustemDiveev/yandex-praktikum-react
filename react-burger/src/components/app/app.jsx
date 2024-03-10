@@ -1,5 +1,3 @@
-import { useState } from "react"
-
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
@@ -12,18 +10,19 @@ import IngredientDetails from "../ingredient-details/ingredient-details";
 import OrderDetails from "../order-details/order-details";
 import Modal from "../modal/modal";
 import { ingredientUnselected } from "../../services/slices/ingredientsSlice";
+import useModal from "../../hooks/useModal";
 
 import styles from "./app.module.css"
 
 
 const App = () => {
-  const [ingredientDetailsOpen, setIngredientDetailsOpen] = useState(false)
-  const [orderDetailsOpen, setOrderDetailsOpen] = useState(false)
+  const ingredientModal = useModal()
+  const orderModal = useModal()
   const dispatch = useDispatch()
 
-  const handleIngredientDetailsClose = (value) => {
+  const handleIngredientDetailsClose = () => {
     dispatch(ingredientUnselected())
-    setIngredientDetailsOpen(value)
+    ingredientModal.closeModal()
   }
   
   return (
@@ -37,20 +36,20 @@ const App = () => {
             <h1 className="text text_type_main-large mt-10 mb-5">
               Соберите бургер
             </h1>
-            <BurgerIngredients setModalOpen={setIngredientDetailsOpen}/>
+            <BurgerIngredients setModalOpen={ingredientModal.openModal}/>
             {
-              ingredientDetailsOpen && <Modal setOpen={handleIngredientDetailsClose} header="Детали ингредиента">
+              ingredientModal.modalOpen && <Modal closeModal={handleIngredientDetailsClose} header="Детали ингредиента">
                 <IngredientDetails/>
               </Modal>
             }
           </section>
           <section className={`mr-5 ml-5 mt-30 ${styles.section}`}>
             <BurgerConstructor 
-              setModalOpen={setOrderDetailsOpen}
+              setModalOpen={orderModal.openModal}
             />
             {
-              orderDetailsOpen && 
-              <Modal setOpen={setOrderDetailsOpen}>
+              orderModal.modalOpen && 
+              <Modal closeModal={orderModal.closeModal}>
                 <OrderDetails/>
               </Modal>
             }

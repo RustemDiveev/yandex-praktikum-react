@@ -74,7 +74,7 @@ const BurgerIngredients = ({setModalOpen}) => {
   }
 
   const handleIngredientClick = (e) => {
-    setModalOpen(true)
+    setModalOpen()
     dispatch(ingredientSelected(e.currentTarget.id))
   }
 
