@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { v4 as uuidv4 } from "uuid"
 
 
 const initialState = {
@@ -15,12 +16,18 @@ const constructorSlice = createSlice({
                 if (action.payload.ingredient.ingredient.type === "bun") {
                     state.bun = action.payload.ingredient.ingredient
                 } else {
-                    state.ingredients.push(action.payload.ingredient.ingredient)
+                    state.ingredients.push({
+                        ...action.payload.ingredient.ingredient, 
+                        uniqueId: action.payload.uniqueId
+                    })
                 }
             },
             prepare(ingredient) {
                 return {
-                    payload: {ingredient}
+                    payload: {
+                        ingredient,
+                        uniqueId: uuidv4()
+                    }
                 }
             }
         },
@@ -31,14 +38,20 @@ const constructorSlice = createSlice({
         },
         reorderIngredients: {
             reducer(state, action) {
-                const draggedIndex = action.payload.draggedIndex
-                const dropIndex = action.payload.dropIndex
+                const draggedId = action.payload.draggedId
+                const droppedId = action.payload.droppedId
+                const draggedIndex = state.ingredients.findIndex(
+                    elem => elem.uniqueId === draggedId
+                )
+                const droppedIndex = state.ingredients.findIndex(
+                    elem => elem.uniqueId === droppedId
+                )
                 const temp = state.ingredients[draggedIndex]
-                state.ingredients[draggedIndex] = state.ingredients[dropIndex]
-                state.ingredients[dropIndex] = temp
+                state.ingredients[draggedIndex] = state.ingredients[droppedIndex]
+                state.ingredients[droppedIndex] = temp
             },
-            prepare(draggedIndex, dropIndex) {
-                return {payload: {draggedIndex: draggedIndex.index, dropIndex}}
+            prepare(draggedId, droppedId) {
+                return {payload: {draggedId: draggedId.uniqueId, droppedId}}
             }
         }
     }

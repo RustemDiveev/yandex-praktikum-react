@@ -23,25 +23,25 @@ import { counterIncreased, counterDecreased } from "../../services/slices/ingred
 import styles from "./burger-constructor.module.css"
 
 
-const Ingredient = ({ingredient, index}) => {
+const Ingredient = ({ ingredient }) => {
   const ref = useRef(null)
   const dispatch = useDispatch()
 
   const [, drop] = useDrop({
     accept: "constructorIngredient",
-    drop(draggableIndex) {
-      dispatch(reorderIngredients(draggableIndex, index))
+    drop(uniqueId) {
+      dispatch(reorderIngredients(uniqueId, ingredient.uniqueId))
     }
   })
 
   const [, drag] = useDrag({
     type: "constructorIngredient",
-    item: { index }
+    item: { uniqueId: ingredient.uniqueId }
   })
 
-  const handleClose = (elem, index) => {
+  const handleClose = (elem) => {
     return () => {
-      dispatch(ingredientDeleted(index))
+      dispatch(ingredientDeleted(elem.uniqueId))
       dispatch(counterDecreased(elem._id))
     }
   }
@@ -49,13 +49,13 @@ const Ingredient = ({ingredient, index}) => {
   drag(drop(ref))
 
   return (
-    <li key={index} ref={ref}>
+    <li ref={ref}>
       <DragIcon/>
       <ConstructorElement
         text={ingredient.name}
         thumbnail={ingredient.image_mobile}
         price={ingredient.price}
-        handleClose={handleClose(ingredient, index)}
+        handleClose={handleClose(ingredient)}
       />
     </li>
   )
@@ -86,7 +86,7 @@ const BurgerConstructor = ({setModalOpen}) => {
   const onOrderClick = async () => {
     const ingredientsIds = {ingredients: [bun._id, ...ingredients.map(elem => elem._id), bun._id]}
     dispatch(postOrder(ingredientsIds))
-    setModalOpen(true)
+    setModalOpen()
   }
 
   useEffect(() => {
@@ -105,8 +105,8 @@ const BurgerConstructor = ({setModalOpen}) => {
         />}
       </div>
       <ul className={`${styles.ul} pl-4`}>
-        {ingredients && ingredients.map((elem, index) => (
-          <Ingredient ingredient={elem} index={index}/>
+        {ingredients && ingredients.map((elem) => (
+          <Ingredient ingredient={elem} key={elem.uniqueId}/>
         ))}
       </ul>
       <div className={"ml-10"}>
