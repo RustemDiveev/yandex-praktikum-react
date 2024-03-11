@@ -2,6 +2,8 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 import { INGREDIENTS_URL } from "../../settings/urls";
 
+import requestApi from "../../utils/api";
+
 
 // helpers 
 // Возвращает массив идентификаторов всех типов булок
@@ -20,7 +22,7 @@ const initialState = {
 export const fetchIngredients = createAsyncThunk(
     "ingredients/fetchIngredients",
     async () => {
-        const response = await fetch(INGREDIENTS_URL)
+        const response = await requestApi(INGREDIENTS_URL)
         const responseJson = response.json()
         return responseJson
     }
@@ -75,13 +77,11 @@ const ingredientsSlice = createSlice({
         }
     },
     extraReducers(builder) {
-        builder.addCase(fetchIngredients.fulfilled, (state, action) => {
-            state.ingredients = action.payload.data
-            state.success = action.payload.success
-            if (!action.payload.success) {
-                throw new Error("Запрос к данным вернул ошибку")
-            }
-        })
+        builder
+            .addCase(fetchIngredients.fulfilled, (state, action) => {
+                state.ingredients = action.payload.data
+                state.success = action.payload.success
+            })
     }
 })
 

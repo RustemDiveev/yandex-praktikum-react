@@ -1,13 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 import { ORDERS_URL } from "../../settings/urls";
+import requestApi from "../../utils/api";
 
 
 export const postOrder = createAsyncThunk(
     "order/postOrder",
     async (ingredientsIds) => {
-        const response = await fetch(
-            ORDERS_URL,
+        const response = await requestApi(
+            ORDERS_URL, 
             {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
@@ -31,10 +32,14 @@ const orderSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers(builder) {
-        builder.addCase(postOrder.fulfilled, (state, action) => {
-            state.status = action.payload.status
-            state.orderNumber = action.payload.orderNumber
-        })
+        builder
+            .addCase(postOrder.fulfilled, (state, action) => {
+                state.status = action.payload.status
+                state.orderNumber = action.payload.orderNumber
+                if (!action.payload.success) {
+                    throw new Error('Запрос на формирование заказа вернул ошибку') 
+                }
+            })
     }
 })
 
