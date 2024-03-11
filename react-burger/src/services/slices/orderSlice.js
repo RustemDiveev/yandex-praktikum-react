@@ -36,7 +36,7 @@ const orderSlice = createSlice({
             .addCase(postOrder.fulfilled, (state, action) => {
                 state.status = action.payload.status
                 state.orderNumber = action.payload.orderNumber
-                if (!action.payload.success) {
+                if (!action.payload.status) {
                     throw new Error('Запрос на формирование заказа вернул ошибку') 
                 }
             })
