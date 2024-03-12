@@ -11,18 +11,18 @@ import styles from "./modal.module.css"
 
 const modalRoot = document.getElementById("react-modals")
 
-const Modal = ({setOpen, header, children}) => {
+const Modal = ({closeModal, header, children}) => {
 
     const handleOnPressEscape = useCallback((e) => {
-        if (e.key === "Escape") setOpen(false)
-    }, [setOpen])
+        if (e.key === "Escape") closeModal()
+    }, [closeModal])
 
     const jsx = 
-        <ModalOverlay setOpen={setOpen}>
+        <ModalOverlay closeModal={closeModal}>
             <div className={styles.modal}>
                 <div className={`pl-10 pr-10 pt-10 ${styles.header_container}`}>
                     <div className="text text_type_main-large">{header}</div>
-                    <CloseIcon onClick={() => setOpen(false)}/>
+                    <CloseIcon onClick={() => closeModal()}/>
                 </div>
                 {children}
             </div>
@@ -37,7 +37,7 @@ const Modal = ({setOpen, header, children}) => {
 }
 
 Modal.propTypes = {
-    setOpen: PropTypes.func.isRequired,
+    closeModal: PropTypes.func.isRequired,
     children: PropTypes.element.isRequired,
     header: PropTypes.string
 }
