@@ -3,19 +3,19 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 
 import { useDispatch } from "react-redux";
 
-import AppHeader from "../app-header/app-header";
-import BurgerConstructor from "../burger-constructor/burger-constructor";
-import BurgerIngredients from "../burger-ingredients/burger-ingredients";
-import IngredientDetails from "../ingredient-details/ingredient-details";
-import OrderDetails from "../order-details/order-details";
-import Modal from "../modal/modal";
+import AppHeader from "../../components/app-header/app-header";
+import BurgerConstructor from "../../components/burger-constructor/burger-constructor";
+import BurgerIngredients from "../../components/burger-ingredients/burger-ingredients";
+import IngredientDetails from "../../components/ingredient-details/ingredient-details";
+import OrderDetails from "../../components/order-details/order-details";
+import Modal from "../../components/modal/modal";
 import { ingredientUnselected } from "../../services/slices/ingredientsSlice";
 import useModal from "../../hooks/useModal";
 
-import styles from "./app.module.css"
+import styles from "./main.module.css"
 
 
-const App = () => {
+const Main = () => {
   const ingredientModal = useModal()
   const orderModal = useModal()
   const dispatch = useDispatch()
@@ -27,9 +27,7 @@ const App = () => {
   
   return (
     <>
-      <header className={styles.header}>
-        <AppHeader/>
-      </header>
+      <AppHeader/>
       <main className={`mr-20 ml-20 ${styles.main}`}>
         <DndProvider backend={HTML5Backend}>
           <section className={`mr-5 ml-5 ${styles.section}`}>
@@ -60,4 +58,4 @@ const App = () => {
   );
 }
 
-export default App;
+export default Main;

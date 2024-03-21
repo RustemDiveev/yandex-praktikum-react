@@ -1,3 +1,7 @@
+.header {
+    height: 60;
+}
+
 .ul {
     display: flex;
     list-style: none;
