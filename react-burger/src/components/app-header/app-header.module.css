@@ -1,17 +1,20 @@
 .header {
-    height: 60;
+    height: 100px;
 }
 
-.ul {
+.main_container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.additional_container {
     display: flex;
-    list-style: none;
-    flex-direction: row;
-    align-items: center;
     justify-content: center;
+    align-items: center;
 }
 
-.li {
+.menu_entry {
     display: flex;
-    align-items: center;
+    align-items: space;
     line-height: 1;
 }
