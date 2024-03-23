@@ -98,3 +98,6 @@ export const selectIngredients = state => state.ingredients.ingredients
 export const selectStatus = state => state.ingredients.status
 export const selectSelectedIngredient = state => state.ingredients.selectedIngredient
 export const selectCounter = state => state.ingredients.counter
+export const selectIngredient = (state, ingredientId) => {
+    return state.ingredients.success ? state.ingredients.ingredients.find(ingredient => ingredient._id === ingredientId) : null
+}
