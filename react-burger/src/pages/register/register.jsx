@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom"
+
 import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components"
 
 import AppHeader from "../../components/app-header/app-header"
@@ -5,6 +7,12 @@ import styles from "./register.module.css"
 
 
 const Register = () => {
+  const navigate = useNavigate()
+
+  const toLogin = () => {
+    navigate("/login")
+  }
+
   return (
     <>
       <AppHeader/>
@@ -36,8 +44,10 @@ const Register = () => {
             Зарегистрироваться
           </Button>
           <p className="text text_type_main-default mt-20 mb-2">
-            Уже зарегистрированы?&nbsp;
-            <a href="#">Войти</a>
+            Уже зарегистрированы?
+            <Button htmlType="button" type="secondary" size="medium" onClick={toLogin}>
+              Войти
+            </Button>
           </p>
         </section>
       </main>

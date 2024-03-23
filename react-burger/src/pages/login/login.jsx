@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom"
+
 import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components"
 
 import AppHeader from "../../components/app-header/app-header"
@@ -6,6 +8,16 @@ import styles from "./login.module.css"
 
 
 const Login = () => {
+  const navigate = useNavigate()
+
+  const toRegister = () => {
+    navigate("/register")
+  }
+
+  const toForgotPassword = () => {
+    navigate("/forgot-password")
+  }
+
   return (
     <>
       <AppHeader/>
@@ -31,13 +43,17 @@ const Login = () => {
           >
             Войти
           </Button>
-          <p className="text text_type_main-default mt-20 mb-2">
-            Вы - новый пользователь?&nbsp;
-            <a href="#">Зарегистрироваться</a>
+          <p className="text text_type_main-default mt-20">
+            Вы - новый пользователь?
+            <Button htmlType="button" type="secondary" size="medium" onClick={toRegister}>
+              Зарегистрироваться
+            </Button>
           </p>
-          <p className="text text_type_main-default mt-2">
-            Забыли пароль?&nbsp;
-            <a href="#">Восстановить пароль</a>
+          <p className="text text_type_main-default">
+            Забыли пароль?
+            <Button htmlType="button" type="secondary" size="medium" onClick={toForgotPassword}>
+              Восстановить пароль
+            </Button>
           </p>
         </section>
       </main>
