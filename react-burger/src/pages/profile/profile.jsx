@@ -1,6 +1,7 @@
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components"
 
 import AppHeader from "../../components/app-header/app-header"
+import ProfileMenu from "../../components/profile-menu/profile-menu"
 
 import styles from "./profile.module.css"
 
@@ -11,20 +12,7 @@ const Profile = () => {
       <AppHeader />
       <div className={`${styles.main_container} mt-20`}>
         <div className={`${styles.col} pl-20`}>
-          <div>
-            <p className="text text_type_main-medium mt-7 mb-7">
-              Профиль
-            </p>
-            <p className="text text_type_main-medium mt-7 mb-7">
-              История заказов
-            </p>
-            <p className="text text_type_main-medium mt-7 mb-7">
-              Выход
-            </p>
-            <p className="text text_type_main-default text_color_inactive mt-20">
-              В этом разделе вы можете изменить свои персональные данные
-            </p>
-          </div>
+          <ProfileMenu selectedEntry={"profile"}/>
         </div>
         <div className={styles.col}>
           <Input 

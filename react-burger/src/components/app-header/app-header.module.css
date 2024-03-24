@@ -18,3 +18,7 @@
     align-items: space;
     line-height: 1;
 }
+
+.menu_entry:hover {
+    cursor: pointer;
+}

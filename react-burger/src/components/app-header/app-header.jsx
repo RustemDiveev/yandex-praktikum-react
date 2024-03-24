@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom"
+
 import { BurgerIcon, ListIcon, ProfileIcon } from "@ya.praktikum/react-developer-burger-ui-components"
 import { Logo } from "@ya.praktikum/react-developer-burger-ui-components"
 
@@ -5,12 +7,25 @@ import styles from "./app-header.module.css"
 
 
 const AppHeader = () => {
+  const navigate = useNavigate()
+
+  const toProfile = () => {
+    navigate("/profile")
+  }
+
+  const toMain = () => {
+    navigate("/")
+  }
+
   return (
     <header className={styles.header}>
       <nav>
         <div className={styles.main_container}>
           <div className={styles.additional_container}>
-            <div className={`mt-4 mb-4 ml-1 mb-1 pl-5 pr-5 ${styles.menu_entry}`}>
+            <div 
+              className={`mt-4 mb-4 ml-1 mb-1 pl-5 pr-5 ${styles.menu_entry}`}
+              onClick={toMain}
+            >
               <BurgerIcon />
               <span className="text text_type_main-default ml-2 mr-2">Конструктор</span>
             </div>
@@ -23,7 +38,10 @@ const AppHeader = () => {
             <Logo />
           </div>
           <div className={styles.additional_container}>
-            <div className={`mt-4 mb-4 ml-1 mb-1 pl-5 pr-5 ${styles.menu_entry}`}>
+            <div 
+              className={`mt-4 mb-4 ml-1 mb-1 pl-5 pr-5 ${styles.menu_entry}`}
+              onClick={toProfile}
+            >
               <ProfileIcon/>
               <span className="text text_type_main-default ml-2 mr-2">Личный кабинет</span>
             </div>
