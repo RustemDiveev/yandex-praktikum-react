@@ -1,12 +1,49 @@
-import { Input } from "@ya.praktikum/react-developer-burger-ui-components"
+import { useState, useEffect, useCallback } from "react"
+
+import { useSelector, useDispatch } from "react-redux"
+
+import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components"
 
 import AppHeader from "../../components/app-header/app-header"
 import ProfileMenu from "../../components/profile-menu/profile-menu"
+import { selectUser, userGetInfo, userPatchInfo } from "../../services/slices/userSlice"
 
 import styles from "./profile.module.css"
 
 
 const Profile = () => {
+  const user = useSelector(selectUser)
+  const dispatch = useDispatch()
+
+  const [name, setName] = useState(user.name)
+  const [email, setEmail] = useState(user.email)
+  const [password, setPassword] = useState("")
+
+  const getUserInfo = useCallback(async () => {
+    try {
+      const response = await dispatch(userGetInfo()).unwrap()
+      console.log("response: ", response)
+    } catch (err) {
+      console.error(err)
+    }
+  }, [dispatch])
+
+  const save = () => {
+    dispatch(userPatchInfo({
+      name, email, password
+    }))
+  }
+
+  const cancel = () => {
+    setName(user.name)
+    setEmail(user.email)
+    setPassword("")
+  }
+
+  useEffect(() => {
+    getUserInfo()
+  }, [getUserInfo])
+
   return (
     <>
       <AppHeader />
@@ -18,24 +55,45 @@ const Profile = () => {
           <Input 
             type="text"
             placeholder="Имя"
-            value="Марк"
+            value={name}
             icon="EditIcon"
             extraClass="mt-3 mb-3"
+            onChange={(e) => setName(e.target.value)}
           />
           <Input 
             type="text"
             placeholder="Логин"
-            value="mail@stellar.burgers"
+            value={email}
             icon="EditIcon"
             extraClass="mt-3 mb-3"
+            onChange={(e) => setEmail(e.target.value)}
           />
           <Input 
             type="password"
             placeholder="Пароль"
-            value="123456"
+            value={password}
             icon="EditIcon"
             extraClass="mt-3 mb-3"
+            onChange={(e) => setPassword(e.target.value)}
           />
+          <div className={`${styles.button_footer} mt-5`}>
+            <Button 
+              htmlType="button"
+              type="secondary"
+              size="medium"
+              onClick={cancel}
+            >
+              Отмена
+            </Button>
+            <Button 
+              htmlType="button"
+              type="primary"
+              size="medium"
+              onClick={save}
+            >
+              Сохранить
+            </Button>
+          </div>
         </div>
         <div className={styles.col}>
         </div>

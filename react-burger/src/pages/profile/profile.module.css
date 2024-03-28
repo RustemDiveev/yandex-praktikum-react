@@ -8,3 +8,8 @@
     flex-direction: column;
     align-items: center;
 }
+
+.button_footer {
+    display: flex;
+    justify-content: flex-end;
+}

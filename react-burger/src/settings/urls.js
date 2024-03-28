@@ -16,3 +16,5 @@ export const REGISTER_URL = `${API_AUTH_URL}/register`
 export const LOGOUT_URL = `${API_AUTH_URL}/logout`
 
 export const REFRESH_TOKEN_URL = `${API_AUTH_URL}/token`
+
+export const USER_URL = `${API_AUTH_URL}/user`
