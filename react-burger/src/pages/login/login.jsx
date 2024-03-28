@@ -1,14 +1,23 @@
+import { useState } from "react"
+
 import { useNavigate } from "react-router-dom"
+
+import { useDispatch } from "react-redux"
 
 import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components"
 
 import AppHeader from "../../components/app-header/app-header"
+import { loginUser } from "../../services/slices/userSlice"
 
 import styles from "./login.module.css"
 
 
 const Login = () => {
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const toRegister = () => {
     navigate("/register")
@@ -16,6 +25,19 @@ const Login = () => {
 
   const toForgotPassword = () => {
     navigate("/forgot-password")
+  }
+
+  const onEmailChange = (e) => {
+    setEmail(e.target.value)
+  }
+
+  const onPasswordChange = (e) => {
+    setPassword(e.target.value)
+  }
+
+  const login = async () => {
+    const response = await dispatch(loginUser({email, password})).unwrap()
+    if (response.success) navigate("/")
   }
 
   return (
@@ -28,18 +50,21 @@ const Login = () => {
             type={"text"}
             placeholder={"E-mail"}
             extraClass="mt-3 mb-3"
+            onChange={onEmailChange}
           />
           <Input 
             type={"password"}
             placeholder={"Пароль"}
             icon={"ShowIcon"}
             extraClass="mt-3 mb-3"
+            onChange={onPasswordChange}
           />
           <Button 
             htmlType="button" 
             type="primary" 
             size="large"
             extraClass="mt-3 ml-30 mr-30"
+            onClick={login}
           >
             Войти
           </Button>

@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 
-import { REGISTER_URL, LOGIN_URL } from "../../settings/urls"
+import { REGISTER_URL, LOGIN_URL, LOGOUT_URL } from "../../settings/urls"
 
 import requestApi from "../../utils/api"
 
@@ -53,6 +53,26 @@ export const loginUser = createAsyncThunk(
   }
 )
 
+export const logoutUser = createAsyncThunk(
+  "user/logout",
+  async () => {
+    const response = await requestApi(
+      LOGOUT_URL,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json;charset=utf-8"
+        },
+        body: JSON.stringify({
+          token: localStorage.getItem("refreshToken")
+        })
+      }
+    )
+    const responseJson = response.json()
+    return responseJson
+  }
+)
+
 const userSlice = createSlice({
   name: "user",
   initialState,
@@ -64,12 +84,21 @@ const userSlice = createSlice({
         state.user = action.payload.user 
         state.accessToken = action.payload.accessToken
         state.refreshToken = action.payload.refreshToken
+        localStorage.setItem("refreshToken", action.payload.refreshToken)
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.success = action.payload.success
         state.user = action.payload.user 
         state.accessToken = action.payload.accessToken
         state.refreshToken = action.payload.refreshToken
+        localStorage.setItem("refreshToken", action.payload.refreshToken)
+      })
+      .addCase(logoutUser.fulfilled, (state, action) => {
+        state.success = action.payload.success 
+        state.user = {}
+        state.accessToken = ""
+        state.refreshToken = ""
+        localStorage.removeItem("refreshToken")
       })
   }
 })
