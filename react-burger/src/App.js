@@ -1,5 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 
+import ProtectedRouteElement from "./routing/protected-route-element/protected-route-element"
+
 import Main from "./pages/main/main"
 import Login from "./pages/login/login"
 import Register from "./pages/register/register"
@@ -14,12 +16,12 @@ const App = () => (
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<Main />}/>
-      <Route path="/login" element={<Login />}/>
-      <Route path="/register" element={<Register />}/>
-      <Route path="/forgot-password" element={<ForgotPassword />}/>
-      <Route path="/reset-password" element={<ResetPassword />}/>
-      <Route path="/profile" element={<Profile />}/>
-      <Route path="/profile/orders" element={<ProfileOrders/>}/>
+      <Route path="/login" element={<ProtectedRouteElement element={<Login />}/>}/>
+      <Route path="/register" element={<ProtectedRouteElement element={<Register />}/>}/>
+      <Route path="/forgot-password" element={<ProtectedRouteElement element={<ForgotPassword />}/>}/>
+      <Route path="/reset-password" element={<ProtectedRouteElement element={<ResetPassword />}/>}/>
+      <Route path="/profile" element={<ProtectedRouteElement element={<Profile />}/>}/>
+      <Route path="/profile/orders" element={<ProtectedRouteElement element={<ProfileOrders />}/>}/>
       <Route path="/ingredients/:id" element={<Ingredient />}/>
       <Route path="*" element={<h1>Страница не найдена!</h1>}/>
     </Routes>

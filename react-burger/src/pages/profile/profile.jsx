@@ -15,18 +15,19 @@ const Profile = () => {
   const user = useSelector(selectUser)
   const dispatch = useDispatch()
 
-  const [name, setName] = useState(user.name)
-  const [email, setEmail] = useState(user.email)
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
-  const getUserInfo = useCallback(async () => {
-    try {
-      const response = await dispatch(userGetInfo()).unwrap()
-      console.log("response: ", response)
-    } catch (err) {
-      console.error(err)
+  const getUserInfo = async () => {
+    const response = await dispatch(userGetInfo()).unwrap()
+    if (response.success) {
+      setName(response.user.name)
+      setEmail(response.user.email)
+    } else {
+      throw new Error("Error fetching userInfo")
     }
-  }, [dispatch])
+  }
 
   const save = () => {
     dispatch(userPatchInfo({
@@ -42,7 +43,7 @@ const Profile = () => {
 
   useEffect(() => {
     getUserInfo()
-  }, [getUserInfo])
+  }, [])
 
   return (
     <>
