@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { Routes, Route, useLocation } from "react-router-dom"
 
 import ProtectedRouteElement from "./routing/protected-route-element/protected-route-element"
 
@@ -12,20 +12,33 @@ import Ingredient from "./pages/ingredient/ingredient"
 import ProfileOrders from "./pages/profile-orders/profile-orders"
 
 
-const App = () => (
-  <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<Main />}/>
-      <Route path="/login" element={<ProtectedRouteElement element={<Login />}/>}/>
-      <Route path="/register" element={<ProtectedRouteElement element={<Register />}/>}/>
-      <Route path="/forgot-password" element={<ProtectedRouteElement element={<ForgotPassword />}/>}/>
-      <Route path="/reset-password" element={<ProtectedRouteElement element={<ResetPassword />}/>}/>
-      <Route path="/profile" element={<ProtectedRouteElement element={<Profile />}/>}/>
-      <Route path="/profile/orders" element={<ProtectedRouteElement element={<ProfileOrders />}/>}/>
-      <Route path="/ingredients/:id" element={<Ingredient />}/>
-      <Route path="*" element={<h1>Страница не найдена!</h1>}/>
-    </Routes>
-  </BrowserRouter>
-)
+const App = () => {
+
+  const location = useLocation()
+  const previousLocation = (location.state && location.state.previousLocation) ? location.state.previousLocation : null
+
+  return (
+    <>
+      <Routes location={previousLocation || location}>
+        <Route path="/" element={<Main />}/>
+        <Route path="/login" element={<ProtectedRouteElement element={<Login />}/>}/>
+        <Route path="/register" element={<ProtectedRouteElement element={<Register />}/>}/>
+        <Route path="/forgot-password" element={<ProtectedRouteElement element={<ForgotPassword />}/>}/>
+        <Route path="/reset-password" element={<ProtectedRouteElement element={<ResetPassword />}/>}/>
+        <Route path="/profile" element={<ProtectedRouteElement element={<Profile />}/>}/>
+        <Route path="/profile/orders" element={<ProtectedRouteElement element={<ProfileOrders />}/>}/>
+        <Route path="/ingredients/:id" element={<Ingredient />}/>
+        <Route path="*" element={<h1>Страница не найдена!</h1>}/>
+      </Routes>
+      {
+        previousLocation && (
+          <Routes>
+            <Route path="/ingredients/:id" element={<h1>Diveev Test</h1>}/>
+          </Routes>
+        )
+      }
+    </>
+  )
+}
 
 export default App
