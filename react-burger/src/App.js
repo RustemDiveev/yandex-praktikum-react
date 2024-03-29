@@ -11,6 +11,8 @@ import Profile from "./pages/profile/profile"
 import Ingredient from "./pages/ingredient/ingredient"
 import ProfileOrders from "./pages/profile-orders/profile-orders"
 
+import Modal from "./components/modal/modal"
+
 
 const App = () => {
 
@@ -19,7 +21,7 @@ const App = () => {
 
   return (
     <>
-      <Routes location={previousLocation || location}>
+      <Routes>
         <Route path="/" element={<Main />}/>
         <Route path="/login" element={<ProtectedRouteElement element={<Login />}/>}/>
         <Route path="/register" element={<ProtectedRouteElement element={<Register />}/>}/>
@@ -33,7 +35,7 @@ const App = () => {
       {
         previousLocation && (
           <Routes>
-            <Route path="/ingredients/:id" element={<h1>Diveev Test</h1>}/>
+            <Route path="/ingredients/:id" element={<Modal><h1>Diveev Test</h1></Modal>}/>
           </Routes>
         )
       }

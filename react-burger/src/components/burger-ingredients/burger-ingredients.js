@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 import { useRef, useState, useMemo, useEffect } from "react"
 
 import { useSelector, useDispatch } from "react-redux"
+import { useNavigate, Link, useLocation } from "react-router-dom"
 import { useDrag } from "react-dnd"
 
 import { Tab, Counter } from "@ya.praktikum/react-developer-burger-ui-components"
@@ -48,12 +49,16 @@ const BurgerIngredients = ({setModalOpen}) => {
   const toppingsRef = useRef(null)
   const ingredientRef = useRef(null)
 
+  const navigate = useNavigate()
+
   const ingredients = useSelector(selectIngredients)
   const counter = useSelector(selectCounter)
 
   const buns = useMemo(() => ingredients.filter(ingredient => ingredient.type === "bun"), [ingredients])
   const sauces = useMemo(() => ingredients.filter(ingredient => ingredient.type === "sauce"), [ingredients])
   const toppings = useMemo(() => ingredients.filter(ingredient => ingredient.type === "main"), [ingredients])
+
+  const location = useLocation()
 
   const dispatch = useDispatch()
 
@@ -74,8 +79,11 @@ const BurgerIngredients = ({setModalOpen}) => {
   }
 
   const handleIngredientClick = (e) => {
+    /*
     setModalOpen()
     dispatch(ingredientSelected(e.currentTarget.id))
+    */
+    navigate("/ingredients/643d69a5c3f7b9001cfa093e")
   }
 
   const handleScroll = (e) => {
@@ -128,12 +136,19 @@ const BurgerIngredients = ({setModalOpen}) => {
           Булки
         </h2>
         <ul className={styles.ul}>
-          {buns.map(item => <BurgerIngredient 
-            key={item._id}
-            ingredient={item} 
-            handleIngredientClick={handleIngredientClick}
-            count={counter[item._id]}
-          />)}
+          {buns.map(item => 
+          <Link 
+            to={`/ingredients/${item._id}`}
+            state={{ previousLocation: location }}
+          >
+            <BurgerIngredient 
+              key={item._id}
+              ingredient={item} 
+              handleIngredientClick={handleIngredientClick}
+              count={counter[item._id]}
+            />
+          </Link>
+          )}
         </ul>
         <h2 className="text text_type_main-medium mt-10 mb-6" ref={saucesRef}>
           Соусы
