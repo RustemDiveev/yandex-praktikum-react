@@ -1,4 +1,4 @@
-import { useRef } from "react"
+import { useRef, useState } from "react"
 
 import { useNavigate } from "react-router-dom"
 
@@ -10,32 +10,41 @@ import { PASSWORD_RESET_EMAIL_URL } from "../../settings/urls"
 
 
 const ForgotPassword = () => {
-  
+  const [errorBool, setErrorBool] = useState(false)
+
   const emailRef = useRef(null)
   const navigate = useNavigate()
 
   const onClickRestore = async () => {
     const email = emailRef.current.value ?? ""
-    try {
-      const response = await fetch(
-        PASSWORD_RESET_EMAIL_URL, 
-        {
-          method: "POST",
-          body: {email}
+    if (email) {
+      try {
+        const response = await fetch(
+          PASSWORD_RESET_EMAIL_URL, 
+          {
+            method: "POST",
+            body: JSON.stringify({email})
+          }
+        )
+        if (response.ok) {
+          const responseData = await response.json()
+          if (responseData.success) {
+            navigate("/reset-password")
+          }
         }
-      )
-      if (response.ok) {
-        const responseData = await response.json()
-        if (responseData.success) {
-          navigate("/reset-password")
+        else {
+          console.error("Password reset request finished with error")
         }
+      } catch (err) {
+        console.error(err)
+      } finally {
+        setErrorBool(false)
       }
-      else {
-        console.error("Password reset request finished with error")
-      }
-    } catch (err) {
-      console.error(err)
     }
+    else {
+      setErrorBool(true)
+    }
+
   }
 
   return (
@@ -48,7 +57,9 @@ const ForgotPassword = () => {
             ref={emailRef}
             type={"text"}
             placeholder={"Укажите e-mail"}
-            extraClass="mt-3 mb-3"            
+            extraClass="mt-3 mb-3"
+            error={errorBool}
+            errorText={"E-mail должен быть заполнен"}            
           />
           <Button 
             htmlType="button" 
