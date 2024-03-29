@@ -1,19 +1,19 @@
-import PropTypes from "prop-types"
-
+import { useParams } from "react-router-dom"
 import { useSelector } from "react-redux"
 
-import { selectSelectedIngredient } from "../../services/slices/ingredientsSlice"
+import { selectIngredient, selectIngredientsLoaded } from "../../services/slices/ingredientsSlice"
 import styles from "./ingredient-details.module.css"
 
 
 const IngredientDetails = () => {
-
-  const selectedIngredientData = useSelector(selectSelectedIngredient)
+  const { id } = useParams()
+  const selectedIngredientData = useSelector(state => selectIngredient(state, id))
+  const ingredientsLoaded = useSelector(selectIngredientsLoaded)
 
   return (
     <div className={`ml-10 mr-10 mb-10 ${styles.container}`}>
       {
-      selectedIngredientData && 
+      ingredientsLoaded && 
       <>
         <img 
           src={selectedIngredientData.image_large} 
@@ -61,17 +61,6 @@ const IngredientDetails = () => {
       }
     </div>
   )
-}
-
-IngredientDetails.propTypes = {
-  selectedIngredientData: PropTypes.exact({
-    image_large: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    calories: PropTypes.number.isRequired,
-    proteins: PropTypes.number.isRequired,
-    fat: PropTypes.number.isRequired,
-    carbohydrates: PropTypes.number.isRequired
-  })
 }
 
 export default IngredientDetails;

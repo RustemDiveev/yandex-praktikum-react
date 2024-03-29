@@ -1,6 +1,9 @@
-import { Routes, Route, useLocation } from "react-router-dom"
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom"
 
 import ProtectedRouteElement from "./routing/protected-route-element/protected-route-element"
+
+import IngredientDetails from "./components/ingredient-details/ingredient-details"
+import Modal from "./components/modal/modal"
 
 import Main from "./pages/main/main"
 import Login from "./pages/login/login"
@@ -11,17 +14,20 @@ import Profile from "./pages/profile/profile"
 import Ingredient from "./pages/ingredient/ingredient"
 import ProfileOrders from "./pages/profile-orders/profile-orders"
 
-import Modal from "./components/modal/modal"
-
 
 const App = () => {
 
   const location = useLocation()
-  const previousLocation = (location.state && location.state.previousLocation) ? location.state.previousLocation : null
+  const background = location.state && location.state.background;
+  const navigate = useNavigate()
+
+  const closeModal = () => {
+    navigate(-1)
+  }
 
   return (
     <>
-      <Routes>
+      <Routes location={background || location}>
         <Route path="/" element={<Main />}/>
         <Route path="/login" element={<ProtectedRouteElement element={<Login />}/>}/>
         <Route path="/register" element={<ProtectedRouteElement element={<Register />}/>}/>
@@ -33,9 +39,13 @@ const App = () => {
         <Route path="*" element={<h1>Страница не найдена!</h1>}/>
       </Routes>
       {
-        previousLocation && (
+        background && (
           <Routes>
-            <Route path="/ingredients/:id" element={<Modal><h1>Diveev Test</h1></Modal>}/>
+            <Route path="/ingredients/:id" element={
+              <Modal closeModal={closeModal} header="Детали ингредиента">
+                <IngredientDetails />
+              </Modal>
+            }/>
           </Routes>
         )
       }

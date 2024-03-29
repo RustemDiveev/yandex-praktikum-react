@@ -3,15 +3,18 @@ import { useParams } from "react-router-dom"
 import { useSelector } from "react-redux"
 
 import AppHeader from "../../components/app-header/app-header"
-import { selectIngredient } from "../../services/slices/ingredientsSlice"
+import { selectIngredient, selectIngredientsLoaded } from "../../services/slices/ingredientsSlice"
 import styles from "./ingredient.module.css"
 
 
 const Ingredient = () => {
   const { id } = useParams()
   const ingredient = useSelector(state => selectIngredient(state, id))
+  const ingredientsLoaded = useSelector(selectIngredientsLoaded)
 
-  console.log("ingredient: ", ingredient)
+  if (!ingredientsLoaded) {
+    return null
+  }
 
   return (
     <>
