@@ -1,3 +1,5 @@
+import PropTypes from "prop-types"
+
 import { useNavigate } from "react-router-dom"
 
 import { useDispatch } from "react-redux"
@@ -52,6 +54,10 @@ const ProfileMenu = ({selectedEntry}) => {
       </p>
     </div>
   )
+}
+
+ProfileMenu.propTypes = {
+  selectedEntry: PropTypes.string
 }
 
 export default ProfileMenu

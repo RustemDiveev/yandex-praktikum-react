@@ -39,6 +39,24 @@ const BurgerIngredient = ({ingredient, count}) => {
   )
 }
 
+BurgerIngredient.propTypes = {
+  ingredient: PropTypes.exact({
+    _id: PropTypes.string,
+    name: PropTypes.string,
+    type: PropTypes.string,
+    proteins: PropTypes.number,
+    fat: PropTypes.number,
+    carbohydrates: PropTypes.number,
+    calories: PropTypes.number,
+    price: PropTypes.number,
+    image: PropTypes.string,
+    image_mobile: PropTypes.string,
+    image_large: PropTypes.string,
+    __v: PropTypes.number
+  }),
+  count: PropTypes.number
+}
+
 
 const BurgerIngredients = () => {
 
@@ -129,6 +147,7 @@ const BurgerIngredients = () => {
             to={`/ingredients/${item._id}`}
             state={{ background: location }}
             className={styles.link}
+            key={item._id}
           >
             <BurgerIngredient 
               key={item._id}
@@ -147,6 +166,7 @@ const BurgerIngredients = () => {
               to={`/ingredients/${item._id}`}
               state={{ background: location }}
               className={styles.link}
+              key={item._id}
             >
               <BurgerIngredient 
                 key={item._id}
@@ -165,6 +185,7 @@ const BurgerIngredients = () => {
               to={`/ingredients/${item._id}`}
               state={{ background: location }}
               className={styles.link}
+              key={item._id}
             >
               <BurgerIngredient 
                 key={item._id}
