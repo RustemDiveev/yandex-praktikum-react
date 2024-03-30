@@ -22,3 +22,9 @@
 .menu_entry:hover {
     cursor: pointer;
 }
+
+.nav_link {
+    text-decoration: inherit;
+    color: inherit;
+    cursor: default;
+}

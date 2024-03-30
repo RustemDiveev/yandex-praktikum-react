@@ -24,10 +24,6 @@ const Register = () => {
   }
 
   const register = () => {
-    console.log("name: ", nameRef.current.value)
-    console.log("email: ", emailRef.current.value)
-    console.log("password: ", passwordRef.current.value)
-
     dispatch(registerUser({
       name: nameRef.current.value,
       email: emailRef.current.value,

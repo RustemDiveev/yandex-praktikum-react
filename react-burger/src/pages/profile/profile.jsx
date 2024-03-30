@@ -19,7 +19,7 @@ const Profile = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
-  const getUserInfo = async () => {
+  const getUserInfo = useCallback(async () => {
     const response = await dispatch(userGetInfo()).unwrap()
     if (response.success) {
       setName(response.user.name)
@@ -27,7 +27,7 @@ const Profile = () => {
     } else {
       throw new Error("Error fetching userInfo")
     }
-  }
+  }, [dispatch])
 
   const save = () => {
     dispatch(userPatchInfo({
@@ -43,7 +43,7 @@ const Profile = () => {
 
   useEffect(() => {
     getUserInfo()
-  }, [])
+  }, [getUserInfo])
 
   return (
     <>

@@ -2,6 +2,8 @@ import PropTypes from "prop-types"
 
 import { useMemo, useEffect, useState, useRef } from "react"
 
+import { useNavigate } from "react-router-dom"
+
 import { useSelector, useDispatch } from "react-redux"
 
 import { useDrop, useDrag } from "react-dnd"
@@ -67,6 +69,8 @@ const BurgerConstructor = ({setModalOpen}) => {
   const ingredients = useSelector(selectIngredients)
   const bun = useSelector(selectBun)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
+
 
   const [, dropTarget] = useDrop({
     accept: "burgerIngredient",
@@ -84,9 +88,16 @@ const BurgerConstructor = ({setModalOpen}) => {
   }, [ingredients, bun])
 
   const onOrderClick = async () => {
-    const ingredientsIds = {ingredients: [bun._id, ...ingredients.map(elem => elem._id), bun._id]}
-    dispatch(postOrder(ingredientsIds))
-    setModalOpen()
+    if (localStorage.getItem("accessToken")) {
+      if (bun !== null || ingredients.length > 0) {
+        const ingredientsIds = {ingredients: [bun._id, ...ingredients.map(elem => elem._id), bun._id]}
+        dispatch(postOrder(ingredientsIds))
+        setModalOpen()
+      }
+    } else {
+      navigate("/login")
+    }
+
   }
 
   useEffect(() => {

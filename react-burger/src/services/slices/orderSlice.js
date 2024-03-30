@@ -11,7 +11,10 @@ export const postOrder = createAsyncThunk(
             ORDERS_URL, 
             {
                 method: "POST",
-                headers: {"Content-Type": "application/json"},
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": localStorage.getItem("accessToken"),
+                },
                 body: JSON.stringify(ingredientsIds)
             }
         )
