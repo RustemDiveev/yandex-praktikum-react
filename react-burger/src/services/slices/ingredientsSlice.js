@@ -23,9 +23,7 @@ const initialState = {
 export const fetchIngredients = createAsyncThunk(
     "ingredients/fetchIngredients",
     async () => {
-        const response = await requestApi(INGREDIENTS_URL)
-        const responseJson = response.json()
-        return responseJson
+        return await requestApi(INGREDIENTS_URL)
     }
 )
 

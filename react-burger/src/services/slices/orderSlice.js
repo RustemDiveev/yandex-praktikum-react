@@ -18,9 +18,8 @@ export const postOrder = createAsyncThunk(
                 body: JSON.stringify(ingredientsIds)
             }
         )
-        const responseJson = await response.json()
-        const status = await responseJson.success 
-        const orderNumber = responseJson.order.number 
+        const status = response.success 
+        const orderNumber = response.order.number 
         return {status, orderNumber}
     }
 )

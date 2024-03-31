@@ -26,8 +26,7 @@ export const registerUser = createAsyncThunk(
         body: JSON.stringify(payload)
       }
     )
-    const responseJson = response.json()
-    return responseJson
+    return response
   }
 )
 
@@ -44,8 +43,7 @@ export const loginUser = createAsyncThunk(
         body: JSON.stringify({email, password})
       }
     )
-    const responseJson = response.json()
-    return responseJson
+    return response
   }
 )
 
@@ -64,8 +62,7 @@ export const logoutUser = createAsyncThunk(
         })
       }
     )
-    const responseJson = response.json()
-    return responseJson
+    return response
   }
 )
 
@@ -81,8 +78,7 @@ export const userGetInfo = createAsyncThunk(
         }
       }
     )
-    const responseJson = response.json()
-    return responseJson
+    return response
   }
 )
 
@@ -99,8 +95,7 @@ export const userPatchInfo = createAsyncThunk(
         body: JSON.stringify({email, name, password})
       }
     )
-    const responseJson = response.json()
-    return responseJson
+    return response
   }
 )
 

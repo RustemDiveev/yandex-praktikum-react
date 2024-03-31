@@ -2,10 +2,10 @@ import { REFRESH_TOKEN_URL } from "../settings/urls"
 
 
 const checkResponse = (response) => {
-    return response.ok ? response : Promise.reject(response.json().then((err => Promise.reject(err))))
+    return response.ok ? response.json() : Promise.reject(response.json().then((err => Promise.reject(err))))
 }
 
-const requestApi = (url, options) => {
+const requestApi = async (url, options) => {
     return fetch(url, options).then(checkResponse)
 }
 
