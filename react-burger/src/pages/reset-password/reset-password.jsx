@@ -1,19 +1,16 @@
-import { useRef } from "react"
-
 import { useNavigate } from "react-router-dom"
 
 import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components"
 
 import AppHeader from "../../components/app-header/app-header"
 import { PASSWORD_RESET_URL } from "../../settings/urls"
+import useForm from "../../hooks/useForm"
 
 import styles from "./reset-password.module.css"
 
 
 const ResetPassword = () => {
-
-  const passwordRef = useRef(null)
-  const tokenRef = useRef(null)
+  const { values, handleChange } = useForm()
   const navigate = useNavigate()
 
   const resetPassword = async () => {
@@ -22,10 +19,7 @@ const ResetPassword = () => {
         PASSWORD_RESET_URL,
         {
           method: "POST",
-          body: {
-            password: passwordRef.current.value,
-            token: tokenRef.current.value
-          }
+          body: JSON.stringify(values)
         }
       )
       if (response.ok) {
@@ -50,17 +44,19 @@ const ResetPassword = () => {
         <section className={styles.section}>
           <p className="text text_type_main-medium mb-3">Восстановление пароля</p>
           <Input 
+            name="password"
             type={"password"}
             placeholder={"Введите новый пароль"}
             icon={"ShowIcon"}
             extraClass="mt-3 mb-3"
-            ref={passwordRef}
+            onChange={handleChange}
           />
           <Input 
+            name="token"
             type={"text"}
             placeholder={"Введите код из письма"}
             extraClass="mt-3 mb-3"
-            ref={tokenRef}
+            onChange={handleChange}
           />
           <Button 
             htmlType="button" 

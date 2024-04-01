@@ -1,44 +1,36 @@
-import { useState, useEffect, useCallback } from "react"
+import { useEffect, useCallback } from "react"
 
-import { useSelector, useDispatch } from "react-redux"
+import { useDispatch } from "react-redux"
 
 import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components"
 
 import AppHeader from "../../components/app-header/app-header"
 import ProfileMenu from "../../components/profile-menu/profile-menu"
-import { selectUser, userGetInfo, userPatchInfo } from "../../services/slices/userSlice"
+import { userGetInfo, userPatchInfo } from "../../services/slices/userSlice"
+import useForm from "../../hooks/useForm"
 
 import styles from "./profile.module.css"
 
 
-const Profile = () => {
-  const user = useSelector(selectUser)
+const Profile = () => {  
   const dispatch = useDispatch()
-
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const { values, setValues, handleChange } = useForm({name: "", email: "", password: ""})
 
   const getUserInfo = useCallback(async () => {
     const response = await dispatch(userGetInfo()).unwrap()
     if (response.success) {
-      setName(response.user.name)
-      setEmail(response.user.email)
+      setValues({name: response.user.name, email: response.user.email, password: ""})
     } else {
       throw new Error("Error fetching userInfo")
     }
-  }, [dispatch])
+  }, [dispatch, setValues])
 
   const save = () => {
-    dispatch(userPatchInfo({
-      name, email, password
-    }))
+    dispatch(userPatchInfo(values))
   }
 
   const cancel = () => {
-    setName(user.name)
-    setEmail(user.email)
-    setPassword("")
+    setValues({name: "", email: "", password: ""})
   }
 
   useEffect(() => {
@@ -54,28 +46,31 @@ const Profile = () => {
         </div>
         <div className={styles.col}>
           <Input 
+            name="name"
             type="text"
             placeholder="Имя"
-            value={name}
+            value={values.name}
             icon="EditIcon"
             extraClass="mt-3 mb-3"
-            onChange={(e) => setName(e.target.value)}
+            onChange={handleChange}
           />
           <Input 
+            name="email"
             type="text"
             placeholder="Логин"
-            value={email}
+            value={values.email}
             icon="EditIcon"
             extraClass="mt-3 mb-3"
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={handleChange}
           />
           <Input 
+            name="password"
             type="password"
             placeholder="Пароль"
-            value={password}
+            value={values.password}
             icon="EditIcon"
             extraClass="mt-3 mb-3"
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={handleChange}
           />
           <div className={`${styles.button_footer} mt-5`}>
             <Button 

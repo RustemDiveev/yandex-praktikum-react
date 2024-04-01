@@ -1,5 +1,3 @@
-import { useRef } from "react"
-
 import { useNavigate } from "react-router-dom"
 
 import { useDispatch } from "react-redux"
@@ -8,13 +6,12 @@ import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-component
 
 import AppHeader from "../../components/app-header/app-header"
 import { registerUser } from "../../services/slices/userSlice"
+import useForm from "../../hooks/useForm"
 import styles from "./register.module.css"
 
 
 const Register = () => {
-  const nameRef = useRef(null)
-  const emailRef = useRef(null)
-  const passwordRef = useRef(null)
+  const { values, handleChange } = useForm({name: "", email: "", password: ""})
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -24,11 +21,7 @@ const Register = () => {
   }
 
   const register = () => {
-    dispatch(registerUser({
-      name: nameRef.current.value,
-      email: emailRef.current.value,
-      password: passwordRef.current.value,  
-    }))
+    dispatch(registerUser(values))
   }
 
   return (
@@ -38,23 +31,26 @@ const Register = () => {
         <section className={styles.section}>
           <p className="text text_type_main-medium mb-3">Регистрация</p>
           <Input 
+            name="name"
             type={"text"}
             placeholder={"Имя"}
             extraClass="mt-3 mb-3"
-            ref={nameRef}
+            onChange={handleChange}
           />
           <Input 
+            name="email"
             type={"text"}
             placeholder={"E-mail"}            
             extraClass="mt-3 mb-3"
-            ref={emailRef}
+            onChange={handleChange}
           />
           <Input 
+            name="password"
             type={"password"}
             placeholder={"Пароль"}
             icon={"ShowIcon"}
             extraClass="mt-3 mb-3"
-            ref={passwordRef}
+            onChange={handleChange}
           />
           <Button 
             htmlType="button" 

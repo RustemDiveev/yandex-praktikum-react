@@ -38,14 +38,14 @@ export const requestApiWithTokenRefresh = async (url, options) => {
             const responseJson = await response.json()
             throw new Error(responseJson.message)
         } else {
-            return response    
+            return response.json()    
         }
     } catch (err) {
         if (err.message === "jwt expired") {
             const refreshTokenData = await refreshToken()
             options.headers.authorization = refreshTokenData.accessToken
             const response = await requestApi(url, options)
-            return response
+            return response.json()
         } else {
             return Promise.reject(err)
         }
