@@ -4,7 +4,6 @@ import { useDispatch } from "react-redux"
 
 import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components"
 
-import AppHeader from "../../components/app-header/app-header"
 import ProfileMenu from "../../components/profile-menu/profile-menu"
 import { userGetInfo, userPatchInfo } from "../../services/slices/userSlice"
 import useForm from "../../hooks/useForm"
@@ -39,7 +38,6 @@ const Profile = () => {
 
   return (
     <>
-      <AppHeader />
       <div className={`${styles.main_container} mt-20`}>
         <div className={`${styles.col} pl-20`}>
           <ProfileMenu selectedEntry={"profile"}/>

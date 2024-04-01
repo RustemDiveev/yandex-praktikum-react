@@ -4,6 +4,7 @@ import ProtectedRoute from "./routing/protected-route/protected-route"
 
 import IngredientDetails from "./components/ingredient-details/ingredient-details"
 import Modal from "./components/modal/modal"
+import AppHeader from "./components/app-header/app-header"
 
 import Main from "./pages/main/main"
 import Login from "./pages/login/login"
@@ -27,6 +28,7 @@ const App = () => {
 
   return (
     <>
+      <AppHeader/>
       <Routes location={background || location}>
         <Route path="/" element={<Main />}/>
         <Route 

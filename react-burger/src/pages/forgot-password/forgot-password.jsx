@@ -4,7 +4,6 @@ import { useNavigate, useLocation } from "react-router-dom"
 
 import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components"
 
-import AppHeader from "../../components/app-header/app-header"
 import { PASSWORD_RESET_EMAIL_URL } from "../../settings/urls"
 import useForm from "../../hooks/useForm"
 import styles from "./forgot-password.module.css"
@@ -53,7 +52,6 @@ const ForgotPassword = () => {
 
   return (
     <>
-      <AppHeader />
       <main className={`${styles.main} m-30`}>
         <section className={styles.section}>
           <p className="text text_type_main-medium mb-3">Восстановление пароля</p>

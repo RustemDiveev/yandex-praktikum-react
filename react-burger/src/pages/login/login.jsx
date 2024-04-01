@@ -4,7 +4,6 @@ import { useDispatch } from "react-redux"
 
 import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components"
 
-import AppHeader from "../../components/app-header/app-header"
 import { loginUser } from "../../services/slices/userSlice"
 import useForm from "../../hooks/useForm"
 
@@ -32,7 +31,6 @@ const Login = () => {
 
   return (
     <>
-      <AppHeader/>
       <main className={`${styles.main} m-30`}>
         <section className={styles.section}>
           <p className="text text_type_main-medium mb-3">Вход</p>

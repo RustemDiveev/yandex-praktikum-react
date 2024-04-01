@@ -2,7 +2,6 @@ import { useParams } from "react-router-dom"
 
 import { useSelector } from "react-redux"
 
-import AppHeader from "../../components/app-header/app-header"
 import { selectIngredient, selectIngredientsLoaded } from "../../services/slices/ingredientsSlice"
 import styles from "./ingredient.module.css"
 
@@ -18,7 +17,6 @@ const Ingredient = () => {
 
   return (
     <>
-      <AppHeader />
       <div className={`${styles.main_container} mt-30`}>
         <p className="text text_type_main-large">
           Детали ингредиента

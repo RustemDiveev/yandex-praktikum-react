@@ -3,7 +3,6 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 
 import { useDispatch } from "react-redux";
 
-import AppHeader from "../../components/app-header/app-header";
 import BurgerConstructor from "../../components/burger-constructor/burger-constructor";
 import BurgerIngredients from "../../components/burger-ingredients/burger-ingredients";
 import IngredientDetails from "../../components/ingredient-details/ingredient-details";
@@ -27,7 +26,6 @@ const Main = () => {
   
   return (
     <>
-      <AppHeader/>
       <main className={`mr-20 ml-20 ${styles.main}`}>
         <DndProvider backend={HTML5Backend}>
           <section className={`mr-5 ml-5 ${styles.section}`}>
