@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom"
 import { useSelector } from "react-redux"
 
 import { selectIngredient, selectIngredientsLoaded } from "../../services/slices/ingredientsSlice"
+import IngredientNutrition from "../../components/ingredient-nutrition/ingredient-nutrition"
 import styles from "./ingredient.module.css"
 
 
@@ -26,38 +27,12 @@ const Ingredient = () => {
           {ingredient.name}
         </p>
         <div className={`mt-10 mb-15 ${styles.container_nutrition}`}>
-          <div className={styles.nutrition}>
-            <p className={"text text_type_main-default text_color_inactive"}>
-              Калории,ккал
-            </p>
-            <p className={"text text_type_digits-default text_color_inactive"}>
-              {ingredient.calories}
-            </p>
-          </div>
-          <div className={styles.nutrition}>
-            <p className={"text text_type_main-default text_color_inactive"}>
-              Белки, г
-            </p>
-            <p className={"text text_type_digits-default text_color_inactive"}>
-              {ingredient.proteins}
-            </p>
-          </div>
-          <div className={styles.nutrition}>
-            <p className={"text text_type_main-default text_color_inactive"}>
-              Жиры, г
-            </p>
-            <p className={"text text_type_digits-default text_color_inactive"}>
-              {ingredient.fat}
-            </p>
-          </div>
-          <div className={styles.nutrition}>
-            <p className={"text text_type_main-default text_color_inactive"}>
-              Углеводы, г
-            </p>
-            <p className={"text text_type_digits-default text_color_inactive"}>
-              {ingredient.carbohydrates}
-            </p>
-          </div>
+          <IngredientNutrition
+            calories={ingredient.calories}
+            proteins={ingredient.proteins}
+            fat={ingredient.fat}
+            carbohydrates={ingredient.carbohydrates}
+          />
         </div>
       </div>
     </>
