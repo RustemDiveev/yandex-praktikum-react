@@ -19,7 +19,8 @@ const Register = () => {
     navigate("/login")
   }
 
-  const register = () => {
+  const register = (e) => {
+    e.preventDefault()
     dispatch(registerUser(values))
   }
 
@@ -27,37 +28,38 @@ const Register = () => {
     <main className={`${styles.main} m-30`}>
       <section className={styles.section}>
         <p className="text text_type_main-medium mb-3">Регистрация</p>
-        <Input 
-          name="name"
-          type={"text"}
-          placeholder={"Имя"}
-          extraClass="mt-3 mb-3"
-          onChange={handleChange}
-        />
-        <Input 
-          name="email"
-          type={"text"}
-          placeholder={"E-mail"}            
-          extraClass="mt-3 mb-3"
-          onChange={handleChange}
-        />
-        <Input 
-          name="password"
-          type={"password"}
-          placeholder={"Пароль"}
-          icon={"ShowIcon"}
-          extraClass="mt-3 mb-3"
-          onChange={handleChange}
-        />
-        <Button 
-          htmlType="button" 
-          type="primary" 
-          size="large"
-          extraClass="mt-3 ml-30 mr-30"
-          onClick={register}
-        >
-          Зарегистрироваться
-        </Button>
+        <form onSubmit={register}>
+          <Input 
+            name="name"
+            type={"text"}
+            placeholder={"Имя"}
+            extraClass="mt-3 mb-3"
+            onChange={handleChange}
+          />
+          <Input 
+            name="email"
+            type={"text"}
+            placeholder={"E-mail"}            
+            extraClass="mt-3 mb-3"
+            onChange={handleChange}
+          />
+          <Input 
+            name="password"
+            type={"password"}
+            placeholder={"Пароль"}
+            icon={"ShowIcon"}
+            extraClass="mt-3 mb-3"
+            onChange={handleChange}
+          />
+          <Button 
+            htmlType="submit" 
+            type="primary" 
+            size="large"
+            extraClass="mt-3 ml-30 mr-30"
+          >
+            Зарегистрироваться
+          </Button>
+        </form>
         <p className="text text_type_main-default mt-20 mb-2">
           Уже зарегистрированы?
           <Button htmlType="button" type="secondary" size="medium" onClick={toLogin}>

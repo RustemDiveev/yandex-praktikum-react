@@ -22,13 +22,12 @@ export const refreshToken = async () => {
             })
         }
     )
-    const responseJson = await response.json()
-    if (!responseJson.success) {
-        return Promise.reject(responseJson)
+    if (!response.success) {
+        return Promise.reject(response)
     }
-    localStorage.setItem("refreshToken", responseJson.refreshToken)
-    localStorage.setItem("accessToken", responseJson.accessToken)
-    return responseJson
+    localStorage.setItem("refreshToken", response.refreshToken)
+    localStorage.setItem("accessToken", response.accessToken)
+    return response
 }
 
 export const requestApiWithTokenRefresh = async (url, options) => {
@@ -38,14 +37,14 @@ export const requestApiWithTokenRefresh = async (url, options) => {
             const responseJson = await response.json()
             throw new Error(responseJson.message)
         } else {
-            return response.json()    
+            return await response.json()    
         }
     } catch (err) {
         if (err.message === "jwt expired") {
             const refreshTokenData = await refreshToken()
             options.headers.authorization = refreshTokenData.accessToken
             const response = await requestApi(url, options)
-            return response.json()
+            return response
         } else {
             return Promise.reject(err)
         }

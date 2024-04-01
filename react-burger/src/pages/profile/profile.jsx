@@ -24,7 +24,8 @@ const Profile = () => {
     }
   }, [dispatch, setValues])
 
-  const save = () => {
+  const save = (e) => {
+    e.preventDefault()
     dispatch(userPatchInfo(values))
   }
 
@@ -43,51 +44,52 @@ const Profile = () => {
           <ProfileMenu selectedEntry={"profile"}/>
         </div>
         <div className={styles.col}>
-          <Input 
-            name="name"
-            type="text"
-            placeholder="Имя"
-            value={values.name}
-            icon="EditIcon"
-            extraClass="mt-3 mb-3"
-            onChange={handleChange}
-          />
-          <Input 
-            name="email"
-            type="text"
-            placeholder="Логин"
-            value={values.email}
-            icon="EditIcon"
-            extraClass="mt-3 mb-3"
-            onChange={handleChange}
-          />
-          <Input 
-            name="password"
-            type="password"
-            placeholder="Пароль"
-            value={values.password}
-            icon="EditIcon"
-            extraClass="mt-3 mb-3"
-            onChange={handleChange}
-          />
-          <div className={`${styles.button_footer} mt-5`}>
-            <Button 
-              htmlType="button"
-              type="secondary"
-              size="medium"
-              onClick={cancel}
-            >
-              Отмена
-            </Button>
-            <Button 
-              htmlType="button"
-              type="primary"
-              size="medium"
-              onClick={save}
-            >
-              Сохранить
-            </Button>
-          </div>
+          <form onSubmit={save}>
+            <Input 
+              name="name"
+              type="text"
+              placeholder="Имя"
+              value={values.name}
+              icon="EditIcon"
+              extraClass="mt-3 mb-3"
+              onChange={handleChange}
+            />
+            <Input 
+              name="email"
+              type="text"
+              placeholder="Логин"
+              value={values.email}
+              icon="EditIcon"
+              extraClass="mt-3 mb-3"
+              onChange={handleChange}
+            />
+            <Input 
+              name="password"
+              type="password"
+              placeholder="Пароль"
+              value={values.password}
+              icon="EditIcon"
+              extraClass="mt-3 mb-3"
+              onChange={handleChange}
+            />
+            <div className={`${styles.button_footer} mt-5`}>
+              <Button 
+                htmlType="button"
+                type="secondary"
+                size="medium"
+                onClick={cancel}
+              >
+                Отмена
+              </Button>
+              <Button 
+                htmlType="submit"
+                type="primary"
+                size="medium"
+              >
+                Сохранить
+              </Button>
+            </div>
+          </form>
         </div>
         <div className={styles.col}>
         </div>

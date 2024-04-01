@@ -12,7 +12,8 @@ const ResetPassword = () => {
   const { values, handleChange } = useForm()
   const navigate = useNavigate()
 
-  const resetPassword = async () => {
+  const resetPassword = async (e) => {
+    e.preventDefault()
     try {
       const response = await fetch(
         PASSWORD_RESET_URL,
@@ -40,30 +41,31 @@ const ResetPassword = () => {
     <main className={`${styles.main} m-30`}>
       <section className={styles.section}>
         <p className="text text_type_main-medium mb-3">Восстановление пароля</p>
-        <Input 
-          name="password"
-          type={"password"}
-          placeholder={"Введите новый пароль"}
-          icon={"ShowIcon"}
-          extraClass="mt-3 mb-3"
-          onChange={handleChange}
-        />
-        <Input 
-          name="token"
-          type={"text"}
-          placeholder={"Введите код из письма"}
-          extraClass="mt-3 mb-3"
-          onChange={handleChange}
-        />
-        <Button 
-          htmlType="button" 
-          type="primary" 
-          size="large"
-          extraClass="mt-3 ml-30 mr-30"
-          onClick={resetPassword}
-        >
-          Сохранить
-        </Button>
+        <form onSubmit={resetPassword}>
+          <Input 
+            name="password"
+            type={"password"}
+            placeholder={"Введите новый пароль"}
+            icon={"ShowIcon"}
+            extraClass="mt-3 mb-3"
+            onChange={handleChange}
+          />
+          <Input 
+            name="token"
+            type={"text"}
+            placeholder={"Введите код из письма"}
+            extraClass="mt-3 mb-3"
+            onChange={handleChange}
+          />
+          <Button 
+            htmlType="submit" 
+            type="primary" 
+            size="large"
+            extraClass="mt-3 ml-30 mr-30"
+          >
+            Сохранить
+          </Button>
+        </form>
         <p className="text text_type_main-default mt-20 mb-2">
           Вспомнили пароль?&nbsp;
           <Button

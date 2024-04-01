@@ -16,7 +16,9 @@ const ForgotPassword = () => {
   const navigate = useNavigate()
   const location = useLocation()
 
-  const onClickRestore = async () => {
+  const onClickRestore = async (e) => {
+    e.preventDefault()
+    
     if (values.email) {
       try {
         const response = await fetch(
@@ -55,24 +57,25 @@ const ForgotPassword = () => {
       <main className={`${styles.main} m-30`}>
         <section className={styles.section}>
           <p className="text text_type_main-medium mb-3">Восстановление пароля</p>
-          <Input 
-            name="email"
-            type={"text"}
-            placeholder={"Укажите e-mail"}
-            extraClass="mt-3 mb-3"
-            error={errorBool}
-            errorText={"E-mail должен быть заполнен"}
-            onChange={handleChange}            
-          />
-          <Button 
-            htmlType="button" 
-            type="primary" 
-            size="large"
-            extraClass="mt-3 ml-30 mr-30"
-            onClick={onClickRestore}
-          >
-            Восстановить
-          </Button>
+          <form onSubmit={onClickRestore}>
+            <Input 
+              name="email"
+              type={"text"}
+              placeholder={"Укажите e-mail"}
+              extraClass="mt-3 mb-3"
+              error={errorBool}
+              errorText={"E-mail должен быть заполнен"}
+              onChange={handleChange}            
+            />
+            <Button 
+              htmlType="submit" 
+              type="primary" 
+              size="large"
+              extraClass="mt-3 ml-30 mr-30"
+            >
+              Восстановить
+            </Button>
+          </form>
           <p className="text text_type_main-default mt-20 mb-2">
             Вспомнили пароль?&nbsp;
             <Button htmlType="button" type="secondary" size="medium" onClick={toLogin}>

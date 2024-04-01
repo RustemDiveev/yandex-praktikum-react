@@ -24,7 +24,8 @@ const Login = () => {
     navigate("/forgot-password")
   }
 
-  const login = async () => {
+  const login = async (e) => {
+    e.preventDefault()
     const response = await dispatch(loginUser(values)).unwrap()
     if (response.success) navigate("/")
   }
@@ -34,30 +35,31 @@ const Login = () => {
       <main className={`${styles.main} m-30`}>
         <section className={styles.section}>
           <p className="text text_type_main-medium mb-3">Вход</p>
-          <Input 
-            name="email"
-            type={"text"}
-            placeholder={"E-mail"}
-            extraClass="mt-3 mb-3"
-            onChange={handleChange}
-          />
-          <Input 
-            name="password"
-            type={"password"}
-            placeholder={"Пароль"}
-            icon={"ShowIcon"}
-            extraClass="mt-3 mb-3"
-            onChange={handleChange}
-          />
-          <Button 
-            htmlType="button" 
-            type="primary" 
-            size="large"
-            extraClass="mt-3 ml-30 mr-30"
-            onClick={login}
-          >
-            Войти
-          </Button>
+          <form onSubmit={login}>
+            <Input 
+              name="email"
+              type={"text"}
+              placeholder={"E-mail"}
+              extraClass="mt-3 mb-3"
+              onChange={handleChange}
+            />
+            <Input 
+              name="password"
+              type={"password"}
+              placeholder={"Пароль"}
+              icon={"ShowIcon"}
+              extraClass="mt-3 mb-3"
+              onChange={handleChange}
+            />
+            <Button 
+              htmlType="submit" 
+              type="primary" 
+              size="large"
+              extraClass="mt-3 ml-30 mr-30"
+            >
+              Войти
+            </Button>
+          </form>
           <p className="text text_type_main-default mt-20">
             Вы - новый пользователь?
             <Button htmlType="button" type="secondary" size="medium" onClick={toRegister}>
