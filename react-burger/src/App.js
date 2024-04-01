@@ -1,6 +1,6 @@
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom"
 
-import ProtectedRouteElement from "./routing/protected-route-element/protected-route-element"
+import ProtectedRoute from "./routing/protected-route/protected-route"
 
 import IngredientDetails from "./components/ingredient-details/ingredient-details"
 import Modal from "./components/modal/modal"
@@ -29,12 +29,54 @@ const App = () => {
     <>
       <Routes location={background || location}>
         <Route path="/" element={<Main />}/>
-        <Route path="/login" element={<ProtectedRouteElement element={<Login />}/>}/>
-        <Route path="/register" element={<ProtectedRouteElement element={<Register />}/>}/>
-        <Route path="/forgot-password" element={<ProtectedRouteElement element={<ForgotPassword />}/>}/>
-        <Route path="/reset-password" element={<ProtectedRouteElement element={<ResetPassword />}/>}/>
-        <Route path="/profile" element={<ProtectedRouteElement element={<Profile />}/>}/>
-        <Route path="/profile/orders" element={<ProtectedRouteElement element={<ProfileOrders />}/>}/>
+        <Route 
+          path="/login" 
+          element={
+            <ProtectedRoute anonymous={true}>
+              <Login />
+            </ProtectedRoute>
+          }
+        />
+        <Route 
+          path="/register" 
+          element={
+            <ProtectedRoute anonymous={true}>
+              <Register />
+            </ProtectedRoute>
+          }
+        />
+        <Route 
+          path="/forgot-password" 
+          element={
+            <ProtectedRoute anonymous={true}>
+              <ForgotPassword />
+            </ProtectedRoute>
+          }
+        />
+        <Route 
+          path="/reset-password" 
+          element={
+            <ProtectedRoute anonymous={true} essentialPreviousRoute="/forgot-password">
+              <ResetPassword />
+            </ProtectedRoute>
+          }
+        />
+        <Route 
+          path="/profile" 
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute> 
+          }
+        />
+        <Route 
+          path="/profile/orders" 
+          element={
+            <ProtectedRoute>
+              <ProfileOrders />
+            </ProtectedRoute> 
+          }
+        />
         <Route path="/ingredients/:id" element={<Ingredient />}/>
         <Route path="*" element={<h1>Страница не найдена!</h1>}/>
       </Routes>
