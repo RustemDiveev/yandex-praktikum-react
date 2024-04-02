@@ -12,7 +12,6 @@ import Register from "./pages/register/register"
 import ForgotPassword from "./pages/forgot-password/forgot-password"
 import ResetPassword from "./pages/reset-password/reset-password"
 import Profile from "./pages/profile/profile"
-import Ingredient from "./pages/ingredient/ingredient"
 import ProfileOrders from "./pages/profile-orders/profile-orders"
 
 
@@ -79,7 +78,7 @@ const App = () => {
             </ProtectedRoute> 
           }
         />
-        <Route path="/ingredients/:id" element={<Ingredient />}/>
+        <Route path="/ingredients/:id" element={<IngredientDetails />}/>
         <Route path="*" element={<h1>Страница не найдена!</h1>}/>
       </Routes>
       {

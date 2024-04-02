@@ -19,7 +19,7 @@ const Modal = ({closeModal, header, children}) => {
 
     const jsx = 
         <ModalOverlay closeModal={closeModal}>
-            <div className={styles.modal}>
+            <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
                 <div className={`pl-10 pr-10 pt-10 ${styles.header_container}`}>
                     <div className="text text_type_main-large">{header}</div>
                     <CloseIcon onClick={() => closeModal()}/>
