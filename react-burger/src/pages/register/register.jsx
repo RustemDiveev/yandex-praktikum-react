@@ -31,6 +31,7 @@ const Register = () => {
         <form onSubmit={register}>
           <Input 
             name="name"
+            value={values.name}
             type={"text"}
             placeholder={"Имя"}
             extraClass="mt-3 mb-3"
@@ -38,6 +39,7 @@ const Register = () => {
           />
           <Input 
             name="email"
+            value={values.email}
             type={"text"}
             placeholder={"E-mail"}            
             extraClass="mt-3 mb-3"
@@ -45,6 +47,7 @@ const Register = () => {
           />
           <Input 
             name="password"
+            value={values.password}
             type={"password"}
             placeholder={"Пароль"}
             icon={"ShowIcon"}

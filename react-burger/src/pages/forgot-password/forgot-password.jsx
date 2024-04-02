@@ -60,6 +60,7 @@ const ForgotPassword = () => {
           <form onSubmit={onClickRestore}>
             <Input 
               name="email"
+              value={values.email}
               type={"text"}
               placeholder={"Укажите e-mail"}
               extraClass="mt-3 mb-3"

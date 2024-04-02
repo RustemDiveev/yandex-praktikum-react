@@ -9,7 +9,7 @@ import styles from "./reset-password.module.css"
 
 
 const ResetPassword = () => {
-  const { values, handleChange } = useForm()
+  const { values, handleChange } = useForm({password: "", token: ""})
   const navigate = useNavigate()
 
   const resetPassword = async (e) => {
@@ -44,6 +44,7 @@ const ResetPassword = () => {
         <form onSubmit={resetPassword}>
           <Input 
             name="password"
+            value={values.password}
             type={"password"}
             placeholder={"Введите новый пароль"}
             icon={"ShowIcon"}
@@ -52,6 +53,7 @@ const ResetPassword = () => {
           />
           <Input 
             name="token"
+            value={values.token}
             type={"text"}
             placeholder={"Введите код из письма"}
             extraClass="mt-3 mb-3"
