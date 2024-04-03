@@ -1,13 +1,30 @@
-.ul {
-    display: flex;
-    list-style: none;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
+.header {
+    height: 100px;
 }
 
-.li {
+.main_container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.additional_container {
     display: flex;
+    justify-content: center;
     align-items: center;
+}
+
+.menu_entry {
+    display: flex;
+    align-items: space;
     line-height: 1;
+}
+
+.menu_entry:hover {
+    cursor: pointer;
+}
+
+.nav_link {
+    text-decoration: inherit;
+    color: inherit;
+    cursor: default;
 }

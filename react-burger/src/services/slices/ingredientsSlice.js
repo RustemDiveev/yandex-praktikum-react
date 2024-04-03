@@ -16,15 +16,14 @@ const initialState = {
     ingredients: [],
     success: null,
     selectedIngredient: null,
-    counter: {}
+    counter: {},
+    ingredientsLoaded: false
 }
 
 export const fetchIngredients = createAsyncThunk(
     "ingredients/fetchIngredients",
     async () => {
-        const response = await requestApi(INGREDIENTS_URL)
-        const responseJson = response.json()
-        return responseJson
+        return await requestApi(INGREDIENTS_URL)
     }
 )
 
@@ -81,6 +80,7 @@ const ingredientsSlice = createSlice({
             .addCase(fetchIngredients.fulfilled, (state, action) => {
                 state.ingredients = action.payload.data
                 state.success = action.payload.success
+                state.ingredientsLoaded = true
             })
     }
 })
@@ -98,3 +98,7 @@ export const selectIngredients = state => state.ingredients.ingredients
 export const selectStatus = state => state.ingredients.status
 export const selectSelectedIngredient = state => state.ingredients.selectedIngredient
 export const selectCounter = state => state.ingredients.counter
+export const selectIngredient = (state, ingredientId) => {
+    return state.ingredients.success ? state.ingredients.ingredients.find(ingredient => ingredient._id === ingredientId) : null
+}
+export const selectIngredientsLoaded = state => state.ingredients.ingredientsLoaded

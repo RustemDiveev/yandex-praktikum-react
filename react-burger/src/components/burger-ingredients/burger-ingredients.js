@@ -2,18 +2,19 @@ import PropTypes from "prop-types"
 
 import { useRef, useState, useMemo, useEffect } from "react"
 
-import { useSelector, useDispatch } from "react-redux"
+import { useSelector } from "react-redux"
+import { Link, useLocation } from "react-router-dom"
 import { useDrag } from "react-dnd"
 
 import { Tab, Counter } from "@ya.praktikum/react-developer-burger-ui-components"
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components"
 
-import { selectIngredients, ingredientSelected, selectCounter } from "../../services/slices/ingredientsSlice"
+import { selectIngredients, selectCounter } from "../../services/slices/ingredientsSlice"
 
 import styles from "./burger-ingredients.module.css"
 
 
-const BurgerIngredient = ({ingredient, handleIngredientClick, count}) => {
+const BurgerIngredient = ({ingredient, count}) => {
   const [ , drag] = useDrag({
     type: "burgerIngredient",
     item: {ingredient}
@@ -25,7 +26,6 @@ const BurgerIngredient = ({ingredient, handleIngredientClick, count}) => {
       id={ingredient._id}
       className={styles.li}
       key={ingredient._id}
-      onClick={handleIngredientClick}
       draggable
     >
       {Boolean(count) && <Counter count={count} size="default"/>}
@@ -39,8 +39,26 @@ const BurgerIngredient = ({ingredient, handleIngredientClick, count}) => {
   )
 }
 
+BurgerIngredient.propTypes = {
+  ingredient: PropTypes.exact({
+    _id: PropTypes.string,
+    name: PropTypes.string,
+    type: PropTypes.string,
+    proteins: PropTypes.number,
+    fat: PropTypes.number,
+    carbohydrates: PropTypes.number,
+    calories: PropTypes.number,
+    price: PropTypes.number,
+    image: PropTypes.string,
+    image_mobile: PropTypes.string,
+    image_large: PropTypes.string,
+    __v: PropTypes.number
+  }),
+  count: PropTypes.number
+}
 
-const BurgerIngredients = ({setModalOpen}) => {
+
+const BurgerIngredients = () => {
 
   const [currentTab, setCurrentTab] = useState("buns")
   const bunsRef = useRef(null)
@@ -55,7 +73,7 @@ const BurgerIngredients = ({setModalOpen}) => {
   const sauces = useMemo(() => ingredients.filter(ingredient => ingredient.type === "sauce"), [ingredients])
   const toppings = useMemo(() => ingredients.filter(ingredient => ingredient.type === "main"), [ingredients])
 
-  const dispatch = useDispatch()
+  const location = useLocation()
 
   const handleTabClick = (e) => {
     setCurrentTab(e)
@@ -73,10 +91,6 @@ const BurgerIngredients = ({setModalOpen}) => {
     }
   }
 
-  const handleIngredientClick = (e) => {
-    setModalOpen()
-    dispatch(ingredientSelected(e.currentTarget.id))
-  }
 
   const handleScroll = (e) => {
     const currentScrollTop = e.target.scrollTop 
@@ -128,34 +142,58 @@ const BurgerIngredients = ({setModalOpen}) => {
           Булки
         </h2>
         <ul className={styles.ul}>
-          {buns.map(item => <BurgerIngredient 
+          {buns.map(item => 
+          <Link 
+            to={`/ingredients/${item._id}`}
+            state={{ background: location }}
+            className={styles.link}
             key={item._id}
-            ingredient={item} 
-            handleIngredientClick={handleIngredientClick}
-            count={counter[item._id]}
-          />)}
+          >
+            <BurgerIngredient 
+              key={item._id}
+              ingredient={item} 
+              count={counter[item._id]}
+            />
+          </Link>
+          )}
         </ul>
         <h2 className="text text_type_main-medium mt-10 mb-6" ref={saucesRef}>
           Соусы
         </h2>
         <ul className={styles.ul}>
-          {sauces.map(item => <BurgerIngredient 
-            key={item._id}
-            ingredient={item} 
-            handleIngredientClick={handleIngredientClick}
-            count={counter[item._id]}
-          />)}
+          {sauces.map(item => 
+            <Link 
+              to={`/ingredients/${item._id}`}
+              state={{ background: location }}
+              className={styles.link}
+              key={item._id}
+            >
+              <BurgerIngredient 
+                key={item._id}
+                ingredient={item} 
+                count={counter[item._id]}
+              />
+            </Link>
+          )}
         </ul>
         <h2 className="text text_type_main-medium mt-10 mb-6" ref={toppingsRef} key={6}>
           Начинки
         </h2>
         <ul className={styles.ul}>
-          {toppings.map(item => <BurgerIngredient 
-            key={item._id} 
-            ingredient={item} 
-            handleIngredientClick={handleIngredientClick}
-            count={counter[item._id]}
-          />)}
+          {toppings.map(item => 
+            <Link 
+              to={`/ingredients/${item._id}`}
+              state={{ background: location }}
+              className={styles.link}
+              key={item._id}
+            >
+              <BurgerIngredient 
+                key={item._id}
+                ingredient={item} 
+                count={counter[item._id]}
+              />
+            </Link>
+          )}
         </ul>
       </div>
     </>

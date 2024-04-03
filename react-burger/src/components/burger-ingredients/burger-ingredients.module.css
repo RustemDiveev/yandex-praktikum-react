@@ -43,3 +43,9 @@
 .tab {
     flex-grow: 1;
 }
+
+.link {
+    text-decoration: inherit;
+    color: inherit;
+    cursor: default;
+}

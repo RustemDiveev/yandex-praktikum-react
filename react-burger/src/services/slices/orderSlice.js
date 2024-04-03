@@ -11,13 +11,15 @@ export const postOrder = createAsyncThunk(
             ORDERS_URL, 
             {
                 method: "POST",
-                headers: {"Content-Type": "application/json"},
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": localStorage.getItem("accessToken"),
+                },
                 body: JSON.stringify(ingredientsIds)
             }
         )
-        const responseJson = await response.json()
-        const status = await responseJson.success 
-        const orderNumber = responseJson.order.number 
+        const status = response.success 
+        const orderNumber = response.order.number 
         return {status, orderNumber}
     }
 )
