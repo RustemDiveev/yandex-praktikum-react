@@ -4,9 +4,14 @@ import { ORDERS_URL } from "../../settings/urls";
 import requestApi from "../../utils/api";
 
 
+interface IState {
+    status: string
+    orderNumber: null | string | number
+}
+
 export const postOrder = createAsyncThunk(
     "order/postOrder",
-    async (ingredientsIds) => {
+    async (ingredientsIds: {ingredients: string[]}) => {
         const response = await requestApi(
             ORDERS_URL, 
             {
@@ -47,5 +52,5 @@ const orderSlice = createSlice({
 
 export default orderSlice.reducer
 
-export const selectStatus = state => state.order.status 
-export const selectOrderNumber = state => state.order.orderNumber
+export const selectStatus = (state: {order: IState}) => state.order.status 
+export const selectOrderNumber = (state: {order: IState}) => state.order.orderNumber
