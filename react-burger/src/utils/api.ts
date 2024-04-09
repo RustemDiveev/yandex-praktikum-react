@@ -1,11 +1,11 @@
 import { REFRESH_TOKEN_URL } from "../settings/urls"
 
 
-const checkResponse = (response) => {
+const checkResponse = (response: Response) => {
     return response.ok ? response.json() : Promise.reject(response.json().then((err => Promise.reject(err))))
 }
 
-const requestApi = async (url, options) => {
+const requestApi = async (url: string, options?: RequestInit) => {
     return fetch(url, options).then(checkResponse)
 }
 
@@ -30,7 +30,7 @@ export const refreshToken = async () => {
     return response
 }
 
-export const requestApiWithTokenRefresh = async (url, options) => {
+export const requestApiWithTokenRefresh = async (url: string, options: RequestInit) => {
     try {
         const response = await fetch(url, options)
         if (!response.ok) {
@@ -39,10 +39,12 @@ export const requestApiWithTokenRefresh = async (url, options) => {
         } else {
             return await response.json()    
         }
-    } catch (err) {
+    } catch (err: any) {
         if (err.message === "jwt expired") {
             const refreshTokenData = await refreshToken()
-            options.headers.authorization = refreshTokenData.accessToken
+            const newHeaders = new Headers(options.headers)
+            newHeaders.set("Authorization", refreshTokenData.accessToken)
+            options.headers = newHeaders
             const response = await requestApi(url, options)
             return response
         } else {

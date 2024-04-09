@@ -8,14 +8,14 @@ import { RootState } from "../store";
 export const postOrder = createAsyncThunk(
     "order/postOrder",
     async (ingredientsIds) => {
+        const headers = new Headers()
+        headers.set("Content-Type", "application/json")
+        headers.set("Authorization", localStorage.getItem("accessToken")!)
         const response = await requestApi(
             ORDERS_URL, 
             {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": localStorage.getItem("accessToken"),
-                },
+                headers,
                 body: JSON.stringify(ingredientsIds)
             }
         )
