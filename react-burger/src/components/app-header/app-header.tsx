@@ -17,13 +17,13 @@ const AppHeader = () => {
                 <div 
                   className={`mt-4 mb-4 ml-1 mb-1 pl-5 pr-5 ${styles.menu_entry} ${isActive ? "" : "text_color_inactive"}`}
                 >
-                  <BurgerIcon />
+                  <BurgerIcon type="primary" />
                   <span className="text text_type_main-default ml-2 mr-2">Конструктор</span>
                 </div>
               )}
             </NavLink>
             <div className={`mt-4 mb-4 ml-1 mb-1 pl-5 pr-5 ${styles.menu_entry} text_color_inactive`}>
-              <ListIcon/>
+              <ListIcon type="primary"/>
               <span className="text text_type_main-default ml-2 mr-2">Лента заказов</span>
             </div>
           </div>
@@ -34,7 +34,7 @@ const AppHeader = () => {
             <NavLink to="/profile" className={styles.nav_link}>
               {({ isActive }) => (
                 <div className={`mt-4 mb-4 ml-1 mb-1 pl-5 pr-5 ${styles.menu_entry} ${isActive ? "" : "text_color_inactive"}`}>
-                  <ProfileIcon/>
+                  <ProfileIcon type="primary"/>
                   <span className="text text_type_main-default ml-2 mr-2">Личный кабинет</span>
                 </div>
               )}

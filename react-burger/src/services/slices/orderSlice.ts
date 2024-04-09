@@ -7,7 +7,7 @@ import { RootState } from "../store";
 
 export const postOrder = createAsyncThunk(
     "order/postOrder",
-    async (ingredientsIds) => {
+    async (ingredientsIds: {ingredients: string[]}) => {
         const headers = new Headers()
         headers.set("Content-Type", "application/json")
         headers.set("Authorization", localStorage.getItem("accessToken")!)
