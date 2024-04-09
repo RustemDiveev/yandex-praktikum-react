@@ -6,13 +6,14 @@ import { PASSWORD_RESET_URL } from "../../settings/urls"
 import useForm from "../../hooks/useForm"
 
 import styles from "./reset-password.module.css"
+import { SyntheticEvent } from "react"
 
 
 const ResetPassword = () => {
   const { values, handleChange } = useForm({password: "", token: ""})
   const navigate = useNavigate()
 
-  const resetPassword = async (e) => {
+  const resetPassword = async (e: SyntheticEvent) => {
     e.preventDefault()
     try {
       const response = await fetch(

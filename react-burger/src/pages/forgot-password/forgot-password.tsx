@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { SyntheticEvent, useState } from "react"
 
 import { useNavigate, useLocation } from "react-router-dom"
 
@@ -16,7 +16,7 @@ const ForgotPassword = () => {
   const navigate = useNavigate()
   const location = useLocation()
 
-  const onClickRestore = async (e) => {
+  const onClickRestore = async (e: SyntheticEvent) => {
     e.preventDefault()
     
     if (values.email) {

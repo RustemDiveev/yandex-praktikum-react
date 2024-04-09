@@ -1,18 +1,17 @@
-import { useEffect, useCallback } from "react"
-
-import { useDispatch } from "react-redux"
+import { useEffect, useCallback, SyntheticEvent } from "react"
 
 import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components"
 
 import ProfileMenu from "../../components/profile-menu/profile-menu"
 import { userGetInfo, userPatchInfo } from "../../services/slices/userSlice"
 import useForm from "../../hooks/useForm"
+import useAppDispatch from "../../services/hooks/useAppDispatch"
 
 import styles from "./profile.module.css"
 
 
 const Profile = () => {  
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const { values, setValues, handleChange } = useForm({name: "", email: "", password: ""})
 
   const getUserInfo = useCallback(async () => {
@@ -24,9 +23,9 @@ const Profile = () => {
     }
   }, [dispatch, setValues])
 
-  const save = (e) => {
+  const save = (e: SyntheticEvent) => {
     e.preventDefault()
-    dispatch(userPatchInfo(values))
+    dispatch(userPatchInfo(values as {name: string, email: string, password: string}))
   }
 
   const cancel = () => {
