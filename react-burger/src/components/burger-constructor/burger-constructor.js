@@ -32,7 +32,7 @@ const Ingredient = ({ ingredient }) => {
   const [, drop] = useDrop({
     accept: "constructorIngredient",
     drop(uniqueId) {
-      dispatch(reorderIngredients(uniqueId, ingredient.uniqueId))
+      dispatch(reorderIngredients({draggedId: uniqueId, droppedId: ingredient.uniqueId}))
     }
   })
 
@@ -76,7 +76,7 @@ const BurgerConstructor = ({setModalOpen}) => {
     accept: "burgerIngredient",
     drop(ingredient) {
       dispatch(ingredientAdded(ingredient))
-      dispatch(counterIncreased(ingredient.ingredient._id))
+      dispatch(counterIncreased(ingredient._id))
     }
   })
 

@@ -1,8 +1,17 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction} from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid"
 
+import { RootState } from "../store";
+import IIngredient from "../../interfaces/Ingredient"
 
-const initialState = {
+
+interface IConstructorState {
+    ingredients: IIngredient[],
+    bun: null | IIngredient
+}
+
+
+const initialState: IConstructorState = {
     ingredients: [],
     bun: null,
 }
@@ -12,29 +21,27 @@ const constructorSlice = createSlice({
     initialState,
     reducers: {
         ingredientAdded: {
-            reducer(state, action) {
-                if (action.payload.ingredient.ingredient.type === "bun") {
-                    state.bun = action.payload.ingredient.ingredient
+            reducer(state, action: PayloadAction<{ingredient: IIngredient}, string>) {
+                if (action.payload.ingredient.type === "bun") {
+                    state.bun = action.payload.ingredient
                 } else {
                     state.ingredients.push({
-                        ...action.payload.ingredient.ingredient, 
-                        uniqueId: action.payload.uniqueId
+                        ...action.payload.ingredient, 
+                        uniqueId: uuidv4()
                     })
                 }
             },
             prepare(ingredient) {
-                return {
-                    payload: {
-                        ingredient,
-                        uniqueId: uuidv4()
-                    }
-                }
+                return {payload: {ingredient}}
             }
         },
         ingredientDeleted: {
-            reducer(state, action) {
-                state.ingredients.splice(action.payload, 1)
+            reducer(state, action: PayloadAction<{uniqueId: string}, string>) {            
+                state.ingredients = state.ingredients.filter(ingredient => ingredient.uniqueId !== action.payload.uniqueId)
             },
+            prepare(uniqueId) {
+                return {payload: {uniqueId}}
+            }
         },
         reorderIngredients: {
             reducer(state, action) {
@@ -50,8 +57,9 @@ const constructorSlice = createSlice({
                 state.ingredients[draggedIndex] = state.ingredients[droppedIndex]
                 state.ingredients[droppedIndex] = temp
             },
-            prepare(draggedId, droppedId) {
-                return {payload: {draggedId: draggedId.uniqueId, droppedId}}
+            prepare(payload) {
+                debugger;
+                return payload
             }
         }
     }
@@ -61,5 +69,5 @@ export const { ingredientAdded, ingredientDeleted, reorderIngredients } = constr
 
 export default constructorSlice.reducer 
 
-export const selectIngredients = state => state.burgerConstructor.ingredients
-export const selectBun = state => state.burgerConstructor.bun
+export const selectIngredients = (state: RootState) => state.burgerConstructor.ingredients
+export const selectBun = (state: RootState) => state.burgerConstructor.bun

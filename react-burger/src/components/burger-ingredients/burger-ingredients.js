@@ -17,7 +17,7 @@ import styles from "./burger-ingredients.module.css"
 const BurgerIngredient = ({ingredient, count}) => {
   const [ , drag] = useDrag({
     type: "burgerIngredient",
-    item: {ingredient}
+    item: ingredient
   })
 
   return (
