@@ -1,14 +1,11 @@
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
-import { useDispatch } from "react-redux";
-
 import BurgerConstructor from "../../components/burger-constructor/burger-constructor";
 import BurgerIngredients from "../../components/burger-ingredients/burger-ingredients";
 import IngredientDetails from "../../components/ingredient-details/ingredient-details";
 import OrderDetails from "../../components/order-details/order-details";
 import Modal from "../../components/modal/modal";
-import { ingredientUnselected } from "../../services/slices/ingredientsSlice";
 import useModal from "../../hooks/useModal";
 
 import styles from "./main.module.css"
@@ -17,10 +14,8 @@ import styles from "./main.module.css"
 const Main = () => {
   const ingredientModal = useModal()
   const orderModal = useModal()
-  const dispatch = useDispatch()
 
   const handleIngredientDetailsClose = () => {
-    dispatch(ingredientUnselected())
     ingredientModal.closeModal()
   }
   

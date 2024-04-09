@@ -44,7 +44,7 @@ const constructorSlice = createSlice({
             }
         },
         reorderIngredients: {
-            reducer(state, action) {
+            reducer(state, action: PayloadAction<{draggedId: string, droppedId: string}>) {
                 const draggedId = action.payload.draggedId
                 const droppedId = action.payload.droppedId
                 const draggedIndex = state.ingredients.findIndex(
@@ -58,8 +58,12 @@ const constructorSlice = createSlice({
                 state.ingredients[droppedIndex] = temp
             },
             prepare(payload) {
-                debugger;
-                return payload
+                return {
+                    payload: {
+                        draggedId: payload.draggedId.uniqueId,
+                        droppedId: payload.droppedId
+                    }
+                }
             }
         }
     }

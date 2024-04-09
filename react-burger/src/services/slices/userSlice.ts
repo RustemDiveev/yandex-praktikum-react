@@ -3,9 +3,16 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import { REGISTER_URL, LOGIN_URL, LOGOUT_URL, USER_URL } from "../../settings/urls"
 
 import requestApi, {requestApiWithTokenRefresh} from "../../utils/api"
+import { RootState } from "../store"
 
+interface IUserState {
+  user: {
+    email: string,
+    name: string
+  }
+}
 
-const initialState = {
+const initialState: IUserState = {
   user: {
     email: "",
     name: ""
@@ -14,7 +21,7 @@ const initialState = {
 
 export const registerUser = createAsyncThunk(
   "user/register",
-  async ({email, password, name}) => {
+  async ({email, password, name}: {email: string, password: string, name: string}) => {
     const payload = {email, password, name}
     const response = await requestApi(
       REGISTER_URL, 
@@ -32,7 +39,7 @@ export const registerUser = createAsyncThunk(
 
 export const loginUser = createAsyncThunk(
   "user/login",
-  async ({email, password}) => {
+  async ({email, password}: {email: string, password: string}) => {
     const response = await requestApi(
       LOGIN_URL,
       {
@@ -84,7 +91,7 @@ export const userGetInfo = createAsyncThunk(
 
 export const userPatchInfo = createAsyncThunk(
   "user/patchInfo",
-  async ({ email, name, password }) => {
+  async ({ email, name, password }: {email: string, name: string, password: string}) => {
     const response = await requestApiWithTokenRefresh(
       USER_URL,
       {
@@ -116,7 +123,7 @@ const userSlice = createSlice({
         localStorage.setItem("refreshToken", action.payload.refreshToken)
       })
       .addCase(logoutUser.fulfilled, (state, action) => {
-        state.user = {}
+        state.user = initialState.user
         localStorage.removeItem("accessToken")
         localStorage.removeItem("refreshToken")
       })
@@ -131,4 +138,4 @@ const userSlice = createSlice({
 
 export default userSlice.reducer
 
-export const selectUser = state => state.user.user
+export const selectUser = (state: RootState) => state.user.user

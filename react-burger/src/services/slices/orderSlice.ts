@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 import { ORDERS_URL } from "../../settings/urls";
 import requestApi from "../../utils/api";
+import { RootState } from "../store";
 
 
 export const postOrder = createAsyncThunk(
@@ -47,5 +48,5 @@ const orderSlice = createSlice({
 
 export default orderSlice.reducer
 
-export const selectStatus = state => state.order.status 
-export const selectOrderNumber = state => state.order.orderNumber
+export const selectStatus = (state: RootState) => state.order.status 
+export const selectOrderNumber = (state: RootState) => state.order.orderNumber
