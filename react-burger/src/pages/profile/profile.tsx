@@ -10,9 +10,21 @@ import useAppDispatch from "../../services/hooks/useAppDispatch"
 import styles from "./profile.module.css"
 
 
+type FormStateType = {
+  name: string
+  email: string 
+  password: string 
+}
+
+const initialFormState: FormStateType = {
+  name: "",
+  email: "",
+  password: ""
+}
+
 const Profile = () => {  
   const dispatch = useAppDispatch()
-  const { values, setValues, handleChange } = useForm({name: "", email: "", password: ""})
+  const { values, setValues, handleChange } = useForm<FormStateType>(initialFormState)
 
   const getUserInfo = useCallback(async () => {
     const response = await dispatch(userGetInfo()).unwrap()

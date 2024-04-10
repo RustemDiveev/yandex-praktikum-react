@@ -10,8 +10,18 @@ import styles from "./login.module.css"
 import { SyntheticEvent } from "react"
 
 
+type FormStateType = {
+  email: string
+  password: string
+}
+
+const initialFormState: FormStateType = {
+  email: "",
+  password: ""
+}
+
 const Login = () => {
-  const {values, handleChange} = useForm({email: "", password: ""})
+  const {values, handleChange} = useForm<FormStateType>(initialFormState)
 
   const navigate = useNavigate()
   const dispatch = useAppDispatch()

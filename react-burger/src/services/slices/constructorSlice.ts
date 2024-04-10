@@ -21,24 +21,25 @@ const constructorSlice = createSlice({
     initialState,
     reducers: {
         ingredientAdded: {
-            reducer(state, action: PayloadAction<{ingredient: IIngredient}, string>) {
+            reducer(state, action: PayloadAction<{ingredient: IIngredient, uniqueId: string}, string>) {
                 if (action.payload.ingredient.type === "bun") {
                     state.bun = action.payload.ingredient
                 } else {
                     state.ingredients.push({
                         ...action.payload.ingredient, 
-                        uniqueId: uuidv4()
+                        uniqueId: action.payload.uniqueId
                     })
                 }
             },
             prepare(ingredient) {
-                return {payload: {ingredient}}
+                return {payload: {ingredient, uniqueId: uuidv4()}}
             }
         },
         ingredientDeleted: {
-            reducer(state, action: PayloadAction<{uniqueId: string}, string>) {            
+            reducer(state, action: PayloadAction<{uniqueId: string}>) {            
                 state.ingredients = state.ingredients.filter(ingredient => ingredient.uniqueId !== action.payload.uniqueId)
             },
+            // Если я убираю, то не понятно как избавиться от Typescript-ошибки, подскажите, пожалуйста
             prepare(uniqueId) {
                 return {payload: {uniqueId}}
             }

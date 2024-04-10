@@ -9,9 +9,17 @@ import useForm from "../../hooks/useForm"
 import styles from "./forgot-password.module.css"
 
 
+type FormStateType = {
+  email: string
+}
+
+const initialFormState: FormStateType = {
+  email: ""
+}
+
 const ForgotPassword = () => {
   const [errorBool, setErrorBool] = useState(false)
-  const { values, handleChange } = useForm({email: ""})
+  const { values, handleChange } = useForm<FormStateType>(initialFormState)
 
   const navigate = useNavigate()
   const location = useLocation()

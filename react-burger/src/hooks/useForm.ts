@@ -1,11 +1,11 @@
-import { useState, FormEvent } from "react"
+import { useState, ChangeEvent } from "react"
 
 
-const useForm = (inputValues: {[key: string]: any} = {}) => {
-  const [values, setValues] = useState(inputValues)
+const useForm = <T>(inputValues: T) => {
+  const [values, setValues] = useState<T>(inputValues)
 
-  const handleChange = (event: FormEvent) => {
-    const { value, name } = event.target as HTMLInputElement
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { value, name } = event.target
     setValues({...values, [name]: value})
   }
 

@@ -9,8 +9,10 @@ type tModalOverlay = {
 
 
 const ModalOverlay: FC<tModalOverlay> = ({closeModal, children}) => {
+    const handleCloseModal = () => {closeModal()}
+
     return (
-        <div className={styles.modal_overlay} onClick={() => closeModal()}>
+        <div className={styles.modal_overlay} onClick={handleCloseModal}>
             {children}
         </div>
     )

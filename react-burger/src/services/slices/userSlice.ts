@@ -4,6 +4,8 @@ import { REGISTER_URL, LOGIN_URL, LOGOUT_URL, USER_URL } from "../../settings/ur
 
 import requestApi, {requestApiWithTokenRefresh} from "../../utils/api"
 import { RootState } from "../store"
+import { TServerResponse } from "../../utils/api"
+
 
 interface IUserState {
   user: {
@@ -19,11 +21,25 @@ const initialState: IUserState = {
   }
 }
 
+type TUser = {
+  user: { 
+    email: string,
+    name: string
+  }
+}
+
+type TRegisterUserResponse = TServerResponse<TUser & {
+  accessToken: string,
+  refreshToken: string
+}>
+
+type TUserResponse = TServerResponse<TUser>
+
 export const registerUser = createAsyncThunk(
   "user/register",
   async ({email, password, name}: {email: string, password: string, name: string}) => {
     const payload = {email, password, name}
-    const response = await requestApi(
+    const response = await requestApi<TRegisterUserResponse>(
       REGISTER_URL, 
       {
         method: "POST",
@@ -40,7 +56,7 @@ export const registerUser = createAsyncThunk(
 export const loginUser = createAsyncThunk(
   "user/login",
   async ({email, password}: {email: string, password: string}) => {
-    const response = await requestApi(
+    const response = await requestApi<TRegisterUserResponse>(
       LOGIN_URL,
       {
         method: "POST",
@@ -76,7 +92,7 @@ export const logoutUser = createAsyncThunk(
 export const userGetInfo = createAsyncThunk(
   "user/getInfo",
   async () => {
-    const response = await requestApiWithTokenRefresh(
+    const response = await requestApiWithTokenRefresh<TUserResponse>(
       USER_URL,
       {
         method: "GET",
@@ -92,7 +108,7 @@ export const userGetInfo = createAsyncThunk(
 export const userPatchInfo = createAsyncThunk(
   "user/patchInfo",
   async ({ email, name, password }: {email: string, name: string, password: string}) => {
-    const response = await requestApiWithTokenRefresh(
+    const response = await requestApiWithTokenRefresh<TUserResponse>(
       USER_URL,
       {
         method: "PATCH",

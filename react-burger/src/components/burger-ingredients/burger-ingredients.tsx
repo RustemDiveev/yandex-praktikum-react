@@ -1,4 +1,4 @@
-import { useRef, useState, useMemo, useEffect, FC, UIEvent } from "react"
+import { useRef, useState, useMemo, FC, UIEvent } from "react"
 
 import { useSelector } from "react-redux"
 import { Link, useLocation } from "react-router-dom"
@@ -61,9 +61,9 @@ const BurgerIngredients = () => {
 
   const location = useLocation()
 
-  const handleTabClick = (e: string) => {
-    setCurrentTab(e)
-    switch (e) {
+  const handleTabClick = (tabName: string) => {
+    setCurrentTab(tabName)
+    switch (tabName) {
       case "buns": 
         bunsRef.current!.scrollIntoView()
         break
@@ -89,13 +89,6 @@ const BurgerIngredients = () => {
     if (currentScrollTop > headerOffsets[0] && currentScrollTop < headerOffsets[1]) setCurrentTab("sauces")
     if (currentScrollTop > headerOffsets[1]) setCurrentTab("toppings")
   }
-
-  useEffect(() => {
-    const ingredientDomNode = ingredientRef.current!
-    // Подскажите, какой должен быть тип?
-    ingredientDomNode.addEventListener("scroll", handleScroll as any)
-    return () => ingredientDomNode.removeEventListener("scroll", handleScroll as any)
-  }, [])
 
   return (
     <>

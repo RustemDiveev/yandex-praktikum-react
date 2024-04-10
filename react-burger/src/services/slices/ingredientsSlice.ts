@@ -5,7 +5,12 @@ import { INGREDIENTS_URL } from "../../settings/urls";
 import requestApi from "../../utils/api";
 import { RootState } from "../store";
 import IIngredient from "../../interfaces/Ingredient"
+import { TServerResponse } from "../../utils/api";
 
+
+type TFetchIngredientsResponse = TServerResponse<{
+    data: IIngredient[]
+}>
 
 interface IIngredientsState {
     ingredients: IIngredient[],
@@ -35,7 +40,7 @@ const initialState: IIngredientsState = {
 export const fetchIngredients = createAsyncThunk(
     "ingredients/fetchIngredients",
     async () => {
-        return await requestApi(INGREDIENTS_URL)
+        return await requestApi<TFetchIngredientsResponse>(INGREDIENTS_URL)
     }
 )
 

@@ -9,8 +9,20 @@ import styles from "./register.module.css"
 import { SyntheticEvent } from "react"
 
 
+type FormStateType = {
+  name: string 
+  email: string 
+  password: string 
+}
+
+const initialFormState: FormStateType = {
+  name: "",
+  email: "",
+  password: ""
+}
+
 const Register = () => {
-  const { values, handleChange } = useForm({name: "", email: "", password: ""})
+  const { values, handleChange } = useForm<FormStateType>(initialFormState)
 
   const navigate = useNavigate()
   const dispatch = useAppDispatch()

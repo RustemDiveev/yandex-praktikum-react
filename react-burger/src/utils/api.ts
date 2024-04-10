@@ -1,16 +1,22 @@
 import { REFRESH_TOKEN_URL } from "../settings/urls"
 
 
-const checkResponse = (response: Response) => {
+export type TServerResponse<T> = {
+    success: boolean;
+} & T;
+
+const checkResponse = <T>(response: Response): Promise<T> => {
     return response.ok ? response.json() : Promise.reject(response.json().then((err => Promise.reject(err))))
 }
 
-const requestApi = async (url: string, options?: RequestInit) => {
-    return fetch(url, options).then(checkResponse)
+const requestApi = async <T>(url: string, options?: RequestInit): Promise<T> => {
+    return fetch(url, options).then(res => checkResponse<T>(res))
 }
 
-export const refreshToken = async () => {
-    const response = await requestApi(
+type TRefreshTokenResponse = TServerResponse<{refreshToken: string, accessToken: string}>
+
+export const refreshToken = async (): Promise<TRefreshTokenResponse> => {
+    const response = await requestApi<TRefreshTokenResponse>(
         REFRESH_TOKEN_URL,
         {
             method: "POST",
@@ -30,22 +36,17 @@ export const refreshToken = async () => {
     return response
 }
 
-export const requestApiWithTokenRefresh = async (url: string, options: RequestInit) => {
+export const requestApiWithTokenRefresh = async <T>(url: string, options: RequestInit): Promise<T> => {
     try {
-        const response = await fetch(url, options)
-        if (!response.ok) {
-            const responseJson = await response.json()
-            throw new Error(responseJson.message)
-        } else {
-            return await response.json()    
-        }
+        const response = await requestApi<T>(url, options)
+        return response
     } catch (err: any) {
         if (err.message === "jwt expired") {
             const refreshTokenData = await refreshToken()
             const newHeaders = new Headers(options.headers)
             newHeaders.set("Authorization", refreshTokenData.accessToken)
             options.headers = newHeaders
-            const response = await requestApi(url, options)
+            const response = await requestApi<T>(url, options)
             return response
         } else {
             return Promise.reject(err)
