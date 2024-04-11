@@ -28,7 +28,7 @@ const ProfileMenu: FC<tProfileMenu> = ({selectedEntry}) => {
   }
 
   const logout = async () => {
-    const response = await dispatch(logoutUser()).unwrap()
+    const response = await dispatch(logoutUser()).unwrap() as {success: boolean, message: string}
     if (response.success) navigate("/login")
   }
 
