@@ -1,6 +1,13 @@
+import { FC, ReactElement } from "react"
 import { useLocation, Navigate } from "react-router-dom"
 
-const ProtectedRoute = ({ children, anonymous = false, essentialPreviousRoute = "" }) => {
+interface IProtectedRoute {
+  anonymous?: boolean,
+  essentialPreviousRoute?: string,
+  children: ReactElement
+}
+
+const ProtectedRoute: FC<IProtectedRoute> = ({ children, anonymous = false, essentialPreviousRoute = "" }) => {
   const isLoggedIn = localStorage.getItem("accessToken")
   const location = useLocation()
   const fromLocation = location.state?.from || '/'

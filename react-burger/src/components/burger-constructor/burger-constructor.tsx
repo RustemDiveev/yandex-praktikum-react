@@ -1,16 +1,15 @@
-import PropTypes from "prop-types"
-
-import { useMemo, useEffect, useState, useRef } from "react"
+import { useMemo, useEffect, useState, useRef, FC } from "react"
 
 import { useNavigate } from "react-router-dom"
-
-import { useSelector, useDispatch } from "react-redux"
 
 import { useDrop, useDrag } from "react-dnd"
 
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components"
 import { CurrencyIcon, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components"
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components"
+
+import useAppDispatch from "../../services/hooks/useAppDispatch"
+import useAppSelector from "../../services/hooks/useAppSelector"
 
 import { 
   selectIngredients, 
@@ -21,18 +20,22 @@ import {
 } from "../../services/slices/constructorSlice"
 import { postOrder } from "../../services/slices/orderSlice"
 import { counterIncreased, counterDecreased } from "../../services/slices/ingredientsSlice"
+import IIngredient from "../../interfaces/Ingredient"
 
 import styles from "./burger-constructor.module.css"
 
+interface IIngredientProps {
+  ingredient: IIngredient
+}
 
-const Ingredient = ({ ingredient }) => {
+const Ingredient: FC<IIngredientProps> = ({ ingredient }) => {
   const ref = useRef(null)
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   const [, drop] = useDrop({
     accept: "constructorIngredient",
     drop(uniqueId) {
-      dispatch(reorderIngredients(uniqueId, ingredient.uniqueId))
+      dispatch(reorderIngredients({draggedId: uniqueId, droppedId: ingredient.uniqueId}))
     }
   })
 
@@ -41,7 +44,7 @@ const Ingredient = ({ ingredient }) => {
     item: { uniqueId: ingredient.uniqueId }
   })
 
-  const handleClose = (elem) => {
+  const handleClose = (elem: IIngredient) => {
     return () => {
       dispatch(ingredientDeleted(elem.uniqueId))
       dispatch(counterDecreased(elem._id))
@@ -52,7 +55,7 @@ const Ingredient = ({ ingredient }) => {
 
   return (
     <li ref={ref}>
-      <DragIcon/>
+      <DragIcon type="primary"/>
       <ConstructorElement
         text={ingredient.name}
         thumbnail={ingredient.image_mobile}
@@ -63,20 +66,23 @@ const Ingredient = ({ ingredient }) => {
   )
 }
 
+interface IBurgerConstructorProps {
+  setModalOpen: () => void
+}
 
-const BurgerConstructor = ({setModalOpen}) => { 
+const BurgerConstructor: FC<IBurgerConstructorProps> = ({setModalOpen}) => { 
   const [totalPrice, setTotalPrice] = useState(0)
-  const ingredients = useSelector(selectIngredients)
-  const bun = useSelector(selectBun)
-  const dispatch = useDispatch()
+  const ingredients = useAppSelector(selectIngredients)
+  const bun = useAppSelector(selectBun)
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
 
   const [, dropTarget] = useDrop({
     accept: "burgerIngredient",
-    drop(ingredient) {
+    drop(ingredient: IIngredient) {
       dispatch(ingredientAdded(ingredient))
-      dispatch(counterIncreased(ingredient.ingredient._id))
+      dispatch(counterIncreased(ingredient._id))
     }
   })
 
@@ -89,7 +95,7 @@ const BurgerConstructor = ({setModalOpen}) => {
 
   const onOrderClick = async () => {
     if (localStorage.getItem("accessToken")) {
-      if (bun !== null || ingredients.length > 0) {
+      if (bun !== null && ingredients.length > 0) {
         const ingredientsIds = {ingredients: [bun._id, ...ingredients.map(elem => elem._id), bun._id]}
         dispatch(postOrder(ingredientsIds))
         setModalOpen()
@@ -122,7 +128,6 @@ const BurgerConstructor = ({setModalOpen}) => {
       </ul>
       <div className={"ml-10"}>
         {bun && <ConstructorElement
-          className={"ml-10"}
           type="bottom"
           text={`${bun.name} (низ)`}
           thumbnail={bun.image_mobile}
@@ -132,7 +137,7 @@ const BurgerConstructor = ({setModalOpen}) => {
       </div>
       <div className={`${styles.footer} mt-4`}>
         <p></p>
-        <p className="text text_type_main-large">{totalPrice}<CurrencyIcon/></p>
+        <p className="text text_type_main-large">{totalPrice}<CurrencyIcon type="primary"/></p>
         <Button 
           htmlType="button" 
           type="primary" 
@@ -143,10 +148,6 @@ const BurgerConstructor = ({setModalOpen}) => {
       </div>    
     </div>
   )
-}
-
-BurgerConstructor.propTypes = {
-  setModalOpen: PropTypes.func.isRequired
 }
 
 export default BurgerConstructor

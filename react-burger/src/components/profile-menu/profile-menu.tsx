@@ -1,10 +1,9 @@
-import PropTypes from "prop-types"
+import { FC } from "react"
 
 import { useNavigate } from "react-router-dom"
 
-import { useDispatch } from "react-redux"
-
 import { logoutUser } from "../../services/slices/userSlice"
+import useAppDispatch from "../../services/hooks/useAppDispatch"
 
 import styles from "./profile-menu.module.css"
 
@@ -12,9 +11,13 @@ import styles from "./profile-menu.module.css"
 const activeEntry = `text text_type_main-medium mt-7 mb-7 ${styles.entry}`
 const inactiveEntry = `${activeEntry} text_color_inactive`
 
-const ProfileMenu = ({selectedEntry}) => {
+type tProfileMenu = {
+  selectedEntry: "profile" | "history" | "signout"
+}
+
+const ProfileMenu: FC<tProfileMenu> = ({selectedEntry}) => {
   const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   const toProfile = () => {
     navigate("/profile")
@@ -25,7 +28,7 @@ const ProfileMenu = ({selectedEntry}) => {
   }
 
   const logout = async () => {
-    const response = await dispatch(logoutUser()).unwrap()
+    const response = await dispatch(logoutUser()).unwrap() as {success: boolean, message: string}
     if (response.success) navigate("/login")
   }
 
@@ -54,10 +57,6 @@ const ProfileMenu = ({selectedEntry}) => {
       </p>
     </div>
   )
-}
-
-ProfileMenu.propTypes = {
-  selectedEntry: PropTypes.string
 }
 
 export default ProfileMenu

@@ -3,20 +3,43 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import { REGISTER_URL, LOGIN_URL, LOGOUT_URL, USER_URL } from "../../settings/urls"
 
 import requestApi, {requestApiWithTokenRefresh} from "../../utils/api"
+import { RootState } from "../store"
+import { TServerResponse } from "../../utils/api"
 
 
-const initialState = {
+interface IUserState {
+  user: {
+    email: string,
+    name: string
+  }
+}
+
+const initialState: IUserState = {
   user: {
     email: "",
     name: ""
   }
 }
 
+type TUser = {
+  user: { 
+    email: string,
+    name: string
+  }
+}
+
+type TRegisterUserResponse = TServerResponse<TUser & {
+  accessToken: string,
+  refreshToken: string
+}>
+
+type TUserResponse = TServerResponse<TUser>
+
 export const registerUser = createAsyncThunk(
   "user/register",
-  async ({email, password, name}) => {
+  async ({email, password, name}: {email: string, password: string, name: string}) => {
     const payload = {email, password, name}
-    const response = await requestApi(
+    const response = await requestApi<TRegisterUserResponse>(
       REGISTER_URL, 
       {
         method: "POST",
@@ -32,8 +55,8 @@ export const registerUser = createAsyncThunk(
 
 export const loginUser = createAsyncThunk(
   "user/login",
-  async ({email, password}) => {
-    const response = await requestApi(
+  async ({email, password}: {email: string, password: string}) => {
+    const response = await requestApi<TRegisterUserResponse>(
       LOGIN_URL,
       {
         method: "POST",
@@ -69,7 +92,7 @@ export const logoutUser = createAsyncThunk(
 export const userGetInfo = createAsyncThunk(
   "user/getInfo",
   async () => {
-    const response = await requestApiWithTokenRefresh(
+    const response = await requestApiWithTokenRefresh<TUserResponse>(
       USER_URL,
       {
         method: "GET",
@@ -84,8 +107,8 @@ export const userGetInfo = createAsyncThunk(
 
 export const userPatchInfo = createAsyncThunk(
   "user/patchInfo",
-  async ({ email, name, password }) => {
-    const response = await requestApiWithTokenRefresh(
+  async ({ email, name, password }: {email: string, name: string, password: string}) => {
+    const response = await requestApiWithTokenRefresh<TUserResponse>(
       USER_URL,
       {
         method: "PATCH",
@@ -116,7 +139,7 @@ const userSlice = createSlice({
         localStorage.setItem("refreshToken", action.payload.refreshToken)
       })
       .addCase(logoutUser.fulfilled, (state, action) => {
-        state.user = {}
+        state.user = initialState.user
         localStorage.removeItem("accessToken")
         localStorage.removeItem("refreshToken")
       })
@@ -131,4 +154,4 @@ const userSlice = createSlice({
 
 export default userSlice.reducer
 
-export const selectUser = state => state.user.user
+export const selectUser = (state: RootState) => state.user.user

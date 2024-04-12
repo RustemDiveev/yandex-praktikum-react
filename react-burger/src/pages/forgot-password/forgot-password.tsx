@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { SyntheticEvent, useState } from "react"
 
 import { useNavigate, useLocation } from "react-router-dom"
 
@@ -9,14 +9,22 @@ import useForm from "../../hooks/useForm"
 import styles from "./forgot-password.module.css"
 
 
+type FormStateType = {
+  email: string
+}
+
+const initialFormState: FormStateType = {
+  email: ""
+}
+
 const ForgotPassword = () => {
   const [errorBool, setErrorBool] = useState(false)
-  const { values, handleChange } = useForm({email: ""})
+  const { values, handleChange } = useForm<FormStateType>(initialFormState)
 
   const navigate = useNavigate()
   const location = useLocation()
 
-  const onClickRestore = async (e) => {
+  const onClickRestore = async (e: SyntheticEvent) => {
     e.preventDefault()
     
     if (values.email) {

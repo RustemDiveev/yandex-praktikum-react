@@ -1,20 +1,30 @@
 import { useNavigate } from "react-router-dom"
 
-import { useDispatch } from "react-redux"
-
 import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components"
 
 import { loginUser } from "../../services/slices/userSlice"
 import useForm from "../../hooks/useForm"
+import useAppDispatch from "../../services/hooks/useAppDispatch"
 
 import styles from "./login.module.css"
+import { SyntheticEvent } from "react"
 
+
+type FormStateType = {
+  email: string
+  password: string
+}
+
+const initialFormState: FormStateType = {
+  email: "",
+  password: ""
+}
 
 const Login = () => {
-  const {values, handleChange} = useForm({email: "", password: ""})
+  const {values, handleChange} = useForm<FormStateType>(initialFormState)
 
   const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   const toRegister = () => {
     navigate("/register")
@@ -24,9 +34,9 @@ const Login = () => {
     navigate("/forgot-password")
   }
 
-  const login = async (e) => {
+  const login = async (e: SyntheticEvent) => {
     e.preventDefault()
-    const response = await dispatch(loginUser(values)).unwrap()
+    const response = await dispatch(loginUser(values as {email: string, password: string})).unwrap()
     if (response.success) navigate("/")
   }
 

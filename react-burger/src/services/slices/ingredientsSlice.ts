@@ -1,29 +1,46 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 
 import { INGREDIENTS_URL } from "../../settings/urls";
 
 import requestApi from "../../utils/api";
+import { RootState } from "../store";
+import IIngredient from "../../interfaces/Ingredient"
+import { TServerResponse } from "../../utils/api";
 
+
+type TFetchIngredientsResponse = TServerResponse<{
+    data: IIngredient[]
+}>
+
+interface IIngredientsState {
+    ingredients: IIngredient[],
+    success: null | boolean,
+    selectedIngredient: null | IIngredient,
+    counter: {[key: string]: number},
+    ingredientsLoaded: boolean,
+    status: null | string
+}   
 
 // helpers 
 // Возвращает массив идентификаторов всех типов булок
-const getBuns = (state) => state.ingredients
+const getBuns = (state: IIngredientsState) => state.ingredients
     .filter(ingredient => ingredient.type === "bun")
     .map(ingredient => ingredient._id)
 
 
-const initialState = {
+const initialState: IIngredientsState = {
     ingredients: [],
     success: null,
     selectedIngredient: null,
     counter: {},
-    ingredientsLoaded: false
+    ingredientsLoaded: false,
+    status: null
 }
 
 export const fetchIngredients = createAsyncThunk(
     "ingredients/fetchIngredients",
     async () => {
-        return await requestApi(INGREDIENTS_URL)
+        return await requestApi<TFetchIngredientsResponse>(INGREDIENTS_URL)
     }
 )
 
@@ -31,23 +48,8 @@ const ingredientsSlice = createSlice({
     name: "ingredients",
     initialState,
     reducers: {
-        ingredientSelected: {
-            reducer(state, action) {
-                state.selectedIngredient = state.ingredients.find(
-                    ingredient => ingredient._id === action.payload.ingredientId
-                )
-            },
-            prepare(ingredientId) {
-                return {payload: {ingredientId}}
-            }
-        },
-        ingredientUnselected: {
-            reducer(state, action) {
-                state.selectedIngredient = null
-            }
-        },
         counterIncreased: {
-            reducer(state, action) {
+            reducer(state, action: PayloadAction<{ingredientId: string}>) {
                 const buns = getBuns(state)
                 const ingredientId = action.payload.ingredientId
                 if (buns.length > 0 && buns.includes(ingredientId)) {
@@ -70,8 +72,11 @@ const ingredientsSlice = createSlice({
             }
         },
         counterDecreased: {
-            reducer(state, action) {
+            reducer(state, action: PayloadAction<string>) {
                 state.counter[action.payload] -= 1
+            },
+            prepare(ingredientId) {
+                return {payload: ingredientId}
             }
         }
     },
@@ -86,19 +91,17 @@ const ingredientsSlice = createSlice({
 })
 
 export const { 
-    ingredientSelected, 
-    ingredientUnselected, 
     counterIncreased,
     counterDecreased,
 } = ingredientsSlice.actions
 
 export default ingredientsSlice.reducer 
 
-export const selectIngredients = state => state.ingredients.ingredients
-export const selectStatus = state => state.ingredients.status
-export const selectSelectedIngredient = state => state.ingredients.selectedIngredient
-export const selectCounter = state => state.ingredients.counter
-export const selectIngredient = (state, ingredientId) => {
+export const selectIngredients = (state: RootState) => state.ingredients.ingredients
+export const selectStatus = (state: RootState) => state.ingredients.status
+export const selectSelectedIngredient = (state: RootState) => state.ingredients.selectedIngredient
+export const selectCounter = (state: RootState) => state.ingredients.counter
+export const selectIngredient = (state: RootState, ingredientId: string) => {
     return state.ingredients.success ? state.ingredients.ingredients.find(ingredient => ingredient._id === ingredientId) : null
 }
-export const selectIngredientsLoaded = state => state.ingredients.ingredientsLoaded
+export const selectIngredientsLoaded = (state: RootState) => state.ingredients.ingredientsLoaded

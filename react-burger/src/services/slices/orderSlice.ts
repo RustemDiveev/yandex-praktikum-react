@@ -2,19 +2,45 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 import { ORDERS_URL } from "../../settings/urls";
 import requestApi from "../../utils/api";
+import { RootState } from "../store";
+import IIngredient from "../../interfaces/Ingredient";
 
+type tPostOrderResponse = {
+    name: string,
+    order: {
+        createdAt: string,
+        ingredients: IIngredient[],
+        name: string,
+        number: number,
+        owner: {
+            name: string,
+            email: string,
+            createdAt: string,
+            updatedAt: string
+        },
+        price: number,
+        status: string,
+        updatedAt: string,
+        _id: string
+    },
+    success: boolean
+}
+
+interface IOrderState {
+    orderNumber: null | number
+}
 
 export const postOrder = createAsyncThunk(
     "order/postOrder",
-    async (ingredientsIds) => {
-        const response = await requestApi(
+    async (ingredientsIds: {ingredients: string[]}) => {
+        const headers = new Headers()
+        headers.set("Content-Type", "application/json")
+        headers.set("Authorization", localStorage.getItem("accessToken")!)
+        const response = await requestApi<tPostOrderResponse>(
             ORDERS_URL, 
             {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": localStorage.getItem("accessToken"),
-                },
+                headers,
                 body: JSON.stringify(ingredientsIds)
             }
         )
@@ -24,8 +50,7 @@ export const postOrder = createAsyncThunk(
     }
 )
 
-const initialState = {
-    status: "",
+const initialState: IOrderState = {
     orderNumber: null
 }
 
@@ -36,7 +61,6 @@ const orderSlice = createSlice({
     extraReducers(builder) {
         builder
             .addCase(postOrder.fulfilled, (state, action) => {
-                state.status = action.payload.status
                 state.orderNumber = action.payload.orderNumber
                 if (!action.payload.status) {
                     throw new Error('Запрос на формирование заказа вернул ошибку') 
@@ -47,5 +71,4 @@ const orderSlice = createSlice({
 
 export default orderSlice.reducer
 
-export const selectStatus = state => state.order.status 
-export const selectOrderNumber = state => state.order.orderNumber
+export const selectOrderNumber = (state: RootState) => state.order.orderNumber

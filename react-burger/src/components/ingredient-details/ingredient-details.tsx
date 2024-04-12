@@ -1,15 +1,15 @@
 import { useParams } from "react-router-dom"
-import { useSelector } from "react-redux"
 
 import IngredientNutrition from "../ingredient-nutrition/ingredient-nutrition"
 import { selectIngredient, selectIngredientsLoaded } from "../../services/slices/ingredientsSlice"
+import useAppSelector from "../../services/hooks/useAppSelector"
 import styles from "./ingredient-details.module.css"
 
 
 const IngredientDetails = () => {
   const { id } = useParams()
-  const selectedIngredientData = useSelector(state => selectIngredient(state, id))
-  const ingredientsLoaded = useSelector(selectIngredientsLoaded)
+  const selectedIngredientData = useAppSelector(state => selectIngredient(state, id!))!
+  const ingredientsLoaded = useAppSelector(selectIngredientsLoaded)
 
   if (!ingredientsLoaded) return null
 
