@@ -35,6 +35,7 @@ export const orderHistorySlice = createSlice({
     name: "orderHistory",
     initialState, 
     reducers: {
+        connectionStart() {},
         connectionSuccess(state) {
             state.error = undefined
             state.wsConnected = true
@@ -58,6 +59,7 @@ export const orderHistorySlice = createSlice({
 })
 
 export const {
+    connectionStart,
     connectionSuccess, 
     connectionError, 
     connectionClosed, 

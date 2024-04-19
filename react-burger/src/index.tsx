@@ -9,9 +9,11 @@ import reportWebVitals from './reportWebVitals';
 
 import store from './services/store';
 import { fetchIngredients } from './services/slices/ingredientsSlice';
+import { connectionStart } from './services/slices/orderHistorySlice';
 
 
 store.dispatch(fetchIngredients())
+store.dispatch(connectionStart())
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 

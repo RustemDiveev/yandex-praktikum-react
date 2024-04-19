@@ -3,13 +3,15 @@ import type { Middleware, MiddlewareAPI } from "redux";
 import type { AppDispatch, RootState } from "../store";
 
 import {
+    connectionStart,
     connectionSuccess, 
     connectionError, 
     connectionClosed, 
     connectionGetMessage
 } from "../slices/orderHistorySlice"
 
-export type wsActions = typeof connectionClosed 
+export type wsActions = typeof connectionStart
+    | typeof connectionClosed 
     | typeof connectionError 
     | typeof connectionSuccess 
     | typeof connectionGetMessage
@@ -19,11 +21,11 @@ export const socketMiddleware = (wsUrl: string): Middleware => {
         let socket: WebSocket | null = null 
 
         return next => (action: wsActions) => {
-            const {dispatch, getState} = store 
+            const {dispatch} = store 
             const { type } = action 
-            const { user } = getState().user
-
-            socket = new WebSocket(`${wsUrl}?token=${localStorage.getItem("accessToken")}`)
+            if (type === "orderHistory/connectionStart") {
+                socket = new WebSocket(`${wsUrl}`)
+            }
 
             if (socket) {
                 socket.onopen = event => {
