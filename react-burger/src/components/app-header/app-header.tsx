@@ -22,10 +22,14 @@ const AppHeader = () => {
                 </div>
               )}
             </NavLink>
-            <div className={`mt-4 mb-4 ml-1 mb-1 pl-5 pr-5 ${styles.menu_entry} text_color_inactive`}>
-              <ListIcon type="primary"/>
-              <span className="text text_type_main-default ml-2 mr-2">Лента заказов</span>
-            </div>
+            <NavLink to="/feed" className={styles.nav_link}>
+              {({ isActive }) => (
+                <div className={`mt-4 mb-4 ml-1 mb-1 pl-5 pr-5 ${styles.menu_entry} ${isActive ? "" : "text_color_inactive"}`}>
+                  <ListIcon type="primary"/>
+                  <span className="text text_type_main-default ml-2 mr-2">Лента заказов</span>
+                </div>
+              )}
+            </NavLink>
           </div>
           <div className={styles.additional_container}>
             <Logo />
