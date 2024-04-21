@@ -1,16 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit"
 
+import { RootState } from "../store"
 
-type tOrder = {
+
+export type tOrder = {
     ingredients: string[],
     _id: string,
+    name: string,
     status: string,
     number: number,
     createdAt: string,
     updatedAt: string,
 }
 
-type tOrderHistoryState = {
+export type tOrderHistoryState = {
     wsConnected: boolean,
     error?: Event,
     orderHistory: {
@@ -36,6 +39,7 @@ export const orderHistorySlice = createSlice({
     initialState, 
     reducers: {
         connectionStart() {},
+        connectionClose() {},
         connectionSuccess(state) {
             state.error = undefined
             state.wsConnected = true
@@ -51,7 +55,7 @@ export const orderHistorySlice = createSlice({
         connectionGetMessage(state, action) {
             state.error = undefined
             state.orderHistory.success = action.payload.success 
-            state.orderHistory.orders = [...state.orderHistory.orders, action.payload.orders]
+            state.orderHistory.orders = action.payload.orders
             state.orderHistory.total = action.payload.total 
             state.orderHistory.totalToday = action.payload.totalToday
         }
@@ -60,6 +64,7 @@ export const orderHistorySlice = createSlice({
 
 export const {
     connectionStart,
+    connectionClose,
     connectionSuccess, 
     connectionError, 
     connectionClosed, 
@@ -67,3 +72,8 @@ export const {
 } = orderHistorySlice.actions 
 
 export default orderHistorySlice.reducer
+
+export const selectOrders = (state: RootState) => state.orderHistory.orderHistory.orders 
+export const selectSuccess = (state: RootState) => state.orderHistory.orderHistory.success 
+export const selectTotal = (state: RootState) => state.orderHistory.orderHistory.total
+export const selectTotalToday = (state: RootState) => state.orderHistory.orderHistory.totalToday

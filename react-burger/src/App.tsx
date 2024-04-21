@@ -13,7 +13,7 @@ import ForgotPassword from "./pages/forgot-password/forgot-password"
 import ResetPassword from "./pages/reset-password/reset-password"
 import Profile from "./pages/profile/profile"
 import ProfileOrders from "./pages/profile-orders/profile-orders"
-import OrderFeed from "./pages/order-feed/order-feed"
+import Feed from "./pages/feed/feed"
 
 
 const App = () => {
@@ -31,7 +31,7 @@ const App = () => {
       <AppHeader/>
       <Routes location={background || location}>
         <Route path="/" element={<Main />}/>
-        <Route path="/feed" element={<OrderFeed/>}/>
+        <Route path="/feed" element={<Feed/>}/>
         <Route 
           path="/login" 
           element={
