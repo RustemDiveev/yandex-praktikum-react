@@ -1,5 +1,15 @@
+import { useParams } from "react-router-dom"
+
+import styles from "./feed-detail.module.css"
+
 const FeedDetail = () => {
-  return <h1>Diveev Test</h1>
+  const { number } = useParams()
+
+  return (
+    <div className={styles.div}>
+      <h1>Diveev Test</h1>
+    </div>
+  )
 }
 
 export default FeedDetail
