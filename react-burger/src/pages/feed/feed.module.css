@@ -8,5 +8,5 @@
     display: flex;
     justify-content: flex-start;
     flex-direction: column;
-    min-width: 600px;
+    width: 1000px;
 }   

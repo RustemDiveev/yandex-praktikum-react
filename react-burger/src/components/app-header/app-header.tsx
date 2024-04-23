@@ -10,7 +10,7 @@ const AppHeader = () => {
   return (
     <header className={styles.header}>
       <nav>
-        <div className={styles.main_container}>
+        <div className={`pt-5 ${styles.main_container}`}>
           <div className={styles.additional_container}>
             <NavLink to="/" className={styles.nav_link}>
               {({ isActive }) => (

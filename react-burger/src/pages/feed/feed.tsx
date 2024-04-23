@@ -3,6 +3,7 @@ import { useEffect } from "react"
 import { connectionStart, connectionClose } from "../../services/slices/orderHistorySlice"
 import useAppDispatch from "../../services/hooks/useAppDispatch"
 import OrderFeed from "../../components/order-feed/order-feed"
+import OrderSummary from "../../components/order-summary/order-summary"
 
 import styles from "./feed.module.css"
 
@@ -27,7 +28,7 @@ const Feed = () => {
         <OrderFeed/>
       </section>
       <section className={`mr-5 ml-5 ${styles.section}`}>
-
+        <OrderSummary/>
       </section>
     </main>
   )

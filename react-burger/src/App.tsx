@@ -14,6 +14,7 @@ import ResetPassword from "./pages/reset-password/reset-password"
 import Profile from "./pages/profile/profile"
 import ProfileOrders from "./pages/profile-orders/profile-orders"
 import Feed from "./pages/feed/feed"
+import FeedDetail from "./pages/feed-detail/feed-detail"
 
 
 const App = () => {
@@ -32,6 +33,7 @@ const App = () => {
       <Routes location={background || location}>
         <Route path="/" element={<Main />}/>
         <Route path="/feed" element={<Feed/>}/>
+        <Route path="/feed/:number" element={<FeedDetail/>}/>
         <Route 
           path="/login" 
           element={
