@@ -7,6 +7,7 @@ import useAppSelector from "../../services/hooks/useAppSelector"
 import { selectOrders, selectSuccess } from "../../services/slices/orderHistorySlice"
 import type { tOrder } from "../../services/slices/orderHistorySlice"
 import { selectIngredients } from "../../services/slices/ingredientsSlice"
+import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components"
 
 import styles from "./order-feed.module.css"
 
@@ -38,20 +39,29 @@ const OrderCard: FC<IOrderCardProps> = ({order}) => {
         />
       </div>
       <p className="text text_type_main-medium mt-6">{order.name}</p>
-      <ul className={styles.ul}>
-        {images.splice(0, 6).map((image, index) => (
-          <li className={styles.image_container} style={{zIndex: 6 - index}}>
-            <img className={styles.image} src={image.image} alt={image.name}/>
-            {index === 5 && order.ingredients.length > 6 &&
-              <div className={styles.ingredients_counter}>
-                <p className="text text_type_digits-default">
-                  +{order.ingredients.length - 6}
-                </p>
-              </div>
-            }
-          </li>
-        ))}
-      </ul>
+      <div className={styles.info}>
+        <ul className={styles.ul}>
+          {images.splice(0, 6).map((image, index) => (
+            <li className={styles.image_container} style={{zIndex: 6 - index}}>
+              <img className={styles.image} src={image.image} alt={image.name}/>
+              {index === 5 && order.ingredients.length > 6 &&
+                <div className={styles.ingredients_counter}>
+                  <p className="text text_type_digits-default">
+                    +{order.ingredients.length - 6}
+                  </p>
+                </div>
+              }
+            </li>
+          ))}
+        </ul>
+        <div>
+          <p style={{display: "flex", alignItems: "center"}}>
+            <span className="text text_type_digits-default">500</span>
+            <CurrencyIcon type="primary"/> 
+          </p>
+        </div>
+      </div>
+      
     </div>
   )
 }
