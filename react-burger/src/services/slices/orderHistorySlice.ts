@@ -1,6 +1,8 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 
 import { RootState } from "../store"
+import requestApi from "../../utils/api"
+import { getOrderDetailUrl } from "../../settings/urls"
 
 
 export type tOrder = {
@@ -13,6 +15,11 @@ export type tOrder = {
     updatedAt: string,
 }
 
+export type tOrderDetailResponse = {
+    success: boolean,
+    orders: tOrder[]
+}
+
 export type tOrderHistoryState = {
     wsConnected: boolean,
     error?: Event,
@@ -22,6 +29,7 @@ export type tOrderHistoryState = {
         total: number,
         totalToday: number
     }
+    selectedOrder: tOrder | null
 }
 
 const initialState: tOrderHistoryState = {
@@ -31,8 +39,14 @@ const initialState: tOrderHistoryState = {
         orders: [],
         total: 0,
         totalToday: 0
-    }
+    },
+    selectedOrder: null,
 }
+
+export const fetchSelectedOrder = createAsyncThunk(
+    "orderHistory/fetchSelectedOrder",
+    async (number: string) => await requestApi<tOrderDetailResponse>(getOrderDetailUrl(number))
+)
 
 export const orderHistorySlice = createSlice({
     name: "orderHistory",
@@ -59,7 +73,12 @@ export const orderHistorySlice = createSlice({
             state.orderHistory.total = action.payload.total 
             state.orderHistory.totalToday = action.payload.totalToday
         }
-    }    
+    },
+    extraReducers(builder) {
+        builder.addCase(fetchSelectedOrder.fulfilled, (state, action) => {
+            state.selectedOrder = action.payload.orders[0] ?? null
+        })
+    },    
 })
 
 export const {
@@ -77,3 +96,7 @@ export const selectOrders = (state: RootState) => state.orderHistory.orderHistor
 export const selectSuccess = (state: RootState) => state.orderHistory.orderHistory.success 
 export const selectTotal = (state: RootState) => state.orderHistory.orderHistory.total
 export const selectTotalToday = (state: RootState) => state.orderHistory.orderHistory.totalToday
+export const selectOrderByNumber = (state: RootState, number: number) => {
+    return state.orderHistory.orderHistory.orders.find(order => order.number === number)
+}
+export const selectSelectedOrder = (state: RootState) => state.orderHistory.selectedOrder
