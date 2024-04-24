@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom"
 
 import styles from "./feed-detail.module.css"
 
+
 const FeedDetail = () => {
   const { number } = useParams()
 
