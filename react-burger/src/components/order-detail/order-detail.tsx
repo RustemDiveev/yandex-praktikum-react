@@ -14,7 +14,7 @@ interface IOrderDetailProps {
 }
 
 const translateStatus = (status: string) => {
-  return status === "done" ? "Выполнен" : status === "pending" ? "В процессе" : "Создан"
+  return status === "done" ? "Выполнен" : status === "pending" ? "Готовится" : "Создан"
 }
 
 const OrderDetail: FC<IOrderDetailProps> = ({order}) => {

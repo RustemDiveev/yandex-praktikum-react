@@ -18,7 +18,7 @@ export type wsActions = typeof connectionStart
     | typeof connectionGetMessage
     | typeof connectionClose
 
-export const socketMiddleware = (wsUrl: string): Middleware => {
+export const socketMiddleware = (wsUrl: string, useToken: boolean): Middleware => {
     return ((store: MiddlewareAPI<AppDispatch, RootState>) => {
         let socket: WebSocket | null = null 
 
@@ -26,7 +26,12 @@ export const socketMiddleware = (wsUrl: string): Middleware => {
             const {dispatch} = store 
             const { type } = action 
             if (type === "orderHistory/connectionStart") {
-                socket = new WebSocket(`${wsUrl}`)
+                if (useToken) {
+                    socket = new WebSocket(`${wsUrl}?token=${localStorage.getItem("accessToken")?.split(" ")[1]}`)
+                } else {
+                    socket = new WebSocket(`${wsUrl}`)
+                }
+                
             }
 
             if (socket) {

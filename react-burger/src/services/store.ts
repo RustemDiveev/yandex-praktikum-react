@@ -18,7 +18,8 @@ export const store = configureStore({
         orderHistory:       orderHistoryReducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware()
-        .concat(socketMiddleware("wss://norma.nomoreparties.space/orders/all"))
+        .concat(socketMiddleware("wss://norma.nomoreparties.space/orders/all", false))
+        .concat(socketMiddleware("wss://norma.nomoreparties.space/orders", true))
 })
 
 export type RootState = ReturnType<typeof store.getState>

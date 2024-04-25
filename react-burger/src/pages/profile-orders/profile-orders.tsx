@@ -1,8 +1,17 @@
+import { useEffect } from "react"
+
 import ProfileMenu from "../../components/profile-menu/profile-menu";
 
 import styles from "./profile-orders.module.css"
 
+import useAppDispatch from "../../services/hooks/useAppDispatch";
+import { connectionStart } from "../../services/slices/orderHistorySlice";
+
 const ProfileOrders = () => {
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {dispatch(connectionStart())}, [])
+
   return (
     <div className={`${styles.main_container} mt-20`}>
       <div className={`${styles.col} pl-20`}>

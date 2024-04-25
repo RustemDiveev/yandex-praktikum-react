@@ -59,6 +59,7 @@ export const orderHistorySlice = createSlice({
             state.wsConnected = true
         },
         connectionError(state, action) {
+            console.log("connectionError: action: ", action)
             state.error = action.payload
             state.wsConnected = false 
         },
