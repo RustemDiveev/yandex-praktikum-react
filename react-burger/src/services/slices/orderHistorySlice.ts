@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit"
 
 import { RootState } from "../store"
 import requestApi from "../../utils/api"
@@ -52,14 +52,13 @@ export const orderHistorySlice = createSlice({
     name: "orderHistory",
     initialState, 
     reducers: {
-        connectionStart() {},
+        connectionStart(state, action: PayloadAction<string>) {},
         connectionClose() {},
         connectionSuccess(state) {
             state.error = undefined
             state.wsConnected = true
         },
         connectionError(state, action) {
-            console.log("connectionError: action: ", action)
             state.error = action.payload
             state.wsConnected = false 
         },

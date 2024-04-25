@@ -10,7 +10,6 @@ import { connectionStart } from "../../services/slices/orderHistorySlice";
 const ProfileOrders = () => {
   const dispatch = useAppDispatch()
 
-  useEffect(() => {dispatch(connectionStart())}, [])
 
   return (
     <div className={`${styles.main_container} mt-20`}>

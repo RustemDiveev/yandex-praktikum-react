@@ -4,6 +4,7 @@ import { connectionStart, connectionClose } from "../../services/slices/orderHis
 import useAppDispatch from "../../services/hooks/useAppDispatch"
 import OrderFeed from "../../components/order-feed/order-feed"
 import OrderSummary from "../../components/order-summary/order-summary"
+import { WS_ALL_ORDERS_URL } from "../../settings/urls"
 
 import styles from "./feed.module.css"
 
@@ -13,7 +14,7 @@ const Feed = () => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch(connectionStart())
+    dispatch(connectionStart(WS_ALL_ORDERS_URL))
     return () => {
       dispatch(connectionClose())
     }

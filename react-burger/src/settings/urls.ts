@@ -20,3 +20,10 @@ export const REFRESH_TOKEN_URL = `${API_AUTH_URL}/token`
 export const USER_URL = `${API_AUTH_URL}/user`
 
 export const getOrderDetailUrl = (number: string) => `${ORDERS_URL}/${number}`
+
+// websockets
+export const WS_API_URL = "wss://norma.nomoreparties.space"
+
+export const WS_ORDERS_URL = `${WS_API_URL}/orders`
+
+export const WS_ALL_ORDERS_URL = `${WS_ORDERS_URL}/all`

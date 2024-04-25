@@ -18,20 +18,15 @@ export type wsActions = typeof connectionStart
     | typeof connectionGetMessage
     | typeof connectionClose
 
-export const socketMiddleware = (wsUrl: string, useToken: boolean): Middleware => {
+export const socketMiddleware = (wsUrl: string): Middleware => {
     return ((store: MiddlewareAPI<AppDispatch, RootState>) => {
         let socket: WebSocket | null = null 
-
-        return next => (action: wsActions) => {
+        
+        // При подстановке wsActions не дает вытащить payload - не разобрался, что именно надо сделать
+        return next => (action: any) => {
             const {dispatch} = store 
-            const { type } = action 
-            if (type === "orderHistory/connectionStart") {
-                if (useToken) {
-                    socket = new WebSocket(`${wsUrl}?token=${localStorage.getItem("accessToken")?.split(" ")[1]}`)
-                } else {
-                    socket = new WebSocket(`${wsUrl}`)
-                }
-                
+            if (action.type === "orderHistory/connectionStart") {
+                socket = new WebSocket(action.payload)                
             }
 
             if (socket) {
@@ -50,7 +45,7 @@ export const socketMiddleware = (wsUrl: string, useToken: boolean): Middleware =
                     dispatch(connectionGetMessage(parsedData))
                 }
 
-                if (type === "orderHistory/connectionClose") socket.close()
+                if (action.type === "orderHistory/connectionClose") socket.close()
             }
 
             next(action)
