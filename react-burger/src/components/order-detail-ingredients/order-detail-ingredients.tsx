@@ -1,8 +1,12 @@
-import { FC } from "react"
+import { FC, useMemo } from "react"
 
 import useAppSelector from "../../services/hooks/useAppSelector"
 import { selectIngredients } from "../../services/slices/ingredientsSlice"
 import IIngredient from "../../interfaces/Ingredient"
+import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components"
+
+import styles from "./order-detail-ingredients.module.css"
+
 
 interface IOrderDetailIngredientsProps {
   ingredientIds: string[]
@@ -18,11 +22,11 @@ type tIngredient = {
 const OrderDetailIngredients: FC<IOrderDetailIngredientsProps> = ({ingredientIds}) => {
   const ingredients = useAppSelector(selectIngredients)
 
-  const preparedIngredients = ingredientIds.map(
+  const preparedIngredients = useMemo(() => ingredientIds.map(
     id => ingredients.find(ingredient => ingredient._id === id)
-  ) as IIngredient[]
+  ) as IIngredient[], [ingredientIds, ingredients])
   
-  const finalPreparedIngredients = preparedIngredients.reduce(
+  const finalPreparedIngredients = useMemo(() => preparedIngredients.reduce(
     (previous: {[key: string]: tIngredient}, current) => {
       const key = current._id 
       let newPrevious = {...previous}
@@ -38,12 +42,27 @@ const OrderDetailIngredients: FC<IOrderDetailIngredientsProps> = ({ingredientIds
       }
       return newPrevious
     }, {}
-  )
+  ), [preparedIngredients])
 
   return (
-    <ul>
+    <ul className={styles.ul}>
       {Object.values(finalPreparedIngredients).map(ingredient => {
-        return <li>{ingredient.name} {ingredient.count}</li>
+        return (
+          <li key={ingredient.name} className={`${styles.li} mt-4 mr-6`}>
+            <div className={styles.image_container}>
+              <img src={ingredient.image_mobile} alt={ingredient.name} className={styles.image}/>
+            </div>
+            <p className="text text_type_main-default ml-4">
+              {ingredient.name}
+            </p> 
+            <div className={styles.price}>
+              <p className="text text_type_digits-default mr-2">
+                {ingredient.count} x {ingredient.price}  
+              </p>
+              <CurrencyIcon type="primary"/>
+            </div>
+          </li>
+        )
       })}
     </ul>
   )

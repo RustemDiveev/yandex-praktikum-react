@@ -10,3 +10,14 @@
 .status {
     color: #00CCCC;
 }
+
+.footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.price {
+    display: flex;
+    align-items: center;
+}
