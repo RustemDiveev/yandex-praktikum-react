@@ -1,6 +1,6 @@
 import { FC, useMemo } from "react"
 
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 
 import { FormattedDate } from "@ya.praktikum/react-developer-burger-ui-components"
 
@@ -20,6 +20,7 @@ interface IOrderCardProps {
 
 const OrderFeedCard: FC<IOrderCardProps> = ({order}) => {
   const ingredients = useAppSelector(selectIngredients)
+  const location = useLocation()
 
   const ingredientsInfo = useMemo(() => order.ingredients.map(
     (ingredient_id: string) => ingredients.find(item => ingredient_id === item._id)
@@ -43,7 +44,7 @@ const OrderFeedCard: FC<IOrderCardProps> = ({order}) => {
   , [ingredientsInfo])
 
   return (
-    <Link to={`./${order.number}`} className={styles.link}>
+    <Link to={`./${order.number}`} state={{ background: location }} className={styles.link}>
       <div className={`mt-6 mb-6 p-6 ${styles.card_container}`}>
         <div className={styles.meta_row}>
           <span className="text text_type_digits-default">#{order.number}</span>
@@ -56,7 +57,7 @@ const OrderFeedCard: FC<IOrderCardProps> = ({order}) => {
         <div className={styles.info}>
           <ul className={styles.ul}>
             {ingredientsInfo.splice(0, 6).map((ingredient, index) => (
-              <li className={styles.image_container} style={{zIndex: 6 - index}}>
+              <li key={index} className={styles.image_container} style={{zIndex: 6 - index}}>
                 <img className={styles.image} src={ingredient.image} alt={ingredient.name}/>
                 {index === 5 && order.ingredients.length > 6 &&
                   <div className={styles.ingredients_counter}>

@@ -13,7 +13,7 @@ const OrderFeed = () => {
   if (success)
   return (
     <div className={styles.div}>
-      {orders.map(order => <OrderFeedCard order={order}/>)}
+      {orders.map(order => <OrderFeedCard key={order.number} order={order}/>)}
     </div>
   )
 

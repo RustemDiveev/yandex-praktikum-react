@@ -82,6 +82,14 @@ const App = () => {
             </ProtectedRoute> 
           }
         />
+        <Route
+          path="/profile/orders/:number"
+          element={
+            <ProtectedRoute>
+              <FeedDetail/>
+            </ProtectedRoute>
+          }
+        />
         <Route path="/ingredients/:id" element={<IngredientDetails />}/>
         <Route path="*" element={<h1>Страница не найдена!</h1>}/>
       </Routes>
@@ -91,6 +99,16 @@ const App = () => {
             <Route path="/ingredients/:id" element={
               <Modal closeModal={closeModal} header="Детали ингредиента">
                 <IngredientDetails />
+              </Modal>
+            }/>
+            <Route path="/feed/:number" element={
+              <Modal closeModal={closeModal} header="Детали заказа">
+                <FeedDetail/>
+              </Modal>
+            }/>
+            <Route path="/profile/orders/:number" element={
+              <Modal closeModal={closeModal} header="Детали заказа">
+                <FeedDetail/>
               </Modal>
             }/>
           </Routes>

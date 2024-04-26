@@ -14,8 +14,9 @@ const OrderSummaryOrdersStatus: FC<IOrderSummaryOrdersProps> = ({title, orders, 
     <div>
       <p className={`text text_type_main-medium mb-6`}>{title}:</p>
       <ul className={styles.ul}>
-        {orders.splice(0, 5).map(order => (
+        {orders.splice(0, 5).map((order, index) => (
           <li 
+            key={index}
             className="mt-2 mb-2 text text_type_digits-default"
             style={{color}}
           >
