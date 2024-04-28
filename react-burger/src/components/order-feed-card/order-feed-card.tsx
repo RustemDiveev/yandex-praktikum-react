@@ -6,7 +6,7 @@ import { FormattedDate } from "@ya.praktikum/react-developer-burger-ui-component
 
 import useAppSelector from "../../services/hooks/useAppSelector"
 
-import type { tOrder } from "../../services/slices/orderHistorySlice"
+import type { TOrder } from "../../services/slices/orderHistorySlice"
 
 import { selectIngredients } from "../../services/slices/ingredientsSlice"
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components"
@@ -15,7 +15,7 @@ import styles from "./order-feed-card.module.css"
 
 
 interface IOrderCardProps {
-  order: tOrder
+  order: TOrder
 }
 
 const OrderFeedCard: FC<IOrderCardProps> = ({order}) => {

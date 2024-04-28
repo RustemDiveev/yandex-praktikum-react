@@ -12,7 +12,7 @@ interface IOrderDetailIngredientsProps {
   ingredientIds: string[]
 }
 
-type tIngredient = {
+type TIngredient = {
   name: string,
   price: number,
   count: number,
@@ -27,7 +27,7 @@ const OrderDetailIngredients: FC<IOrderDetailIngredientsProps> = ({ingredientIds
   ) as IIngredient[], [ingredientIds, ingredients])
   
   const finalPreparedIngredients = useMemo(() => preparedIngredients.reduce(
-    (previous: {[key: string]: tIngredient}, current) => {
+    (previous: {[key: string]: TIngredient}, current) => {
       const key = current._id 
       let newPrevious = {...previous}
       if (key in previous) {

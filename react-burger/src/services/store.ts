@@ -7,7 +7,50 @@ import constructorReducer from "./slices/constructorSlice";
 import orderReducer from "./slices/orderSlice";
 import userReducer from "./slices/userSlice";
 import orderHistoryReducer from "./slices/orderHistorySlice"
+import {
+    connectionStart, 
+    connectionClose, 
+    connectionSuccess, 
+    connectionError, 
+    connectionClosed, 
+    connectionGetMessage,
+    TWsActions
+} from "../services/slices/orderHistorySlice"
+import {
+    ingredientAdded,
+    ingredientDeleted,
+    reorderIngredients
+} from "../services/slices/constructorSlice"
+import {
+    counterIncreased,
+    counterDecreased,
+} from "../services/slices/ingredientsSlice"
 
+
+export type TAppActions = {
+    type: typeof connectionStart.type
+    | typeof connectionClose.type
+    | typeof connectionSuccess.type
+    | typeof connectionError.type
+    | typeof connectionClosed.type
+    | typeof connectionGetMessage.type
+    | typeof ingredientAdded.type
+    | typeof ingredientDeleted.type
+    | typeof reorderIngredients.type
+    | typeof counterIncreased.type
+    | typeof counterDecreased.type,
+    payload?: any
+}
+
+
+const wsActions: TWsActions = {
+    wsInit: connectionStart,
+    wsClose: connectionClose,
+    wsSuccess: connectionSuccess,
+    wsError: connectionError,
+    wsClosed: connectionClosed,
+    wsGetMessage: connectionGetMessage
+}
 
 export const store = configureStore({
     reducer: {
@@ -18,7 +61,7 @@ export const store = configureStore({
         orderHistory:       orderHistoryReducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware()
-        .concat(socketMiddleware("wss://norma.nomoreparties.space/orders/all"))
+        .concat(socketMiddleware(wsActions))
 })
 
 export type RootState = ReturnType<typeof store.getState>

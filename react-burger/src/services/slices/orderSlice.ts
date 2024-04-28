@@ -5,7 +5,7 @@ import requestApi from "../../utils/api";
 import { RootState } from "../store";
 import IIngredient from "../../interfaces/Ingredient";
 
-type tPostOrderResponse = {
+type TPostOrderResponse = {
     name: string,
     order: {
         createdAt: string,
@@ -36,7 +36,7 @@ export const postOrder = createAsyncThunk(
         const headers = new Headers()
         headers.set("Content-Type", "application/json")
         headers.set("Authorization", localStorage.getItem("accessToken")!)
-        const response = await requestApi<tPostOrderResponse>(
+        const response = await requestApi<TPostOrderResponse>(
             ORDERS_URL, 
             {
                 method: "POST",

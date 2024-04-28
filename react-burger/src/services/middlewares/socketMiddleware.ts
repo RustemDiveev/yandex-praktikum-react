@@ -1,51 +1,38 @@
 import type { Middleware, MiddlewareAPI } from "redux";
 
-import type { AppDispatch, RootState } from "../store";
+import type { AppDispatch, RootState, TAppActions } from "../store";
 
-import {
-    connectionStart,
-    connectionClose,
-    connectionSuccess, 
-    connectionError, 
-    connectionClosed, 
-    connectionGetMessage
-} from "../slices/orderHistorySlice"
+import type { TWsActions } from "../slices/orderHistorySlice";
 
-export type wsActions = typeof connectionStart
-    | typeof connectionClosed 
-    | typeof connectionError 
-    | typeof connectionSuccess 
-    | typeof connectionGetMessage
-    | typeof connectionClose
 
-export const socketMiddleware = (wsUrl: string): Middleware => {
+export const socketMiddleware = (wsActions: TWsActions): Middleware => {
     return ((store: MiddlewareAPI<AppDispatch, RootState>) => {
         let socket: WebSocket | null = null 
         
-        // При подстановке wsActions не дает вытащить payload - не разобрался, что именно надо сделать
-        return next => (action: any) => {
+        return next => (action: TAppActions) => {
             const {dispatch} = store 
-            if (action.type === "orderHistory/connectionStart") {
+            const { wsInit, wsClose, wsClosed, wsSuccess, wsError, wsGetMessage} = wsActions
+            if (action.type === wsInit.type) {
                 socket = new WebSocket(action.payload)                
             }
 
             if (socket) {
-                socket.onopen = event => {
-                    dispatch(connectionSuccess())
+                socket.onopen = () => {
+                    dispatch(wsSuccess())
                 }
                 socket.onerror = event => {
-                    dispatch(connectionError(event))
+                    dispatch(wsError(event))
                 }
-                socket.onclose = event => {
-                    dispatch(connectionClosed())
+                socket.onclose = () => {
+                    dispatch(wsClosed())
                 }
                 socket.onmessage = event => {
                     const { data } = event 
                     const parsedData = JSON.parse(data)
-                    dispatch(connectionGetMessage(parsedData))
+                    dispatch(wsGetMessage(parsedData))
                 }
 
-                if (action.type === "orderHistory/connectionClose") socket.close()
+                if (action.type === wsClose.type) socket.close()
             }
 
             next(action)

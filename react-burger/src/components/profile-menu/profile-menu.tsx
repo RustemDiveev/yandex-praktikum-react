@@ -11,11 +11,11 @@ import styles from "./profile-menu.module.css"
 const activeEntry = `text text_type_main-medium mt-7 mb-7 ${styles.entry}`
 const inactiveEntry = `${activeEntry} text_color_inactive`
 
-type tProfileMenu = {
+type TProfileMenu = {
   selectedEntry: "profile" | "history" | "signout"
 }
 
-const ProfileMenu: FC<tProfileMenu> = ({selectedEntry}) => {
+const ProfileMenu: FC<TProfileMenu> = ({selectedEntry}) => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
 

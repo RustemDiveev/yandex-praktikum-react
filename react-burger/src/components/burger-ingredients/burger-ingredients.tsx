@@ -13,12 +13,12 @@ import IIngredient from "../../interfaces/Ingredient"
 import styles from "./burger-ingredients.module.css"
 
 
-type tBurgerIngredient = {
+type TBurgerIngredient = {
   ingredient: IIngredient,
   count: number
 }
 
-const BurgerIngredient: FC<tBurgerIngredient> = ({ingredient, count}) => {
+const BurgerIngredient: FC<TBurgerIngredient> = ({ingredient, count}) => {
   const [ , drag] = useDrag({
     type: "burgerIngredient",
     item: ingredient

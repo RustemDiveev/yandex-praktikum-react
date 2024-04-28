@@ -3,14 +3,14 @@ import { FC, useMemo } from "react"
 import { CurrencyIcon, FormattedDate } from "@ya.praktikum/react-developer-burger-ui-components"
 
 import useAppSelector from "../../services/hooks/useAppSelector"
-import type { tOrder } from "../../services/slices/orderHistorySlice"
+import type { TOrder } from "../../services/slices/orderHistorySlice"
 import OrderDetailIngredients from "../order-detail-ingredients/order-detail-ingredients"
 import { selectIngredients } from "../../services/slices/ingredientsSlice"
 import styles from "./order-detail.module.css"
 
 
 interface IOrderDetailProps {
-  order: tOrder
+  order: TOrder
 }
 
 const translateStatus = (status: string) => {

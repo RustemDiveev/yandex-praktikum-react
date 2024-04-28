@@ -2,7 +2,7 @@ import { FC } from "react"
 
 import styles from "./ingredient-nutrition.module.css"
 
-type tIngredientNutrition = {
+type TIngredientNutrition = {
   calories: number,
   proteins: number,
   fat: number,
@@ -10,7 +10,7 @@ type tIngredientNutrition = {
 }
 
 
-const IngredientNutrition: FC<tIngredientNutrition> = ({calories, proteins, fat, carbohydrates}) => (
+const IngredientNutrition: FC<TIngredientNutrition> = ({calories, proteins, fat, carbohydrates}) => (
   <>
     <div className={styles.nutrition}>
       <p className={"text text_type_main-default text_color_inactive"}>

@@ -5,7 +5,7 @@ import requestApi from "../../utils/api"
 import { getOrderDetailUrl } from "../../settings/urls"
 
 
-export type tOrder = {
+export type TOrder = {
     ingredients: string[],
     _id: string,
     name: string,
@@ -15,24 +15,24 @@ export type tOrder = {
     updatedAt: string,
 }
 
-export type tOrderDetailResponse = {
+export type TOrderDetailResponse = {
     success: boolean,
-    orders: tOrder[]
+    orders: TOrder[]
 }
 
-export type tOrderHistoryState = {
+export type TOrderHistoryState = {
     wsConnected: boolean,
     error?: Event,
     orderHistory: {
         success: boolean,
-        orders: tOrder[],
+        orders: TOrder[],
         total: number,
         totalToday: number
     }
-    selectedOrder: tOrder | null
+    selectedOrder: TOrder | null
 }
 
-const initialState: tOrderHistoryState = {
+const initialState: TOrderHistoryState = {
     wsConnected: false,
     orderHistory: {
         success: false,
@@ -45,7 +45,7 @@ const initialState: tOrderHistoryState = {
 
 export const fetchSelectedOrder = createAsyncThunk(
     "orderHistory/fetchSelectedOrder",
-    async (number: string) => await requestApi<tOrderDetailResponse>(getOrderDetailUrl(number))
+    async (number: string) => await requestApi<TOrderDetailResponse>(getOrderDetailUrl(number))
 )
 
 export const orderHistorySlice = createSlice({
@@ -89,6 +89,15 @@ export const {
     connectionClosed, 
     connectionGetMessage
 } = orderHistorySlice.actions 
+
+export type TWsActions = {
+    wsInit: typeof connectionStart
+    wsClose: typeof connectionClose
+    wsSuccess: typeof connectionSuccess
+    wsError: typeof connectionError
+    wsClosed: typeof connectionClosed
+    wsGetMessage: typeof connectionGetMessage
+}   
 
 export default orderHistorySlice.reducer
 

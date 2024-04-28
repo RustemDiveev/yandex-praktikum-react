@@ -8,7 +8,7 @@ import ModalOverlay from "../modal-overlay/modal-overlay"
 
 import styles from "./modal.module.css"
 
-type tModal = {
+type TModal = {
     closeModal: Function,
     header?: string,
     children: ReactNode
@@ -17,7 +17,7 @@ type tModal = {
 
 const modalRoot = document.getElementById("react-modals")
 
-const Modal: FC<tModal> = ({closeModal, header, children}) => {
+const Modal: FC<TModal> = ({closeModal, header, children}) => {
 
     const handleOnPressEscape = useCallback((e: KeyboardEvent) => {
         if (e.key === "Escape") closeModal()
