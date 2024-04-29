@@ -1,3 +1,5 @@
+import { useEffect } from "react"
+
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom"
 
 import ProtectedRoute from "./routing/protected-route/protected-route"
@@ -16,16 +18,21 @@ import ProfileOrders from "./pages/profile-orders/profile-orders"
 import Feed from "./pages/feed/feed"
 import FeedDetail from "./pages/feed-detail/feed-detail"
 
+import { fetchIngredients } from "./services/slices/ingredientsSlice"
+import useAppDispatch from "./services/hooks/useAppDispatch"
+
 
 const App = () => {
-
+  const navigate = useNavigate()
   const location = useLocation()
   const background = location.state && location.state.background;
-  const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+  const closeModal = () => {navigate(-1)}
 
-  const closeModal = () => {
-    navigate(-1)
-  }
+  // React.StrictMode все равно рендерит App два раза, убрать его?
+  useEffect(() => {
+    dispatch(fetchIngredients())
+  }, [dispatch])
 
   return (
     <>

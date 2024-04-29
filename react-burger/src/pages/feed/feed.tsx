@@ -14,8 +14,10 @@ const Feed = () => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
+    console.log("starting connection")
     dispatch(connectionStart(WS_ALL_ORDERS_URL))
     return () => {
+      console.log("closing connection")
       dispatch(connectionClose())
     }
   }, [dispatch])

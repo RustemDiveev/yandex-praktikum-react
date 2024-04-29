@@ -8,10 +8,6 @@ import App from "./App";
 import reportWebVitals from './reportWebVitals';
 
 import store from './services/store';
-import { fetchIngredients } from './services/slices/ingredientsSlice';
-
-
-store.dispatch(fetchIngredients())
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 

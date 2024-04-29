@@ -31,8 +31,11 @@ export const socketMiddleware = (wsActions: TWsActions): Middleware => {
                     const parsedData = JSON.parse(data)
                     dispatch(wsGetMessage(parsedData))
                 }
-
-                if (action.type === wsClose.type) socket.close()
+                
+                // https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/readyState
+                if (action.type === wsClose.type && socket.readyState === 1) {
+                    socket.close()
+                }
             }
 
             next(action)

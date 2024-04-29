@@ -1,37 +1,36 @@
-import { FC, useMemo } from "react"
+import { FC, useMemo, memo } from "react"
 
 import { Link, useLocation } from "react-router-dom"
 
 import { FormattedDate } from "@ya.praktikum/react-developer-burger-ui-components"
 
-import useAppSelector from "../../services/hooks/useAppSelector"
-
 import type { TOrder } from "../../services/slices/orderHistorySlice"
 
-import { selectIngredients } from "../../services/slices/ingredientsSlice"
+import IIngredient from "../../interfaces/Ingredient"
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components"
 
 import styles from "./order-feed-card.module.css"
 
 
 interface IOrderCardProps {
-  order: TOrder
+  order: TOrder,
+  ingredients: IIngredient[]
 }
 
-const OrderFeedCard: FC<IOrderCardProps> = ({order}) => {
-  const ingredients = useAppSelector(selectIngredients)
+const OrderFeedCard: FC<IOrderCardProps> = memo(({order, ingredients}) => {
   const location = useLocation()
 
-  const ingredientsInfo = useMemo(() => order.ingredients.map(
+  // Если оборачивать в useMemo, то никак не получается при повторном 
+  // переходе на ленту заказов - своевременно отрендерить картинки
+  const ingredientsInfo = order.ingredients.map(
     (ingredient_id: string) => ingredients.find(item => ingredient_id === item._id)
   ).map(
     ingredient => ({
-    image: ingredient?.image_mobile!,
-    name: ingredient?.name!,
-    type: ingredient?.type!,
-    price: ingredient?.price!
-    })
-  ), [ingredients, order.ingredients])
+      image: ingredient?.image_mobile!,
+      name: ingredient?.name!,
+      type: ingredient?.type!,
+      price: ingredient?.price!
+  }))
 
   const totalPrice = useMemo(() => ingredientsInfo.reduce(
     (previous, current) => {
@@ -49,14 +48,14 @@ const OrderFeedCard: FC<IOrderCardProps> = ({order}) => {
         <div className={styles.meta_row}>
           <span className="text text_type_digits-default">#{order.number}</span>
           <FormattedDate
-          className="text text_type_main-default text_color_inactive"
-          date={new Date(order.updatedAt)}
+            className="text text_type_main-default text_color_inactive"
+            date={new Date(order.updatedAt)}
           />
         </div>
         <p className="text text_type_main-medium mt-6">{order.name}</p>
         <div className={styles.info}>
           <ul className={styles.ul}>
-            {ingredientsInfo.splice(0, 6).map((ingredient, index) => (
+            {ingredientsInfo.slice(0, 6).map((ingredient, index) => (
               <li key={index} className={styles.image_container} style={{zIndex: 6 - index}}>
                 <img className={styles.image} src={ingredient.image} alt={ingredient.name}/>
                 {index === 5 && order.ingredients.length > 6 &&
@@ -79,6 +78,6 @@ const OrderFeedCard: FC<IOrderCardProps> = ({order}) => {
       </div>
     </Link>
   )
-}
+})
 
 export default OrderFeedCard
