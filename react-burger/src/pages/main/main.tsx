@@ -14,29 +14,27 @@ const Main = () => {
   const orderModal = useModal()
   
   return (
-    <>
-      <main className={`mr-20 ml-20 ${styles.main}`}>
-        <DndProvider backend={HTML5Backend}>
-          <section className={`mr-5 ml-5 ${styles.section}`}>
-            <h1 className="text text_type_main-large mt-10 mb-5">
-              Соберите бургер
-            </h1>
-            <BurgerIngredients/>
-          </section>
-          <section className={`mr-5 ml-5 mt-30 ${styles.section}`}>
-            <BurgerConstructor 
-              setModalOpen={orderModal.openModal}
-            />
-            {
-              orderModal.modalOpen && 
-              <Modal closeModal={orderModal.closeModal}>
-                <OrderDetails/>
-              </Modal>
-            }
-          </section>
-        </DndProvider>
-      </main>
-    </>
+    <main className={`mr-20 ml-20 ${styles.main}`}>
+      <DndProvider backend={HTML5Backend}>
+        <section className={`mr-5 ml-5 ${styles.section}`}>
+          <h1 className="text text_type_main-large mt-10 mb-5">
+            Соберите бургер
+          </h1>
+          <BurgerIngredients/>
+        </section>
+        <section className={`mr-5 ml-5 mt-30 ${styles.section}`}>
+          <BurgerConstructor 
+            setModalOpen={orderModal.openModal}
+          />
+          {
+            orderModal.modalOpen && 
+            <Modal closeModal={orderModal.closeModal}>
+              <OrderDetails/>
+            </Modal>
+          }
+        </section>
+      </DndProvider>
+    </main>
   );
 }
 

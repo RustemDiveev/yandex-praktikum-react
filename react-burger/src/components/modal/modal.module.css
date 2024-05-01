@@ -6,6 +6,7 @@
     max-height: 70%;
     background: var(--interface-modal-bg, #1C1C21);
     border-radius: 20px;
+    overflow-y: auto;
 }
 
 .header_container {

@@ -72,6 +72,7 @@ const constructorSlice = createSlice({
 
 export const { ingredientAdded, ingredientDeleted, reorderIngredients } = constructorSlice.actions
 
+
 export default constructorSlice.reducer 
 
 export const selectIngredients = (state: RootState) => state.burgerConstructor.ingredients

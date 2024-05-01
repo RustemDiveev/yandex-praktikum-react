@@ -2,13 +2,13 @@ import { FC, ReactNode } from "react"
 
 import styles from "./modal-overlay.module.css"
 
-type tModalOverlay = {
+type TModalOverlay = {
     closeModal: Function
     children: ReactNode
 }
 
 
-const ModalOverlay: FC<tModalOverlay> = ({closeModal, children}) => {
+const ModalOverlay: FC<TModalOverlay> = ({closeModal, children}) => {
     const handleCloseModal = () => {closeModal()}
 
     return (
