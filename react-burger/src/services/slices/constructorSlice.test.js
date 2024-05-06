@@ -1,13 +1,13 @@
-import { ingredientAdded, ingredientDeleted, reorderIngredients, initialState } from "./constructorSlice"
+import { 
+    ingredientAdded, 
+    ingredientDeleted, 
+    reorderIngredients, 
+    initialState, 
+    selectBun, 
+    selectIngredients
+} from "./constructorSlice"
 import reducer from "./constructorSlice"
 
-
-/*
-    ingredientAdded 
-    1. Добавляем булку
-    2. Добавляем еще одну булку
-    3. Добавляем другой ингредиент
-*/
 
 test("should be equal to initialState", () => {
     expect(reducer(undefined, {type: "unknown"})).toEqual(
@@ -148,13 +148,65 @@ test("should reorder ingredients", () => {
         "__v": 0
     }
     let store = reducer(initialState, ingredientAdded(ingredient1))
+    expect(store.ingredients).toHaveLength(1)
+    expect(store.ingredients[0]._id).toEqual(ingredient1._id)
+
     store = reducer(store, ingredientAdded(ingredient2))
+    expect(store.ingredients).toHaveLength(2)
+    expect(store.ingredients[0]._id).toEqual(ingredient1._id)
+    expect(store.ingredients[1]._id).toEqual(ingredient2._id)
+
     const ingredient1Final = store.ingredients[0]
-    const draggedId = ingredient1Final.uniqueId
     const ingredient2Final = store.ingredients[1]
     const droppedId = ingredient2Final.uniqueId
-    store = reducer(store, reorderIngredients({draggedId, droppedId}))
+
+    store = reducer(store, reorderIngredients({draggedId: ingredient1Final, droppedId}))
+
     expect(store.ingredients).toHaveLength(2)
-    expect(store.ingredients[0]).toEqual(ingredient1Final)
-    expect(store.ingredients[1]).toEqual(ingredient2Final)
+    expect(store.ingredients[0]).toEqual(ingredient2Final)
+    expect(store.ingredients[1]).toEqual(ingredient1Final)
+})
+
+test("should select bun", () => {
+    const bun = {
+        "_id": "643d69a5c3f7b9001cfa093c",
+        "name": "Краторная булка N-200i",
+        "type": "bun",
+        "proteins": 80,
+        "fat": 24,
+        "carbohydrates": 53,
+        "calories": 420,
+        "price": 1255,
+        "image": "https://code.s3.yandex.net/react/code/bun-02.png",
+        "image_mobile": "https://code.s3.yandex.net/react/code/bun-02-mobile.png",
+        "image_large": "https://code.s3.yandex.net/react/code/bun-02-large.png",
+        "__v": 0
+    }
+    const burgerConstructor = {
+        bun, 
+        ingredients: []
+    }
+    expect(selectBun({ burgerConstructor })).toEqual(bun)
+})
+
+test("should select ingredient", () => {
+    const ingredient = {
+        "_id": "643d69a5c3f7b9001cfa093e",
+        "name": "Филе Люминесцентного тетраодонтимформа",
+        "type": "main",
+        "proteins": 44,
+        "fat": 26,
+        "carbohydrates": 85,
+        "calories": 643,
+        "price": 988,
+        "image": "https://code.s3.yandex.net/react/code/meat-03.png",
+        "image_mobile": "https://code.s3.yandex.net/react/code/meat-03-mobile.png",
+        "image_large": "https://code.s3.yandex.net/react/code/meat-03-large.png",
+        "__v": 0
+    }
+    const burgerConstructor = {
+        bun: null,
+        ingredients: [ingredient]
+    }
+    expect(selectIngredients({ burgerConstructor })).toEqual([ingredient])
 })

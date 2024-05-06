@@ -5,7 +5,7 @@ import { RootState } from "../store";
 import IIngredient from "../../interfaces/Ingredient"
 
 
-interface IConstructorState {
+export interface IConstructorState {
     ingredients: IIngredient[],
     bun: null | IIngredient
 }
