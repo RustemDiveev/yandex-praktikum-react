@@ -278,3 +278,24 @@ test("should decrease counter by 1", () => {
   newStore = reducer(newStore, counterDecreased("bbb"))
   expect(newStore.counter).toEqual({"aaa": 4, "bbb": 5}) 
 })
+
+test("should select all ingredients", () => {
+  expect(selectIngredients({ ingredients: storeWithIngredients })).toEqual(ingredients)
+})
+
+test("should select counter", () => {
+  const counter = {"123123123": 333, "321321": 777}
+  const store = {...initialState, counter}
+  expect(selectCounter({ ingredients: store })).toEqual(counter)
+})
+
+test("should select ingredient", () => {
+  const store = {...storeWithIngredients, success: true}
+  const ingredient = ingredients.find(ingredient => ingredient._id === "643d69a5c3f7b9001cfa093c")
+  expect(selectIngredient({ ingredients: store }, ingredient._id)).toEqual(ingredient)
+})
+
+test("should select loaded ingredients", () => {
+  const ingredients = {...initialState, ingredientsLoaded: true}
+  expect(selectIngredientsLoaded({ ingredients })).toEqual(true)
+})
