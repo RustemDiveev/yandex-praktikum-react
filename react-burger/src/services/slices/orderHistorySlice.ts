@@ -32,7 +32,7 @@ export type TOrderHistoryState = {
     selectedOrder: TOrder | null
 }
 
-const initialState: TOrderHistoryState = {
+export const initialState: TOrderHistoryState = {
     wsConnected: false,
     orderHistory: {
         success: false,

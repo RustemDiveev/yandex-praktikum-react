@@ -223,7 +223,7 @@ const ingredients = [
   }
 ]
 
-const storeWithIngredients =     {
+const storeWithIngredients = {
   ingredients: ingredients,
   success: true,
   counter: {},
