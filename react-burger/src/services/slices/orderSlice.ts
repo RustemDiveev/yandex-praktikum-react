@@ -50,7 +50,7 @@ export const postOrder = createAsyncThunk(
     }
 )
 
-const initialState: IOrderState = {
+export const initialState: IOrderState = {
     orderNumber: null
 }
 
