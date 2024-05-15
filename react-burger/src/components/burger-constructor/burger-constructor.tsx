@@ -111,7 +111,7 @@ const BurgerConstructor: FC<IBurgerConstructorProps> = ({setModalOpen}) => {
   }, [ingredients, bun, calculatedTotalPrice, setTotalPrice])
 
   return (
-    <div ref={dropTarget}>
+    <div ref={dropTarget} id={"BURGER_CONSTRUCTOR"}>
       <div className={"ml-10"}>
         {bun && <ConstructorElement
           type="top"
