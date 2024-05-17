@@ -52,6 +52,7 @@ const Login = () => {
             placeholder={"E-mail"}
             extraClass="mt-3 mb-3"
             onChange={handleChange}
+            data-class="email"
           />
           <Input 
             name="password"
@@ -61,6 +62,7 @@ const Login = () => {
             icon={"ShowIcon"}
             extraClass="mt-3 mb-3"
             onChange={handleChange}
+            data-class="password"
           />
           <Button 
             htmlType="submit" 
