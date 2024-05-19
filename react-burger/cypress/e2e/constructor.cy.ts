@@ -1,6 +1,6 @@
 describe("Constructor page tests", () => {
     beforeEach(() => {
-        cy.visit("http://localhost:3000")
+        cy.visit("")
         cy.wait(1000)
     })
 
@@ -8,22 +8,26 @@ describe("Constructor page tests", () => {
         const bunName = "Краторная булка N-200i"
         const sauceName = "Соус Spicy-X"
         const toppingName = "Биокотлета из марсианской Магнолии"
+        const burgerConstructorSelector = "[id=BURGER_CONSTRUCTOR]"
 
-        cy.get("li").contains(bunName).click()
+        cy.get("li").contains(bunName).as("bun")
+        cy.get("@bun").click()
         cy.get('[data-class="modal-overlay"]').click("topLeft")
-        cy.get("li").contains(bunName).click()
+        cy.get("@bun").click()
         cy.get('[data-class="modal-close-icon"]').click()
 
-        cy.get("li").contains(bunName).drag("[id=BURGER_CONSTRUCTOR]")
-        cy.get("[id=BURGER_CONSTRUCTOR]").contains(`${bunName} (верх)`)
-        cy.get("[id=BURGER_CONSTRUCTOR]").contains(`${bunName} (низ)`)
-        cy.get("li").contains(bunName).get(".counter").contains("1")
+        cy.get("@bun").drag(burgerConstructorSelector)
+        cy.get(burgerConstructorSelector).contains(`${bunName} (верх)`)
+        cy.get(burgerConstructorSelector).contains(`${bunName} (низ)`)
+        cy.get("@bun").get(".counter").contains("1")
 
-        cy.get("li").contains(sauceName).drag('[id=BURGER_CONSTRUCTOR]')
-        cy.get("li").contains(sauceName).get(".counter").contains("1")
+        cy.get("li").contains(sauceName).as("sauce")
+        cy.get("@sauce").drag(burgerConstructorSelector)
+        cy.get("@sauce").contains(sauceName).get(".counter").contains("1")
 
-        cy.get("li").contains(toppingName).drag('[id=BURGER_CONSTRUCTOR]')
-        cy.get("li").contains(toppingName).get(".counter").contains("1")
+        cy.get("li").contains(toppingName).as("topping")
+        cy.get("@topping").drag(burgerConstructorSelector)
+        cy.get("@topping").get(".counter").contains("1")
 
         cy.get("button").contains("Оформить заказ").click()
         cy.location("pathname").should("eq", "/login")
