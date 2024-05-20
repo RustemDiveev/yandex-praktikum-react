@@ -12,7 +12,7 @@ const ModalOverlay: FC<TModalOverlay> = ({closeModal, children}) => {
     const handleCloseModal = () => {closeModal()}
 
     return (
-        <div className={styles.modal_overlay} onClick={handleCloseModal}>
+        <div className={styles.modal_overlay} onClick={handleCloseModal} data-class="modal-overlay">
             {children}
         </div>
     )

@@ -43,7 +43,7 @@ export type TAppActions = {
 }
 
 
-const wsActions: TWsActions = {
+export const wsActions: TWsActions = {
     wsInit: connectionStart,
     wsClose: connectionClose,
     wsSuccess: connectionSuccess,

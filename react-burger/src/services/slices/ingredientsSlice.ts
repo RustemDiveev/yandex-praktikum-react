@@ -15,10 +15,8 @@ type TFetchIngredientsResponse = TServerResponse<{
 interface IIngredientsState {
     ingredients: IIngredient[],
     success: null | boolean,
-    selectedIngredient: null | IIngredient,
     counter: {[key: string]: number},
     ingredientsLoaded: boolean,
-    status: null | string
 }   
 
 // helpers 
@@ -31,10 +29,8 @@ const getBuns = (state: IIngredientsState) => state.ingredients
 const initialState: IIngredientsState = {
     ingredients: [],
     success: null,
-    selectedIngredient: null,
     counter: {},
     ingredientsLoaded: false,
-    status: null
 }
 
 export const fetchIngredients = createAsyncThunk(
@@ -98,8 +94,6 @@ export const {
 export default ingredientsSlice.reducer 
 
 export const selectIngredients = (state: RootState) => state.ingredients.ingredients
-export const selectStatus = (state: RootState) => state.ingredients.status
-export const selectSelectedIngredient = (state: RootState) => state.ingredients.selectedIngredient
 export const selectCounter = (state: RootState) => state.ingredients.counter
 export const selectIngredient = (state: RootState, ingredientId: string) => {
     return state.ingredients.success ? state.ingredients.ingredients.find(ingredient => ingredient._id === ingredientId) : null
